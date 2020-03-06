@@ -2,6 +2,6 @@
     <string name="app_name">Health Buddy</string>
 
 
-    <string name="hint_minute">Minute</string>
+    <string name="hint_minute">Enter Minutes</string>
     <string name="message_minutes">Please Enter Minutes...</string>
 </resources>
