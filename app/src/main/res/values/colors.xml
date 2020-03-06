@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#CA8918</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="violet">#EE82EE</color>
+    <color name="medium_pink">#9370DB</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="hot_pink">#FF69B4</color>
+    <color name="azure">#F0FFFF</color>
+    <color name="teal">#008080</color>
+    <color name="deep_sky">#00BFFF</color>
+    <color name="corn_flower">#6495ED</color>
+    <color name="indigo">#4B0082</color>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_questions"
+        android:title="Questionnaire"
+        android:icon="@drawable/question_icon"/>
+
+
+    <item android:id="@+id/nav_chat"
+        android:title="Chats"
+        android:icon="@drawable/chat_icon"/>
+
+    <item android:id="@+id/nav_meditate"
+        android:title="Meditate"
+        android:icon="@drawable/meditation_cion"/>
+
+
+    <item android:id="@+id/nav_profile"
+        android:icon="@drawable/pfile"
+        android:title="Profile"/>
+
+</menu>
