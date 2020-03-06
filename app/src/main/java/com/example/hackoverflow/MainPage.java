@@ -63,8 +63,8 @@ public class MainPage extends AppCompatActivity {
                         break;
                     case R.id.nav_chat:
                         viewPager.setCurrentItem(1);
-                        //   curvedBottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
-                        //   window.setStatusBarColor(ContextCompat.getColor(Home.this , R.color.blue));
+                           bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#456B91")));
+                           window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
                         break;
                     case R.id.nav_meditate:
                         viewPager.setCurrentItem(2);
@@ -105,11 +105,12 @@ public class MainPage extends AppCompatActivity {
                     bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_pink)));
                       window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.medium_pink));
                 }
-//
-//                } else if (position == 1) {
-//                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor));
-//                    //   window.setStatusBarColor(ContextCompat.getColor(Home.this , R.color.blue));
-//
+
+                else if(position == 1){
+                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#456B91")));
+                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
+                }
+
 //                } else {
 //                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#ec87c0")));
 //                    //     window.setStatusBarColor(ContextCompat.getColor(Home.this , R.color.color3));

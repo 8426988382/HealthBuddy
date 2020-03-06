@@ -21,7 +21,7 @@ public class chat_Fragment extends Fragment {
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
-    private boolean side = true;
+    private boolean side = false;
 
     int flag = 1;
 
@@ -31,12 +31,21 @@ public class chat_Fragment extends Fragment {
 
         View v =  inflater.inflate(R.layout.chat_fragment, container, false);
 
-        buttonSend = v.findViewById(R.id.send);
-
         listView = v.findViewById(R.id.msgview);
 
-        chatArrayAdapter = new ChatArrayAdapter(getActivity().getApplicationContext(), R.layout.right);
+        chatArrayAdapter = new ChatArrayAdapter(getActivity().getApplicationContext(), R.layout.left);
         listView.setAdapter(chatArrayAdapter);
+
+        if(savedInstanceState == null){
+            chatArrayAdapter.add(new ChatMessage(true , "Hey There !"));
+            chatArrayAdapter.add(new ChatMessage(true , "How can We Help You?"));
+            chatArrayAdapter.add(new ChatMessage(true , "Have Some Questions? Ask!"));
+        }
+        buttonSend = v.findViewById(R.id.send);
+
+
+
+
 
         chatText = v.findViewById(R.id.msg);
 
@@ -55,14 +64,9 @@ public class chat_Fragment extends Fragment {
             buttonSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
-                    if(chatText.getText().toString().trim().equals("")){
-                        flag = 1;
-                    }
-                    else{
-                        side = false;
-                        sendChatMessage();
-                    }
+                   sendChatMessage();
 
+                   side = false;
                 }
             });
 

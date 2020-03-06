@@ -6,7 +6,7 @@
                 android:width="1dp"
                 android:color="@color/medium_pink" />
 
-            <solid android:color="@color/violet" />
+            <solid android:color="#456B91" />
 
             <padding
                 android:bottom="2dp"
@@ -16,7 +16,10 @@
 
             <corners
                 android:bottomRightRadius="10dp"
-                android:topRightRadius="10dp" />
+                android:topRightRadius="15dp"
+                android:bottomLeftRadius="10dp"/>
+
+
         </shape>
     </item>
 </layer-list>
