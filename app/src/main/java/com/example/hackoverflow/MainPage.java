@@ -99,8 +99,9 @@ public class MainPage extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             viewPager.setCurrentItem(1);
-            bottomNavigationView.setSelectedItemId(R.id.nav_questions);
             bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+            bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+            window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
         }
 
 
@@ -127,9 +128,9 @@ public class MainPage extends AppCompatActivity {
 
                     case R.id.nav_meditate:
                         viewPager.setCurrentItem(2);
-                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
-                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
-                        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.colorBackground));
+                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
                         break;
 
                     default:
@@ -168,18 +169,13 @@ public class MainPage extends AppCompatActivity {
                     bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
                     window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
                 }
-//
-//                else if(position == 2){
-//                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
-//                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
-//                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.colorBackground));
-//                }
-//                else {
-//                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#4F68F1")));
-//                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#4F68F1")));
-//                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.color3));
-//
-//                }
+
+                else {
+                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
+
+                }
 
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
@@ -213,14 +209,6 @@ public class MainPage extends AppCompatActivity {
 
 
     public void gototprofile(View view) {
-                Intent intent = new Intent(MainPage.this, Profile_Fragment.class);
-
-//                Log.e(TAG, "onClick: " + "CLICKED!" );
-//                intent.putExtra("userName" , personName);
-//                intent.putExtra("userEmail" , email);
-//                intent.putExtra("profile_pic" , personPhoto);
-//                startActivity(intent);
-
         asynchelper asynchelper = new asynchelper(MainPage.this , personName , email , personPhoto);
         asynchelper.execute();
 

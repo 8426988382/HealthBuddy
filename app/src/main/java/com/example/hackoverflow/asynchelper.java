@@ -99,7 +99,7 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
         Intent intent = new Intent(sContext , Profile_Fragment.class);
         intent.putExtra("userName", userName);
         intent.putExtra("userEmail" , userEmail);
-        intent.putExtra("profile_pic" , aVoid);
+        intent.putExtra("profilepic" , aVoid);
         sContext.startActivity(intent);
 
     }

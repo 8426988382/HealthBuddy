@@ -38,8 +38,6 @@ public class questions_fragment extends Fragment implements View.OnClickListener
             "Constantly", "Did you felt restless, agitated, frantic or tense?", "Never", "A few " +
             "times","Often", "Constantly", "Did your worry was out of your control?","Never", "A few " +
             "times","Often", "Constantly"
-
-
     };
 
 
@@ -71,10 +69,11 @@ public class questions_fragment extends Fragment implements View.OnClickListener
         quotetext.setText(qtnQuotes[x]);
 
 
-        if(count >= info.length){
+        if(count == 8){
             Toast.makeText(getActivity().getApplicationContext() , "You Are All Caught Up!", Toast.LENGTH_LONG).show();
         }
         else{
+            count ++;
             btn1.setOnClickListener(this);
             btn2.setOnClickListener(this);
             btn3.setOnClickListener(this);
@@ -170,43 +169,11 @@ public class questions_fragment extends Fragment implements View.OnClickListener
             i++;
             btn4.setText(info[i]);
             i++;
-            count ++;
+
         }
         else{
             Toast.makeText(getActivity().getApplicationContext() , "You Are All Caught Up!", Toast.LENGTH_LONG).show();
 
         }
-
-//        }
-//
-//        if(count == 5){
-//            ApigetQuestions apigetQuestions = new ApigetQuestions(getActivity().getApplicationContext());
-//            apigetQuestions.execute();
-//            count ++;
-//
-//
-//            info = ApigetQuestions.informtaion;
-//
-//            for(int i = 0 ;i < info.length ; i ++){
-//                System.out.println(info[i]);
-//            }
-//            i = 0;
-//        }
-//
-//        if(count > 5){
-//
-//            txt.setText(info[i]);
-//            i++;
-//            btn1.setText(info[i]);
-//            i++;
-//            btn2.setText(info[i]);
-//            i++;
-//            btn3.setText(info[i]);
-//            i++;
-//            btn4.setText(info[i]);
-//
-//        }
-//
-//    }
     }
 }
