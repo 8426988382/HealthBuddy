@@ -1,6 +1,7 @@
 package com.example.hackoverflow;
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,6 +58,7 @@ public class questions_fragment extends Fragment implements View.OnClickListener
     };
 
 
+    @SuppressLint("WrongConstant")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

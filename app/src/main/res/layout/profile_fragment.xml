@@ -212,6 +212,7 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
+                        android:id="@+id/audio"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -229,6 +230,7 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
+                        android:id="@+id/meditations"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"

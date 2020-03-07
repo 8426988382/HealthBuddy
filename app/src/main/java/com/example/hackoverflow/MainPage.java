@@ -1,6 +1,7 @@
 package com.example.hackoverflow;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -31,6 +32,8 @@ import static android.content.ContentValues.TAG;
 
 public class MainPage extends AppCompatActivity {
 
+    String key="";
+    SharedPreferences sharedPreferences;
     CurvedBottomNavigationView bottomNavigationView;
     ViewPager viewPager;
     MenuItem prevMenuItem;
@@ -209,6 +212,15 @@ public class MainPage extends AppCompatActivity {
 
 
     public void gototprofile(View view) {
+
+        sharedPreferences = this.getSharedPreferences("MySharedPref",
+                MODE_PRIVATE);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this );
+        key = account.getId();
+
+        ApigetScores apigetScores = new ApigetScores(MainPage.this, sharedPreferences.getInt(key, 0));
+        apigetScores.execute();
+
         asynchelper asynchelper = new asynchelper(MainPage.this , personName , email , personPhoto);
         asynchelper.execute();
 

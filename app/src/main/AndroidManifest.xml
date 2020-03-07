@@ -21,6 +21,9 @@
         <activity android:name=".Profile_Fragment"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".DetailsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

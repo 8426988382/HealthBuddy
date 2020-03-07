@@ -1,6 +1,7 @@
 package com.example.hackoverflow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -61,6 +62,8 @@ public class Profile_Fragment extends AppCompatActivity {
 
     TextView userName  ,  userEmail;
 
+    TextView txt1 , txt2 , txt3 , txt4;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,12 @@ public class Profile_Fragment extends AppCompatActivity {
         Bitmap bm = (Bitmap) bundle.get("profilepic");
 
         logout = (Button) findViewById(R.id.signout_btn);
+        txt1 = findViewById(R.id.audio);
+        txt2 = findViewById(R.id.textView7);
+        txt3 = findViewById(R.id.meditations);
+        txt4 = findViewById(R.id.textView8);
+
+
         mAuth = FirebaseAuth.getInstance();
         context = this;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -137,6 +146,46 @@ public class Profile_Fragment extends AppCompatActivity {
         psych = findViewById(R.id.psych);
         psych.setTextColor(getResources().getColor(R.color.red));
         psych.setText("Psychatrist: Dr. Ram Kumar (+919023092309)");
+
+
+
+        txt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                intent.putExtra("value" , "1");
+                startActivity(intent);
+            }
+        });
+
+        txt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                intent.putExtra("value" , "2");
+                startActivity(intent);
+
+            }
+        });
+
+        txt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                intent.putExtra("value" , "3");
+                startActivity(intent);
+            }
+        });
+
+        txt4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                intent.putExtra("value" , "4");
+                startActivity(intent);
+
+            }
+        });
 
     }
     public void AddValuesToBARENTRY(){
