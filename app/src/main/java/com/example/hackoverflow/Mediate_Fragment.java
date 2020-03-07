@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -17,12 +18,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Mediate_Fragment extends Fragment {
 
 
     private long timeCountInMilliSeconds = 1 * 60000;
+
+    private TextView MedText;
+
 
     private enum TimerStatus {
         STARTED,
@@ -40,7 +45,9 @@ public class Mediate_Fragment extends Fragment {
     private MediaPlayer mediaPlayer;
 
     private View v;
-
+    String[] iMeditation ={
+            "Get Settled." , "Breathe deeply", "Consider the \'why\' ", "Observe the breath" , "Allow your mind to be free."
+    };
 
     @Nullable
     @Override
@@ -48,13 +55,14 @@ public class Mediate_Fragment extends Fragment {
 
         v =  inflater.inflate(R.layout.mediate_fragment, container, false);
 
-
         progressBarCircle = (ProgressBar) v.findViewById(R.id.progressBarCircle);
         editTextMinute = (EditText) v.findViewById(R.id.editTextMinute);
         textViewTime = (TextView) v.findViewById(R.id.textViewTime);
         imageViewReset = (ImageView) v.findViewById(R.id.imageViewReset);
         imageViewStartStop = (ImageView) v.findViewById(R.id.imageViewStartStop);
+        MedText = (TextView) v.findViewById(R.id.medText);
 
+        MedText.setVisibility(View.INVISIBLE);
 
         imageViewReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +136,6 @@ public class Mediate_Fragment extends Fragment {
     }
 
     private void startCountDownTimer() {
-
         countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -142,10 +149,18 @@ public class Mediate_Fragment extends Fragment {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
                             mediaPlayer.start();
+
+
                         }
                     });
                 }
                 mediaPlayer.start();
+                for(int i=0; i<iMeditation.length; i++)
+                {
+                    MedText.setText(iMeditation[i]);
+                    MedText.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.fade_in));
+                    MedText.clearAnimation();
+                }
                 progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
             }
 

@@ -126,6 +126,7 @@
         app:layout_constraintGuide_begin="214dp" />
 
     <TextView
+        android:id="@+id/medText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -133,7 +134,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Don’t get caught up in the how — just do. Most people worry about where to sit, how to sit, what cushion to use … this is all nice, but it’s not that important to get started. Start just by sitting on a chair, or on your couch. Or on your bed."
-        android:textColor="#fff"
+        android:textColor="#000"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
