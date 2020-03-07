@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "595130172231",
+    "firebase_url": "https://healthbuddy-7e4d9.firebaseio.com",
+    "project_id": "healthbuddy-7e4d9",
+    "storage_bucket": "healthbuddy-7e4d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595130172231:android:ac5455d5a37c644f264262",
+        "android_client_info": {
+          "package_name": "com.example.hackoverflow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595130172231-tbqmlpb3ks6mckto93e3sg1rgjnsf87o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hackoverflow",
+            "certificate_hash": "3296520425a2a27c1fd3b9e890cfda23d2640626"
+          }
+        },
+        {
+          "client_id": "595130172231-k0qo83gcb3ga3ao8rqcf5v9ce7kesoj6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hackoverflow",
+            "certificate_hash": "5301d71ee5fdc3d47407a0bea6c046c9b2209714"
+          }
+        },
+        {
+          "client_id": "595130172231-fi8dn964i4rv32ueog4tnnp3bcbun490.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hackoverflow",
+            "certificate_hash": "e7a28dfc94ab3e7a23a74776af34778aa12c21db"
+          }
+        },
+        {
+          "client_id": "595130172231-e9lhbjqpq68hneuc25trrl027kf4g2d8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB86ZPaXiOnPlF9-JRTbfJSE6q7ww3QYhE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595130172231-e9lhbjqpq68hneuc25trrl027kf4g2d8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

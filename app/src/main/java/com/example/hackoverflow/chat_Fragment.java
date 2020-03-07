@@ -1,5 +1,7 @@
 package com.example.hackoverflow;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
@@ -25,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -32,9 +35,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class chat_Fragment extends Fragment {
 
-    private ChatArrayAdapter chatArrayAdapter;
+    public ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
@@ -45,31 +50,32 @@ public class chat_Fragment extends Fragment {
     String responce_from_server = null;
     int flag = 1;
 
+    private int shortAnimationDuration = 2;
     ProgressBar loadingView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.chat_fragment, container, false);
+        View v = inflater.inflate(R.layout.chat_fragment, container, false);
 
         listView = v.findViewById(R.id.msgview);
-        loadingView = v.findViewById(R.id.loading_spinner);
+//        loadingView = v.findViewById(R.id.loading_spinner);
 
         chatArrayAdapter = new ChatArrayAdapter(getActivity().getApplicationContext(), R.layout.left);
         listView.setAdapter(chatArrayAdapter);
-
-        if(savedInstanceState == null){
-            chatArrayAdapter.add(new ChatMessage(true , "Hello Tushar,"));
-            chatArrayAdapter.add(new ChatMessage(true , "How can We Help You?"));
-            chatArrayAdapter.add(new ChatMessage(true , "Have Some Questions? Ask!"));
+        if (savedInstanceState == null) {
+            chatArrayAdapter.add(new ChatMessage(true, "Hello There,"));
+            chatArrayAdapter.add(new ChatMessage(true, "How can We Help You?"));
+            chatArrayAdapter.add(new ChatMessage(true, "Have Some Questions? Ask!"));
         }
 
 
-        LayoutAnimationController lac = new LayoutAnimationController(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.slide_down), 2.0f); //0.5f == time between appearance of listview items.
+        LayoutAnimationController lac = new LayoutAnimationController(AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_down), 2.0f); //0.5f == time between appearance of listview items.
         listView.setLayoutAnimation(lac);
-
         listView.startLayoutAnimation();
+
+
         buttonSend = v.findViewById(R.id.send);
 
         chatText = v.findViewById(R.id.msg);
@@ -79,32 +85,38 @@ public class chat_Fragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    return sendChatMessage();
+                    try {
+                        return sendChatMessage();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
         });
 
 
-            buttonSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
 
-                    if(chatText.getText().toString().trim().equals("")){
+                if (chatText.getText().toString().trim().equals("")) {
 
-                    }
-                    else{
-                        side = false;
+                } else {
+                    side = false;
+                    try {
                         sendChatMessage();
-
-//                        apirequest apirequest = new apirequest();
-//                        apirequest.execute(chatText.getText().toString().trim());
-
-
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
                 }
-            });
+
+            }
+        });
 
         listView.setAdapter(chatArrayAdapter);
 
@@ -117,39 +129,37 @@ public class chat_Fragment extends Fragment {
             }
         });
 
-
-        if(responce_from_server != null){
-            side = true;
-            addChatMessage();
-        }else{
-           side = false;
-        }
-
         return v;
     }
 
 
-    private boolean sendChatMessage() {
+    private boolean sendChatMessage() throws ExecutionException, InterruptedException {
 
-        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
+        chatArrayAdapter.add(new ChatMessage(false, chatText.getText().toString()));
+
+        String tosend =  chatText.getEditableText().toString();
         chatText.setText("");
 
+        apisend apisend = new apisend(tosend);
+        String response = apisend.execute().get();
+
+        chatArrayAdapter.add(new ChatMessage(true , response));
+
+      //  Log.e(TAG, "onCreateView: " + responce_from_server );
+
         return true;
     }
 
-    private boolean addChatMessage(){
-        chatArrayAdapter.add(new ChatMessage(side , responce_from_server));
 
-        return true;
-    }
+    public class apisend extends AsyncTask<Void , Void , String>{
 
+        String url = "https://mental2.azurewebsites.net/Askme";
 
-    // async task to connect to the api for generting request
+        String message = null;
 
-    public class apirequest extends AsyncTask<String , Void , Void>{
-
-        String url = "abc.com"; // url for the api
-        Context context = getActivity().getApplicationContext();
+        public apisend(String message) {
+            this.message = message;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -157,16 +167,16 @@ public class chat_Fragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(String... voids) {
+        protected String doInBackground(Void... voids) {
 
             MediaType MEDIA_TYPE = MediaType.parse("application/json");
             OkHttpClient client = new OkHttpClient();
-            String message = voids[0];
-
+            
             JSONObject object = new JSONObject();
 
             try {
-                object.put("message", message);
+                object.put("score" , "1");
+                object.put("msg", message);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -184,22 +194,36 @@ public class chat_Fragment extends Fragment {
             try {
                 response = client.newCall(request).execute();
 
-                mMessage = response.body().string();
-
-                Log.e("MESSAGE " , mMessage);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            String json = null;
+            JSONObject jsonObject = null;
+            try {
+                json = response.body().string();
+                jsonObject = new JSONObject(json);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+           
+
+            String mMessage = null;
+            try {
+                mMessage = jsonObject.getString("msg");
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.e("MESSAEG" , mMessage);
+
             responce_from_server = mMessage;
 
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            return responce_from_server;
         }
     }
 }
