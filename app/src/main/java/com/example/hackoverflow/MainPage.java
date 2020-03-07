@@ -2,12 +2,16 @@ package com.example.hackoverflow;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +20,14 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import static android.content.ContentValues.TAG;
 
 public class MainPage extends AppCompatActivity {
 
@@ -35,6 +42,12 @@ public class MainPage extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+
+    String personName;
+    String email;
+    Uri personPhoto;
+    ImageView pfileimg;
+
 
     @Override
     protected void onStart() {
@@ -62,6 +75,10 @@ public class MainPage extends AppCompatActivity {
                 }
             }
         };
+
+        profileInfo();
+
+        pfileimg = findViewById(R.id.pfile_id);
 
 
 
@@ -192,5 +209,29 @@ public class MainPage extends AppCompatActivity {
 
 
         viewPager.setAdapter(adapter);
+    }
+
+
+    public void gototprofile(View view) {
+                Intent intent = new Intent(MainPage.this, Profile_Fragment.class);
+
+//                Log.e(TAG, "onClick: " + "CLICKED!" );
+//                intent.putExtra("userName" , personName);
+//                intent.putExtra("userEmail" , email);
+//                intent.putExtra("profile_pic" , personPhoto);
+//                startActivity(intent);
+
+        asynchelper asynchelper = new asynchelper(MainPage.this , personName , email , personPhoto);
+        asynchelper.execute();
+
+
+
+    }
+
+    private void profileInfo(){
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(MainPage.this);
+        personName = account.getDisplayName();
+        email = account.getEmail();
+        personPhoto = account.getPhotoUrl();
     }
 }

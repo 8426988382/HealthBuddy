@@ -3,7 +3,9 @@ package com.example.hackoverflow;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +18,16 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,10 +51,14 @@ public class chat_Fragment extends Fragment {
     private Button buttonSend;
     private boolean side = false;
 
+    ImageView pfile_img;
+
     String mMessage = null;
 
     String responce_from_server = null;
     int flag = 1;
+
+
 
     private int shortAnimationDuration = 2;
     ProgressBar loadingView;
@@ -59,7 +69,9 @@ public class chat_Fragment extends Fragment {
 
         View v = inflater.inflate(R.layout.chat_fragment, container, false);
 
+
         listView = v.findViewById(R.id.msgview);
+
 //        loadingView = v.findViewById(R.id.loading_spinner);
 
         chatArrayAdapter = new ChatArrayAdapter(getActivity().getApplicationContext(), R.layout.left);
@@ -146,6 +158,9 @@ public class chat_Fragment extends Fragment {
 
       //  Log.e(TAG, "onCreateView: " + responce_from_server );
 
+
+
+
         return true;
     }
 
@@ -225,4 +240,6 @@ public class chat_Fragment extends Fragment {
             return responce_from_server;
         }
     }
+
+
 }

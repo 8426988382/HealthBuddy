@@ -1,6 +1,8 @@
 package com.example.hackoverflow;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -22,9 +25,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
-public class Profile_Fragment extends Fragment {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class Profile_Fragment extends AppCompatActivity {
 
     ImageView expandImage;
     CardView  cardView2 , cardView;
@@ -33,19 +44,26 @@ public class Profile_Fragment extends Fragment {
     GoogleSignInClient mGoogleSignInClient;
     Button logout;
 
-    String personName, email;
-    Uri personPhoto;
 
+    CircleImageView img;
 
     TextView userName  ,  userEmail;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.profile_fragment, container, false);
 
-        logout =(Button) v.findViewById(R.id.signout_btn);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.profile_fragment);
+
+        Bundle bundle = getIntent().getExtras();
+
+        String name = bundle.getString("userName");
+        String email = bundle.getString("userEmail");
+        Bitmap bm = (Bitmap) bundle.get("profile_pic");
+
+        logout = (Button) findViewById(R.id.signout_btn);
         mAuth = FirebaseAuth.getInstance();
-        context = v.getContext();
+        context = this;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -57,17 +75,26 @@ public class Profile_Fragment extends Fragment {
             public void onClick(View v) {
                 mAuth.signOut();
                 mGoogleSignInClient.signOut();
-                getActivity().finish();
+                finish();
             }
         });
 
-        profileInfo();
+        userEmail = findViewById(R.id.mail_id);
+        userName = findViewById(R.id.textView);
 
-        userEmail = v.findViewById(R.id.mail_id);
-        userName = v.findViewById(R.id.textView);
-
-        userName.setText(personName);
+        userName.setText(name);
         userEmail.setText(email);
+
+//        InputStream imageStream = null;
+//        try {
+//            imageStream = this.getContentResolver().openInputStream(uri);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+        img = findViewById(R.id.circleImageView);
+        img.setImageBitmap(bm);
 
       //  listView = v.findViewById(R.id.listView_);
 
@@ -92,13 +119,8 @@ public class Profile_Fragment extends Fragment {
 //            }
 //        });
 
-        return v;
     }
 
-    private void profileInfo(){
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
-        personName = account.getDisplayName();
-        email = account.getEmail();
-         personPhoto = account.getPhotoUrl();
-    }
+
+
 }

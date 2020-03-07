@@ -16,7 +16,10 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".MainPage"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"></activity>
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".Profile_Fragment"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

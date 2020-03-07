@@ -6,7 +6,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +29,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class LoginActivity extends AppCompatActivity {
 
     SignInButton login;
     FirebaseAuth mAuth;
-
 
 
     private static final String TAG = "GoogleActivity";
@@ -66,10 +74,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){
+                if (user != null) {
                     startActivity(new Intent(LoginActivity.this, MainPage.class));
-                }
-                else Log.e("TAG", "onAuthStateChanged: User logged out" );
+                } else Log.e("TAG", "onAuthStateChanged: User logged out");
             }
         };
 
@@ -84,13 +91,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("TAG", "onStart: OnStart: " );
+        Log.e("TAG", "onStart: OnStart: ");
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-    private void signIn(){
+    private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent,RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -137,8 +144,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUI(FirebaseUser user){
-        if(user!= null){
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
             Intent it = new Intent(LoginActivity.this, MainPage.class);
             startActivity(it);
         }
@@ -147,8 +154,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(mAuthListener!=null){
+        if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
 }
