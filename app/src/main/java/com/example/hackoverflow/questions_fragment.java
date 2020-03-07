@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Random;
 
+import static android.content.ContentValues.TAG;
+
 public class questions_fragment extends Fragment implements View.OnClickListener {
 
     Button btn1, btn2, btn3, btn4;
@@ -24,7 +26,7 @@ public class questions_fragment extends Fragment implements View.OnClickListener
     TextView txt;
     int flag = 0;
 
-    static int count = 1;
+    static int count = -1;
     static int i = 0;
 
     String info[] = {
@@ -68,17 +70,11 @@ public class questions_fragment extends Fragment implements View.OnClickListener
         int x = rand.nextInt(qtnQuotes.length);
         quotetext.setText(qtnQuotes[x]);
 
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
 
-        if(count == 8){
-            Toast.makeText(getActivity().getApplicationContext() , "You Are All Caught Up!", Toast.LENGTH_LONG).show();
-        }
-        else{
-            count ++;
-            btn1.setOnClickListener(this);
-            btn2.setOnClickListener(this);
-            btn3.setOnClickListener(this);
-            btn4.setOnClickListener(this);
-        }
 
 //
 //        btn1.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +129,13 @@ public class questions_fragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        if(count >= info.length){
+            Toast.makeText(getActivity().getApplicationContext() , "You Are All Caught Up!", Toast.LENGTH_LONG).show();
+        }
+        else{
+            count = count +5;
 
+        }
         int id = v.getId();
 
         String optiontext = null;
@@ -157,7 +159,7 @@ public class questions_fragment extends Fragment implements View.OnClickListener
 
         }
 
-        if(info.length > count)
+        if(info.length >= count)
         {
             txt.setText(info[i]);
             i++;
@@ -169,6 +171,8 @@ public class questions_fragment extends Fragment implements View.OnClickListener
             i++;
             btn4.setText(info[i]);
             i++;
+            Log.e(TAG, "onClick: "+i );
+            Log.e(TAG, "onClick: "+count );
 
         }
         else{
