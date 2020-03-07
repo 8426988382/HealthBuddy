@@ -1,5 +1,4 @@
 package com.example.hackoverflow;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

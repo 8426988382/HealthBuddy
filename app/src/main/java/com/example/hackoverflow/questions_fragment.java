@@ -26,45 +26,45 @@ public class questions_fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.questions_fragment, container, false);
 
-        btn1 = v.findViewById(R.id.option1_id);
-        btn2 = v.findViewById(R.id.option2_id);
-        btn3 = v.findViewById(R.id.option3_id);
-        btn4 = v.findViewById(R.id.option4_id);
+//        btn1 = v.findViewById(R.id.option1_id);
+//        btn2 = v.findViewById(R.id.option2_id);
+//        btn3 = v.findViewById(R.id.option3_id);
+//        btn4 = v.findViewById(R.id.option4_id);
         quotetext = v.findViewById(R.id.quote_text_id);
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                option = btn1.getText().toString().trim();
-                flag = 1;
-
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                option = btn2.getText().toString().trim();
-                flag = 1;
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                option = btn3.getText().toString().trim();
-                flag = 1;
-            }
-        });
-
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                option = btn4.getText().toString().trim();
-                flag = 1;
-            }
-        });
+//
+//        btn1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                option = btn1.getText().toString().trim();
+//                flag = 1;
+//
+//            }
+//        });
+//
+//        btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                option = btn2.getText().toString().trim();
+//                flag = 1;
+//            }
+//        });
+//
+//        btn3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                option = btn3.getText().toString().trim();
+//                flag = 1;
+//            }
+//        });
+//
+//        btn4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                option = btn4.getText().toString().trim();
+//                flag = 1;
+//            }
+//        });
 
         if(flag == 1){
 

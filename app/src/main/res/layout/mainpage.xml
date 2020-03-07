@@ -7,26 +7,36 @@
     android:layout_height="match_parent"
     xmlns:app1="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.example.hackoverflow.CurvedBottomNavigationView
+        android:id="@+id/curvedBottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         app1:layout_constraintBottom_toBottomOf="parent"
-        app1:layout_constraintTop_toTopOf="parent"
         app1:layout_constraintEnd_toEndOf="parent"
         app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toTopOf="parent"
         app1:layout_constraintVertical_bias="1.0"
-        app1:menu="@menu/bottom_navigation"/>
+        app1:menu="@menu/bottom_navigation" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/question_icon"
+        app1:layout_constraintBottom_toTopOf="@+id/curvedBottomNavigationView"
+        app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toTopOf="@+id/curvedBottomNavigationView" />
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app1:layout_constraintTop_toTopOf="parent"
         app1:layout_constraintEnd_toEndOf="parent"
-        app1:layout_constraintStart_toStartOf="parent"/>
-
-
+        app1:layout_constraintHorizontal_bias="1.0"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintBottom_toTopOf="@+id/curvedBottomNavigationView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

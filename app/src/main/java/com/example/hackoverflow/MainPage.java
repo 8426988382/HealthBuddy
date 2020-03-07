@@ -24,11 +24,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainPage extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView;
+    CurvedBottomNavigationView bottomNavigationView;
     ViewPager viewPager;
     MenuItem prevMenuItem;
 
-    Profile_Fragment profile_fragment;
     chat_Fragment chat_fragment;
     questions_fragment questions_fragment;
     Mediate_Fragment mediate_fragment;
@@ -70,11 +69,11 @@ public class MainPage extends AppCompatActivity {
         final Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.color3));
+        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
 
         setContentView(R.layout.mainpage);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationBar);
+        bottomNavigationView = findViewById(R.id.curvedBottomNavigationView);
         viewPager = findViewById(R.id.viewpager);
 
 
@@ -82,9 +81,9 @@ public class MainPage extends AppCompatActivity {
         setupViewPager(viewPager);
 
         if (savedInstanceState == null) {
-            viewPager.setCurrentItem(3);
-            bottomNavigationView.setSelectedItemId(R.id.nav_profile);
-            bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.color3)));
+            viewPager.setCurrentItem(1);
+            bottomNavigationView.setSelectedItemId(R.id.nav_questions);
+            bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
         }
 
 
@@ -93,28 +92,27 @@ public class MainPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()) {
-                    case R.id.nav_questions:
-                        viewPager.setCurrentItem(0);
-                         bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_pink)));
-                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_pink)));
-                         window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.medium_pink));
-                        break;
-                    case R.id.nav_chat:
-                        viewPager.setCurrentItem(1);
-                           bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#456B91")));
-                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#456B91")));
 
+                    case R.id.nav_chat:
+                        viewPager.setCurrentItem(0);
+                       // bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.azure));
+                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
                         window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
                         break;
+
+                    case R.id.nav_questions:
+                        viewPager.setCurrentItem(1);
+                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
+                        break;
+
                     case R.id.nav_meditate:
                         viewPager.setCurrentItem(2);
                         bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
                         bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
                         window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.colorBackground));
-
-                        break;
-                    case R.id.nav_profile:
-                        viewPager.setCurrentItem(3);
                         break;
 
                     default:
@@ -138,33 +136,33 @@ public class MainPage extends AppCompatActivity {
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 } else {
-                    bottomNavigationView.getMenu().getItem(3).setChecked(false);
+                    bottomNavigationView.getMenu().getItem(1).setChecked(false);
 
                 }
 
                 if (position == 0) {
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.medium_pink)));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.medium_pink)));
-                      window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.medium_pink));
-                }
-
-                else if(position == 1){
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#456B91")));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#456B91")));
+                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
                     window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
                 }
 
-                else if(position == 2){
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
-                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.colorBackground));
+                else if(position == 1){
+                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
+                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
                 }
-                else {
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#4F68F1")));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#4F68F1")));
-                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.color3));
-
-                }
+//
+//                else if(position == 2){
+//                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
+//                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground)));
+//                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.colorBackground));
+//                }
+//                else {
+//                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#4F68F1")));
+//                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#4F68F1")));
+//                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.color3));
+//
+//                }
 
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
@@ -182,17 +180,16 @@ public class MainPage extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         viewPager.removeAllViews();
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
         questions_fragment = new questions_fragment();
         chat_fragment = new chat_Fragment();
         mediate_fragment = new Mediate_Fragment();
-        profile_fragment = new Profile_Fragment();
 
-        adapter.addFragment(questions_fragment);
         adapter.addFragment(chat_fragment);
+        adapter.addFragment(questions_fragment);
         adapter.addFragment(mediate_fragment);
-        adapter.addFragment(profile_fragment);
+
 
         viewPager.setAdapter(adapter);
     }

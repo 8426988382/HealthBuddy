@@ -105,7 +105,6 @@ public class chat_Fragment extends Fragment {
                 if (chatText.getText().toString().trim().equals("")) {
 
                 } else {
-                    side = false;
                     try {
                         sendChatMessage();
                     } catch (ExecutionException e) {

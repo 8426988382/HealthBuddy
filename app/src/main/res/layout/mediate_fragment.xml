@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/azure">
 
     <ProgressBar
         android:id="@+id/progressBarCircle"
@@ -13,7 +13,7 @@
         android:layout_width="270dp"
         android:layout_height="270dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/drawable_circle_dark_blue"
+        android:background="@drawable/drawable_circle_yellow"
         android:indeterminate="false"
         android:max="100"
         android:progress="100"
@@ -41,8 +41,8 @@
         android:maxLength="15"
         android:maxLines="1"
         android:minEms="5"
-        android:textColor="#fff"
-        android:textColorHint="@color/colorYellow"
+        android:textColor="#000"
+        android:textColorHint="#000"
         app:layout_constraintBottom_toTopOf="@+id/progressBarCircle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -60,7 +60,7 @@
         android:paddingEnd="2dp"
         android:paddingStart="2dp"
         android:paddingTop="2dp"
-        android:textColor="@color/colorYellow"
+        android:textColor="#000"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="@+id/progressBarCircle"
         app:layout_constraintEnd_toEndOf="@+id/progressBarCircle"
@@ -116,7 +116,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/meditation_icon" />
+        app:srcCompat="@drawable/med_icon" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
