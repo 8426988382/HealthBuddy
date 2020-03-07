@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -58,7 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(1000);
         animationDrawable.start();
 
-        login = (SignInButton) findViewById(R.id.signInButton);
+        LinearLayout layout = findViewById(R.id.gloginlayout);
+
+        login = (SignInButton) findViewById(R.id.sign_in_button);
         progressDialog = new ProgressDialog(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -80,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-        login.setOnClickListener(new View.OnClickListener() {
+        layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
