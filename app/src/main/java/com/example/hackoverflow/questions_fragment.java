@@ -1,6 +1,7 @@
 package com.example.hackoverflow;
 
 import android.animation.LayoutTransition;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.util.Random;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_APPEND;
+import static android.content.Context.MODE_PRIVATE;
 
 public class questions_fragment extends Fragment implements View.OnClickListener {
 
@@ -25,10 +31,18 @@ public class questions_fragment extends Fragment implements View.OnClickListener
     TextView quotetext;
     TextView txt;
     int flag = 0;
+    int s1=4;
+    int s2=3;
+    int s3=2;
+    int s4=1;
 
+
+
+    String key="";
+    SharedPreferences sharedPreferences;
     static int count = -1;
     static int i = 0;
-
+    SharedPreferences.Editor myEdit;
     String info[] = {
             "Turnout of the quarrel?","I won the debate", "compromised for peace", "forgot the " +
             "fight and started talking","fight led to complications in relationship",
@@ -58,6 +72,18 @@ public class questions_fragment extends Fragment implements View.OnClickListener
                 "yourself from sadness without protecting yourself from happiness.", "It isn't what you have or who you are or where you are or what you are doing that makes you happy or unhappy. It is what you think about it.",
                 "Happiness is a state of mind. It's just according to the way you look at things."
         };
+
+
+
+
+          sharedPreferences = getActivity().getSharedPreferences("MySharedPref",
+                MODE_APPEND);
+          GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
+        key = account.getId();
+          myEdit = sharedPreferences.edit();
+
+
+
         quotetext = v.findViewById(R.id.quote_text_id);
         txt = v.findViewById(R.id.textView);
         btn1 = v.findViewById(R.id.option1_id);
@@ -129,28 +155,37 @@ public class questions_fragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        Log.e(TAG, "onClick: 1 "+   sharedPreferences.getInt(key, 0) );
+
         if(count >= info.length){
             Toast.makeText(getActivity().getApplicationContext() , "You Are All Caught Up!", Toast.LENGTH_LONG).show();
         }
         else{
             count = count +5;
 
-        }
+
         int id = v.getId();
 
         String optiontext = null;
 
         switch (id) {
             case R.id.option1_id:
-                optiontext = btn1.getText().toString();
+                myEdit.putInt(key,s1+sharedPreferences.getInt(key, 0)).commit();
+                        optiontext = btn1.getText().toString();
                 break;
             case R.id.option2_id:
+                myEdit.putInt(key,s2+sharedPreferences.getInt(key, 0)).commit();
+
                 optiontext = btn2.getText().toString();
                 break;
             case R.id.option3_id:
+                myEdit.putInt(key,s3+sharedPreferences.getInt(key, 0)).commit();
+
                 optiontext = btn3.getText().toString();
                 break;
             case R.id.option4_id:
+                myEdit.putInt(key,s4+sharedPreferences.getInt(key, 0)).commit();
+
                 optiontext = btn4.getText().toString();
                 break;
             default:
@@ -178,6 +213,6 @@ public class questions_fragment extends Fragment implements View.OnClickListener
         else{
             Toast.makeText(getActivity().getApplicationContext() , "You Are All Caught Up!", Toast.LENGTH_LONG).show();
 
-        }
+        }}
     }
 }
