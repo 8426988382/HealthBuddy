@@ -42,4 +42,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 }
+repositories {
+    maven { url "https://jitpack.io" }
+}
+

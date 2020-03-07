@@ -14,7 +14,8 @@
     <color name="indigo">#4B0082</color>
     <color name="color3">#4F68F1</color>
     <color name="blue">#4F68F1</color>
-
+<color name="green">#08B60F</color>
+    <color name="red">#E41E1E</color>
     <color name="colorBackground">#151B29</color>
     <color name="colorYellow">#F5FA55</color>
 </resources>

@@ -28,12 +28,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,6 +46,15 @@ public class Profile_Fragment extends AppCompatActivity {
     Context context;
     GoogleSignInClient mGoogleSignInClient;
     Button logout;
+
+    BarChart chart ;
+    ArrayList<BarEntry> BARENTRY ;
+    ArrayList<String> BarEntryLabels ;
+    BarDataSet Bardataset ;
+    BarData BARDATA ;
+
+    TextView psyco;
+    TextView psych;
 
 
     CircleImageView img;
@@ -98,8 +107,57 @@ public class Profile_Fragment extends AppCompatActivity {
         img = findViewById(R.id.circleImageView);
         img.setImageBitmap(bm);
 
+
+        chart = findViewById(R.id.chart1);
+
+        BARENTRY = new ArrayList<>();
+
+        BarEntryLabels = new ArrayList<String>();
+
+        AddValuesToBARENTRY();
+
+        AddValuesToBarEntryLabels();
+
+        Bardataset = new BarDataSet(BARENTRY, "Expressions");
+
+        BARDATA = new BarData(BarEntryLabels, Bardataset);
+
+        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        chart.setData(BARDATA);
+
+        chart.animateY(3000);
+
+//        int sum = Integer.parseInt(BARENTRY.get(4).toString())+ Integer.parseInt(BARENTRY.get(2).toString()) + Integer.parseInt(BARENTRY.get(1).toString());
+
+        psyco = findViewById(R.id.pyso_id1);
+        psyco.setText("Psychologist: None");
+        psyco.setTextColor(getResources().getColor(R.color.green));
+
+        psych = findViewById(R.id.psych);
+        psych.setTextColor(getResources().getColor(R.color.red));
+        psych.setText("Psychatrist: Dr. Ram Kumar (+919023092309)");
+
+    }
+    public void AddValuesToBARENTRY(){
+
+        BARENTRY.add(new BarEntry(6f, 0));
+        BARENTRY.add(new BarEntry(2f, 1));
+        BARENTRY.add(new BarEntry(1f, 2));
+        BARENTRY.add(new BarEntry(7f, 3));
+        BARENTRY.add(new BarEntry(1.2f, 4));
+
     }
 
+    public void AddValuesToBarEntryLabels(){
+
+        BarEntryLabels.add("Happy");
+        BarEntryLabels.add("Sad");
+        BarEntryLabels.add("Fearful");
+        BarEntryLabels.add("Excited");
+        BarEntryLabels.add("Anger");
+
+    }
 
 
 }
