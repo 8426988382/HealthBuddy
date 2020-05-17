@@ -83,7 +83,7 @@ public class Profile_Fragment extends AppCompatActivity {
         Bitmap bm = (Bitmap) bundle.get("profilepic");
 
         logout = (Button) findViewById(R.id.signout_btn);
-        txt1 = findViewById(R.id.audio);
+        txt1 = findViewById(R.id.textView6);
         txt2 = findViewById(R.id.textView7);
         txt3 = findViewById(R.id.meditations);
         txt4 = findViewById(R.id.textView8);
