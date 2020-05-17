@@ -7,36 +7,114 @@
     android:layout_height="match_parent"
     xmlns:app1="http://schemas.android.com/apk/res-auto">
 
-    <com.example.hackoverflow.CurvedBottomNavigationView
-        android:id="@+id/curvedBottomNavigationView"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        app1:layout_constraintBottom_toBottomOf="parent"
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:src="@drawable/final_img"
+        app1:layout_constraintBottom_toTopOf="@+id/guideline9"
         app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintHorizontal_bias="0.0"
         app1:layout_constraintStart_toStartOf="parent"
         app1:layout_constraintTop_toTopOf="parent"
-        app1:layout_constraintVertical_bias="1.0"
-        app1:menu="@menu/bottom_navigation" />
+        android:scaleType="fitXY"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/question_icon"
-        app1:layout_constraintBottom_toTopOf="@+id/curvedBottomNavigationView"
+        android:orientation="horizontal"
+        app1:layout_constraintGuide_begin="0dp" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:scrollbarSize="1dp"
+        app1:layout_constraintBottom_toTopOf="@+id/guideline10"
         app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintHorizontal_bias="0.1"
         app1:layout_constraintStart_toStartOf="parent"
-        app1:layout_constraintTop_toTopOf="@+id/curvedBottomNavigationView" />
+        app1:layout_constraintTop_toBottomOf="@+id/imageView10"
+        app1:tabSelectedTextColor="#000"
+        app1:tabTextColor="#fff"
+        app1:tabIndicatorColor="#FFF">
+
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Questions" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meditate" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app1:layout_constraintGuide_begin="111dp" />
 
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/view_pager"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app1:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
+        app1:layout_constraintBottom_toBottomOf="parent"
+        app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        app1:layout_constraintBottom_toBottomOf="@+id/imageView10"
+        app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintHorizontal_bias="0.0"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toTopOf="@+id/imageView10"
+        app1:srcCompat="@drawable/img_login" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         app1:layout_constraintEnd_toEndOf="parent"
         app1:layout_constraintHorizontal_bias="1.0"
         app1:layout_constraintStart_toStartOf="parent"
-        app1:layout_constraintBottom_toTopOf="@+id/curvedBottomNavigationView" />
+        app1:layout_constraintTop_toTopOf="parent"
+        android:onClick="gototprofile"
+        app1:srcCompat="@drawable/pfile" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Hey Buddy !"
+        android:textColor="#FFF"
+        android:textSize="20sp"
+        app1:layout_constraintEnd_toStartOf="@+id/imageView10"
+        app1:layout_constraintStart_toEndOf="@+id/imageView6"
+        app1:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,4 +2,9 @@
     <string name="app_name">Health Buddy</string>
     <string name="hint_minute">Enter Minutes</string>
     <string name="message_minutes">Please Enter Minutes...</string>
+
+    <string name="chat">Chat</string>
+    <string name="questions">Question</string>
+    <string name="meditate">Meditate</string>
+
 </resources>

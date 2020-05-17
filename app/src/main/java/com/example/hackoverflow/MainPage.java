@@ -25,17 +25,51 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.tenclouds.fluidbottomnavigation.FluidBottomNavigationItem;
 
 import static android.content.ContentValues.TAG;
+import static com.google.android.gms.common.util.CollectionUtils.listOf;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.tenclouds.fluidbottomnavigation.FluidBottomNavigation;
+import com.tenclouds.fluidbottomnavigation.FluidBottomNavigationItem;
+import com.tenclouds.fluidbottomnavigation.listener.OnTabSelectedListener;
+
+import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
 public class MainPage extends AppCompatActivity {
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    PageAdapter pagerAdapter;
+
+    ImageView pfile;
+
 
     String key="";
     SharedPreferences sharedPreferences;
     CurvedBottomNavigationView bottomNavigationView;
-    ViewPager viewPager;
     MenuItem prevMenuItem;
 
     chat_Fragment chat_fragment;
@@ -57,6 +91,9 @@ public class MainPage extends AppCompatActivity {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +118,7 @@ public class MainPage extends AppCompatActivity {
 
         profileInfo();
 
-        pfileimg = findViewById(R.id.pfile_id);
+        pfileimg = findViewById(R.id.imageView10);
 
 
 
@@ -89,128 +126,56 @@ public class MainPage extends AppCompatActivity {
         final Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
+        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.login));
 
         setContentView(R.layout.mainpage);
 
-        bottomNavigationView = findViewById(R.id.curvedBottomNavigationView);
-        viewPager = findViewById(R.id.viewpager);
+
+
+        tabLayout = findViewById(R.id.tabLayout);
+//        tabprofile = findViewById(R.id.profile_tab);
+//        tabview = findViewById(R.id.view_tab);
+//        tabinfo = findViewById(R.id.info_tab);
+        viewPager = findViewById(R.id.view_pager);
+
+        pfile = findViewById(R.id.imageView10);
 
 
 
-        setupViewPager(viewPager);
 
-        if (savedInstanceState == null) {
+
+
+
+        pagerAdapter = new PageAdapter(getSupportFragmentManager() , tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+
+        if(savedInstanceState == null){
             viewPager.setCurrentItem(1);
-            bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-            bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-            window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
         }
 
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-
-                    case R.id.nav_chat:
-                        viewPager.setCurrentItem(0);
-                       // bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.azure));
-                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
-                        break;
-
-                    case R.id.nav_questions:
-                        viewPager.setCurrentItem(1);
-                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
-                        break;
-
-                    case R.id.nav_meditate:
-                        viewPager.setCurrentItem(2);
-                        bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                        bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                        window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
-                        break;
-
-                    default:
-
-                        break;
-                }
-                return false;
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
-        });
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onTabUnselected(TabLayout.Tab tab) {
 
             }
 
             @Override
-            public void onPageSelected(int position) {
-
-
-                if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                } else {
-                    bottomNavigationView.getMenu().getItem(1).setChecked(false);
-
-                }
-
-                if (position == 0) {
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
-                }
-
-                else if(position == 1){
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
-                }
-
-                else {
-                    bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                    bottomNavigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.azure)));
-                    window.setStatusBarColor(ContextCompat.getColor(MainPage.this , R.color.azure));
-
-                }
-
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
+
+
 
     }
-
-    private void setupViewPager(ViewPager viewPager) {
-        viewPager.removeAllViews();
-        viewPager.setOffscreenPageLimit(2);
-        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
-        questions_fragment = new questions_fragment();
-        chat_fragment = new chat_Fragment();
-        mediate_fragment = new Mediate_Fragment();
-
-        adapter.addFragment(chat_fragment);
-        adapter.addFragment(questions_fragment);
-        adapter.addFragment(mediate_fragment);
-
-
-        viewPager.setAdapter(adapter);
-    }
-
-
     public void gototprofile(View view) {
 
         sharedPreferences = this.getSharedPreferences("MySharedPref",

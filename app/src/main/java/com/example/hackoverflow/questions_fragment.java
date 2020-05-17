@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -36,6 +37,7 @@ public class questions_fragment extends Fragment implements View.OnClickListener
     int s2=3;
     int s3=2;
     int s4=1;
+    LottieAnimationView view;
 
 
 
@@ -92,6 +94,7 @@ public class questions_fragment extends Fragment implements View.OnClickListener
         btn2 = v.findViewById(R.id.option2_id);
         btn3 = v.findViewById(R.id.option3_id);
         btn4 = v.findViewById(R.id.option4_id);
+
 
 
         Random rand = new Random();

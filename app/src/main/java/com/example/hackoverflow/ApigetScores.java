@@ -25,14 +25,14 @@ public class ApigetScores extends AsyncTask<Void , Void , Void> {
     String url = "https://mental2.azurewebsites.net/suggestion";
     int score;
 
-   public static ArrayList<String> AudioBooks;
-   public static ArrayList<String> TextBooks;
-   public static ArrayList<String> Meditations;
-   public static ArrayList<String> Activity;
+    public static ArrayList<String> AudioBooks;
+    public static ArrayList<String> TextBooks;
+    public static ArrayList<String> Meditations;
+    public static ArrayList<String> Activity;
 
-   ProgressDialog dialog;
+    ProgressDialog dialog;
 
-   Context sContext;
+    Context sContext;
 
     public ApigetScores(Context context , int score) {
         this.sContext = context;
@@ -47,7 +47,7 @@ public class ApigetScores extends AsyncTask<Void , Void , Void> {
         TextBooks = new ArrayList<String>();
         Meditations = new ArrayList<String>();
         Activity = new ArrayList<String>();
-         dialog = new ProgressDialog(sContext);
+        dialog = new ProgressDialog(sContext);
         dialog.setMessage("Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
@@ -68,7 +68,7 @@ public class ApigetScores extends AsyncTask<Void , Void , Void> {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("score" , 51);
+            jsonObject.put("score" , score);
         } catch (JSONException e) {
             e.printStackTrace();
         }
