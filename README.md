@@ -20,3 +20,12 @@ There used to be a time where the common cold could cause an epidemic. And today
   > Meditation page to provide users different sounds of nature with a stopwatch.
 - Progress Tracker
   > Provide day to day progress according to asked questionnaire The user is provided an option to visit a psychologist or to a psychiatrist based on the severity of his case.
+
+## Under the Hood :
+#### ~~yes, it's not complete~~
+- This app provides what therapist one should visit -> **Psychologist** or **psychiatrist** . Which no other app or website tells one. The app may collaborate with renowned Psychologist and psychiatrist to further solve the problem of the users.
+- Evaluating scores using facial expression. 
+- Working on evaluating scores using tension in users voice pitch. 
+
+----
+## Finally look down at our UI
