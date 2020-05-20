@@ -1,4 +1,4 @@
-# HealthBuddy
+# HealthBuddy :syringe:
 
 There used to be a time where the common cold could cause an epidemic. And today, we’ve eradicated malaria and are on the path to finding cures to cancer and AIDS. While direct medical sciences have contributed to most of its advancements, recent years have seen computer sciences compliment it very well. As of 2017, India’s population stood at 133.92 crores out of which 15 crores require one or the other forms of mental support or treatment. India accounts for nearly 15% of global mental health issues which is expected to increase to a staggering 20% by 2020. The proposed idea should be able to have an impact to disrupt using state-of-the-art technologies.
 
@@ -29,7 +29,11 @@ There used to be a time where the common cold could cause an epidemic. And today
 
 ----
 ## Finally look down at our UI
-<kbd><img src="images/1.jpeg" width=250></kbd>    <kbd><img src="images/2.jpeg" width=250></kbd>    <kbd><img src="images/3.jpeg" width=250></kbd> 
+<kbd><img src="images/1.jpg" width=250></kbd>    <kbd><img src="images/2.jpg" width=250></kbd>    <kbd><img src="images/3.jpg" width=250></kbd> 
 
-<kbd><img src="images/4.jpeg" width=200></kbd>  <kbd><img src="images/5.jpeg" width=200></kbd> 
+<kbd><img src="images/4.jpg" width=250></kbd>  <kbd><img src="images/5.jpg" width=250></kbd> 
+
+----
+#### Last but not the least, thank you for your precious time for reading it all. If in case you've any suggestions, file an issue :heart: and we'll try to solve it.
+## Thank you, Good Day! :+1:
 
