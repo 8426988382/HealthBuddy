@@ -29,3 +29,7 @@ There used to be a time where the common cold could cause an epidemic. And today
 
 ----
 ## Finally look down at our UI
+<kbd><img src="images/1.jpeg" width=250></kbd>    <kbd><img src="images/2.jpeg" width=250></kbd>    <kbd><img src="images/3.jpeg" width=250></kbd> 
+
+<kbd><img src="images/4.jpeg" width=200></kbd>  <kbd><img src="images/5.jpeg" width=200></kbd> 
+
