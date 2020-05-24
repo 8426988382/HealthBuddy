@@ -4,7 +4,7 @@ There used to be a time where the common cold could cause an epidemic. And today
 
 ----
 ### So improvise on that, we have HealthBuddy!!!
-#### To talk more aobut it. Let's start with for whom this app is for -
+#### To talk more about it. Let's start with for whom this app is for -
 - Have hesitation in sharing their feeling/need.
 - Have lack of confidence
 - Have fear of what others may think?
