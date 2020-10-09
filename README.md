@@ -40,4 +40,4 @@ There used to be a time where the common cold could cause an epidemic. And today
 
 
 ----
-#### Update: Chat Bot in HealthBuddy is not working as our Api for it has not been hosted. Still if anyone want to check it out, can visit the api [here](https://github.com/rishab247/HealthBuddy_API) .
+#### Update: Chat Bot in HealthBuddy is not working as our Api for it has not been hosted. Still if anyone want to check it out, can visit the api [here](https://github.com/rishab247/hackoverflow-api) .
