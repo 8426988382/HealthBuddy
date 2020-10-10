@@ -26,13 +26,11 @@ import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_APPEND;
 import static android.content.Context.MODE_PRIVATE;
 
-public class questions_fragment extends Fragment implements View.OnClickListener {
+public class Question_Fragment extends Fragment implements View.OnClickListener {
 
     Button btn1, btn2, btn3, btn4;
-    String option = null;
     TextView quotetext;
     TextView txt;
-    int flag = 0;
     int s1=4;
     int s2=3;
     int s3=2;

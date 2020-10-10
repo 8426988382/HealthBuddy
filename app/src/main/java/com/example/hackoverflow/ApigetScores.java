@@ -1,5 +1,6 @@
 package com.example.hackoverflow;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,7 +23,7 @@ import static android.content.ContentValues.TAG;
 
 public class ApigetScores extends AsyncTask<Void , Void , Void> {
 
-    String url = "https://mental2.azurewebsites.net/suggestion";
+    String url = "https://healthbuddyapi1.azurewebsites.net";
     int score;
 
     public static ArrayList<String> AudioBooks;
@@ -32,6 +33,7 @@ public class ApigetScores extends AsyncTask<Void , Void , Void> {
 
     ProgressDialog dialog;
 
+    @SuppressLint("StaticFieldLeak")
     Context sContext;
 
     public ApigetScores(Context context , int score) {

@@ -93,15 +93,14 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
         super.onPostExecute(aVoid);
 
         if(dialog.isShowing()){
-            dialog.cancel();
+            dialog.dismiss();
         }
 
-        Intent intent = new Intent(sContext , Profile_Fragment.class);
+        Intent intent = new Intent(sContext , Profile_Activity.class);
         intent.putExtra("userName", userName);
         intent.putExtra("userEmail" , userEmail);
         intent.putExtra("profilepic" , aVoid);
         sContext.startActivity(intent);
-
     }
 }
 

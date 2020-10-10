@@ -1,33 +1,30 @@
 package com.example.hackoverflow;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Random;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class Mediate_Fragment extends Fragment {
+public class Meditate_Fragment extends Fragment {
 
 
-    private long timeCountInMilliSeconds = 1 * 60000;
+    private long timeCountInMilliSeconds = 60000;
 
-    private TextView MedText;
-
+//    private TextView MedText;
 
     private enum TimerStatus {
         STARTED,
@@ -44,25 +41,22 @@ public class Mediate_Fragment extends Fragment {
     private CountDownTimer countDownTimer;
     private MediaPlayer mediaPlayer;
 
-    private View v;
-    String[] iMeditation ={
-            "Get Settled." , "Breathe deeply", "Consider the \'why\' ", "Observe the breath" , "Allow your mind to be free."
-    };
+//    String[] iMeditation ={
+//            "Get Settled." , "Breathe deeply", "Consider the 'why' ", "Observe the breath" , "Allow your mind to be free."
+//    };
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        v =  inflater.inflate(R.layout.mediate_fragment, container, false);
+        View v = inflater.inflate(R.layout.mediate_fragment, container, false);
 
         progressBarCircle = (ProgressBar) v.findViewById(R.id.progressBarCircle);
         editTextMinute = (EditText) v.findViewById(R.id.editTextMinute);
         textViewTime = (TextView) v.findViewById(R.id.textViewTime);
         imageViewReset = (ImageView) v.findViewById(R.id.imageViewReset);
         imageViewStartStop = (ImageView) v.findViewById(R.id.imageViewStartStop);
-        MedText = (TextView) v.findViewById(R.id.medText);
-
-        MedText.setVisibility(View.INVISIBLE);
+//        MedText = v.findViewById(R.id.medText);
 
         imageViewReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +64,12 @@ public class Mediate_Fragment extends Fragment {
                 reset();
             }
         });
-
         imageViewStartStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startStop();
             }
         });
-
 
         return v;
     }
@@ -90,6 +82,8 @@ public class Mediate_Fragment extends Fragment {
 
     private void startStop() {
         if (timerStatus == TimerStatus.STOPPED) {
+
+           // MedText.setVisibility(View.INVISIBLE);
 
             // call to initialize the timer values
             setTimerValues();
@@ -109,6 +103,8 @@ public class Mediate_Fragment extends Fragment {
 
         } else {
 
+           // MedText.setVisibility(View.VISIBLE);
+
             // hiding the reset icon
             imageViewReset.setVisibility(View.GONE);
             // changing stop icon to start icon
@@ -127,7 +123,7 @@ public class Mediate_Fragment extends Fragment {
             time = Integer.parseInt(editTextMinute.getText().toString().trim());
         } else {
             // toast message to fill edit text
-            Toast.makeText(getActivity().getApplicationContext(),
+            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
                     getString(R.string.message_minutes),
                     Toast.LENGTH_LONG).show();
         }
@@ -143,7 +139,7 @@ public class Mediate_Fragment extends Fragment {
                 textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
 
                 if(mediaPlayer== null){
-                    mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(),
+                    mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getActivity()).getApplicationContext(),
                             R.raw.softrain);
                     mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
@@ -155,12 +151,7 @@ public class Mediate_Fragment extends Fragment {
                     });
                 }
                 mediaPlayer.start();
-                for(int i=0; i<iMeditation.length; i++)
-                {
-                    MedText.setText(iMeditation[i]);
-                    MedText.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.fade_in));
-                    MedText.clearAnimation();
-                }
+
                 progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
             }
 
@@ -202,7 +193,7 @@ public class Mediate_Fragment extends Fragment {
     }
     private String hmsTimeFormatter(long milliSeconds) {
 
-        String hms = String.format("%02d:%02d:%02d",
+        @SuppressLint("DefaultLocale") String hms = String.format("%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(milliSeconds),
                 TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
                 TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));

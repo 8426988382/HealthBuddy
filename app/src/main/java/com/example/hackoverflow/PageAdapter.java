@@ -22,12 +22,12 @@ public class PageAdapter extends FragmentPagerAdapter {
         switch (position)
         {
             case 0:
-                return new chat_Fragment();
+                return new Chat_Fragment();
             case 1:
 
-                return new questions_fragment();
+                return new Question_Fragment();
             case 2:
-                return new Mediate_Fragment();
+                return new Meditate_Fragment();
             default:
                 return null;
         }

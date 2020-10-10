@@ -1,14 +1,8 @@
 package com.example.hackoverflow;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
-import android.media.Image;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -19,14 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.speech.tts.TextToSpeech;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,52 +25,23 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
-public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListener {
+@SuppressWarnings("ALL")
+public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListener , ResponseInterface{
 
-    public ChatArrayAdapter chatArrayAdapter;
+    private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
-    private Button buttonSend;
-    private boolean side = false;
+    private TextToSpeech TTS;
+    private ImageView speaker;
 
-
-    ImageView pfile_img;
-
-
-    private TextView voiceInput;
-    private ImageView speakButton;
     private final int REQ_CODE_SPEECH_INPUT = 100;
-
-    String mMessage = null;
-
-    String responce_from_server = null;
-    int flag = 1;
-
-    TextToSpeech TTS;
-
-
-
-    private int shortAnimationDuration = 2;
-    ProgressBar loadingView;
-
-    ImageView speaker;
+    String response_from_server= null;
 
     @Nullable
     @Override
@@ -88,57 +49,42 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
 
         View v = inflater.inflate(R.layout.chat_fragment, container, false);
 
-
         listView = v.findViewById(R.id.msgview);
         speaker = v.findViewById(R.id.speaker_id);
+        Button buttonSend = v.findViewById(R.id.send);
+        chatText = v.findViewById(R.id.msg);
+        ImageView speakButton = v.findViewById(R.id.btnspeak);
 
-//        loadingView = v.findViewById(R.id.loading_spinner);
-
-        chatArrayAdapter = new ChatArrayAdapter(getActivity().getApplicationContext(), R.layout.left);
+        chatArrayAdapter = new ChatArrayAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), R.layout.left);
         listView.setAdapter(chatArrayAdapter);
         if (savedInstanceState == null) {
             chatArrayAdapter.add(new ChatMessage(true, "Hello There,"));
             chatArrayAdapter.add(new ChatMessage(true, "How can We Help You?"));
-            chatArrayAdapter.add(new ChatMessage(true, "Have Some Questions? Ask!"));
+            chatArrayAdapter.add(new ChatMessage(true, "Have Some Questions?"));
+            chatArrayAdapter.add(new ChatMessage(true, "Please Ask!"));
         }
-
 
         LayoutAnimationController lac = new LayoutAnimationController(AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_down), 2.0f); //0.5f == time between appearance of listview items.
         listView.setLayoutAnimation(lac);
         listView.startLayoutAnimation();
 
-
-        buttonSend = v.findViewById(R.id.send);
-
-        chatText = v.findViewById(R.id.msg);
-
-        Context context = getActivity().getApplicationContext();
-
         TTS = new TextToSpeech(getActivity() , this);
 
         speaker.setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("deprecation")
             @Override
             public void onClick(View view) {
 
                 if(TTS.isSpeaking()){
                     speaker.setImageDrawable(getResources().getDrawable(R.drawable.speacker));
                     stopIt();
-
                 }
-                else if(responce_from_server != null){
+                else if(response_from_server != null){
                     speakIt();
                     speaker.setImageDrawable(getResources().getDrawable(R.drawable.icon_stop));
-
                 }
-                else{
-
-                }
-
-
             }
         });
-
-
 
 
         chatText.setOnKeyListener(new View.OnKeyListener() {
@@ -147,9 +93,7 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     try {
                         return sendChatMessage();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -163,13 +107,12 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
             public void onClick(View arg0) {
 
                 if (chatText.getText().toString().trim().equals("")) {
-
+                    // do nothing
+                    chatText.setText("");
                 } else {
                     try {
                         sendChatMessage();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -187,8 +130,6 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
                 listView.setSelection(chatArrayAdapter.getCount() - 1);
             }
         });
-
-        speakButton = v.findViewById(R.id.btnspeak);
 
         speakButton.setOnClickListener(new View.OnClickListener() {
 
@@ -211,94 +152,30 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
         String tosend =  chatText.getEditableText().toString();
         chatText.setText("");
 
-        apisend apisend = new apisend(tosend);
-        String response = apisend.execute().get();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
 
-        chatArrayAdapter.add(new ChatMessage(true , response));
+        String Uid;
 
-        //  Log.e(TAG, "onCreateView: " + responce_from_server );
+        if(account != null){
 
+            Uid= account.getId();
+            ApiSend apiSend= new ApiSend(tosend, Uid, getActivity());
+            String response= apiSend.execute().get();
 
+            response_from_server = response;
+            chatArrayAdapter.add(new ChatMessage(true , response));
+            return  true;
+        }else{
+            return false;
+        }
+    }
 
-        return true;
+    @Override
+    public void getResponseMessage(String message) {
+     //   chatArrayAdapter.add(new ChatMessage(true , message));
     }
 
 
-    public class apisend extends AsyncTask<Void , Void , String>{
-
-        String url = "https://mental2.azurewebsites.net/Askme";
-
-        String message = null;
-
-        public apisend(String message) {
-            this.message = message;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-
-            MediaType MEDIA_TYPE = MediaType.parse("application/json");
-            OkHttpClient client = new OkHttpClient();
-
-            JSONObject object = new JSONObject();
-
-            try {
-                object.put("score" , "1");
-                object.put("msg", message);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.e("JSON MESSAGE OBJ" , object.toString());
-
-
-            RequestBody body = RequestBody.create(MEDIA_TYPE, object.toString());
-
-            Request request = new Request.Builder()
-                    .url(url).post(body).build();
-
-            Response response = null;
-
-            try {
-                response = client.newCall(request).execute();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String json = null;
-            JSONObject jsonObject = null;
-            try {
-                json = response.body().string();
-                jsonObject = new JSONObject(json);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-
-
-
-            String mMessage = null;
-            try {
-                mMessage = jsonObject.getString("msg");
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.e("MESSAEG" , mMessage);
-
-            responce_from_server = mMessage;
-
-            return responce_from_server;
-        }
-    }
 
 
     @Override
@@ -321,7 +198,7 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
 
     public void speakIt()
     {
-        String text = responce_from_server;
+        String text = response_from_server;
         speaker.setImageDrawable(getResources().getDrawable(R.drawable.speacker));
         TTS.speak(text,TextToSpeech.QUEUE_FLUSH,null,null);
 
@@ -358,6 +235,7 @@ public class chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    assert result != null;
                     chatText.setText(result.get(0));
                 }
                 break;

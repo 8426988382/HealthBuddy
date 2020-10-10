@@ -3,28 +3,20 @@ package com.example.hackoverflow;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,10 +31,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Profile_Fragment extends AppCompatActivity {
+public class Profile_Activity extends AppCompatActivity {
 
-    ImageView expandImage;
-    CardView  cardView2 , cardView;
     FirebaseAuth mAuth;
     Context context;
     GoogleSignInClient mGoogleSignInClient;
@@ -71,7 +61,7 @@ public class Profile_Fragment extends AppCompatActivity {
         final Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Profile_Fragment.this , R.color.blue));
+        window.setStatusBarColor(ContextCompat.getColor(Profile_Activity.this , R.color.blue));
 
 
         setContentView(R.layout.profile_fragment);
@@ -152,7 +142,7 @@ public class Profile_Fragment extends AppCompatActivity {
         txt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
                 intent.putExtra("value" , "1");
                 startActivity(intent);
             }
@@ -161,7 +151,7 @@ public class Profile_Fragment extends AppCompatActivity {
         txt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
                 intent.putExtra("value" , "2");
                 startActivity(intent);
 
@@ -171,7 +161,7 @@ public class Profile_Fragment extends AppCompatActivity {
         txt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
                 intent.putExtra("value" , "3");
                 startActivity(intent);
             }
@@ -180,7 +170,7 @@ public class Profile_Fragment extends AppCompatActivity {
         txt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Fragment.this , DetailsActivity.class);
+                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
                 intent.putExtra("value" , "4");
                 startActivity(intent);
 
