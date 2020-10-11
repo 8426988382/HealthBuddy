@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -6,8 +6,6 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 

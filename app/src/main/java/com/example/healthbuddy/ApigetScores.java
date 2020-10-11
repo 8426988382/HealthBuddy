@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;

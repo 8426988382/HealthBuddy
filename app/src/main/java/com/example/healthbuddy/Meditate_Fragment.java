@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
@@ -51,11 +51,11 @@ public class Meditate_Fragment extends Fragment {
 
         View v = inflater.inflate(R.layout.mediate_fragment, container, false);
 
-        progressBarCircle = (ProgressBar) v.findViewById(R.id.progressBarCircle);
-        editTextMinute = (EditText) v.findViewById(R.id.editTextMinute);
-        textViewTime = (TextView) v.findViewById(R.id.textViewTime);
-        imageViewReset = (ImageView) v.findViewById(R.id.imageViewReset);
-        imageViewStartStop = (ImageView) v.findViewById(R.id.imageViewStartStop);
+        progressBarCircle = v.findViewById(R.id.progressBarCircle);
+        editTextMinute =  v.findViewById(R.id.editTextMinute);
+        textViewTime = v.findViewById(R.id.textViewTime);
+        imageViewReset = v.findViewById(R.id.imageViewReset);
+        imageViewStartStop = v.findViewById(R.id.imageViewStartStop);
 //        MedText = v.findViewById(R.id.medText);
 
         imageViewReset.setOnClickListener(new View.OnClickListener() {

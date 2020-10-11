@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import org.junit.Test;
 

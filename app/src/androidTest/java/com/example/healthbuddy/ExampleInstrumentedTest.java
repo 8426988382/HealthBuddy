@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.content.Context;
 

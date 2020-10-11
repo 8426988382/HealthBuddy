@@ -1,6 +1,5 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
-import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import java.util.Random;
 
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_APPEND;
-import static android.content.Context.MODE_PRIVATE;
 
 public class Question_Fragment extends Fragment implements View.OnClickListener {
 

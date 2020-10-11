@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -72,7 +70,7 @@ public class Profile_Activity extends AppCompatActivity {
         String email = bundle.getString("userEmail");
         Bitmap bm = (Bitmap) bundle.get("profilepic");
 
-        logout = (Button) findViewById(R.id.signout_btn);
+        logout = findViewById(R.id.signout_btn);
         txt1 = findViewById(R.id.textView6);
         txt2 = findViewById(R.id.textView7);
         txt3 = findViewById(R.id.meditations);
@@ -85,7 +83,7 @@ public class Profile_Activity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(Profile_Activity.this, gso);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +171,6 @@ public class Profile_Activity extends AppCompatActivity {
                 Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
                 intent.putExtra("value" , "4");
                 startActivity(intent);
-
             }
         });
 

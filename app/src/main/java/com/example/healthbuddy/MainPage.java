@@ -1,11 +1,15 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +21,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity implements UriResponse {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -25,13 +29,6 @@ public class MainPage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String personName, email;
     private Uri personPhoto;
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
 
 
     @Override
@@ -50,11 +47,11 @@ public class MainPage extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user == null){
+                    //Toast.makeText(MainPage.this, "Please Login", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
         };
-
         profileInfo();
 
         final Window window = this.getWindow();
@@ -66,17 +63,25 @@ public class MainPage extends AppCompatActivity {
 
         initialise();
 
+//        viewPager.setCurrentItem(1, true);
 
-        if(savedInstanceState == null){
-            viewPager.setCurrentItem(1);
-        }
+
+        viewPager.setCurrentItem(1, true);
+        //    viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        tabLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                tabLayout.setupWithViewPager(viewPager);
+//            }
+//        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                viewPager.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override
@@ -92,11 +97,17 @@ public class MainPage extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
     void initialise(){
 //        ImageView pfileimg = findViewById(R.id.imageView10);
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.view_pager);
-        PageAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        PageAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(), 3);
         viewPager.setAdapter(pagerAdapter);
     }
 
@@ -110,8 +121,8 @@ public class MainPage extends AppCompatActivity {
 
             String key = account.getId();
 
-            ApigetScores apigetScores = new ApigetScores(MainPage.this, sharedPreferences.getInt(key, 0));
-            apigetScores.execute();
+//            ApigetScores apigetScores = new ApigetScores(MainPage.this, sharedPreferences.getInt(key, 0));
+//            apigetScores.execute();
 
             asynchelper asynchelper = new asynchelper(MainPage.this, personName, email, personPhoto);
             asynchelper.execute();
@@ -127,5 +138,25 @@ public class MainPage extends AppCompatActivity {
             email = account.getEmail();
             personPhoto = account.getPhotoUrl();
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void getURI(Bitmap image) {
+        Intent intent = new Intent(MainPage.this , Profile_Activity.class);
+        intent.putExtra("userName", personName);
+        intent.putExtra("userEmail" , email);
+        intent.putExtra("profilepic" , image);
+        startActivity(intent);
     }
 }

@@ -1,8 +1,8 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -19,11 +20,14 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
     String userName , userEmail;
     Uri uri;
     Bitmap bm;
+    @SuppressLint("StaticFieldLeak")
     Context sContext;
     ProgressDialog dialog;
+    WeakReference<Context> contextRef;
+    UriResponse uriResponse= null;
 
     public asynchelper(Context context , String userName, String userEmail, Uri uri) {
-        sContext = context;
+        contextRef= new WeakReference<>(context);
         this.userName = userName;
         this.userEmail = userEmail;
         this.uri = uri;
@@ -32,6 +36,8 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        sContext= contextRef.get();
 
         dialog = new ProgressDialog(sContext);
         dialog.setMessage("Please wait...");
@@ -43,6 +49,8 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... voids) {
+
+        uriResponse= (UriResponse) contextRef.get();
 
         InputStream is = null;
         BufferedInputStream bis = null;
@@ -96,11 +104,13 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
             dialog.dismiss();
         }
 
-        Intent intent = new Intent(sContext , Profile_Activity.class);
-        intent.putExtra("userName", userName);
-        intent.putExtra("userEmail" , userEmail);
-        intent.putExtra("profilepic" , aVoid);
-        sContext.startActivity(intent);
+        uriResponse.getURI(aVoid);
+
+//        Intent intent = new Intent(sContext , Profile_Activity.class);
+//        intent.putExtra("userName", userName);
+//        intent.putExtra("userEmail" , userEmail);
+//        intent.putExtra("profilepic" , aVoid);
+//        sContext.startActivity(intent);
     }
 }
 

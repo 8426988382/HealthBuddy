@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +30,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-
-
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -46,11 +44,10 @@ public class LoginActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this , R.color.login));
-
         setContentView(R.layout.activity_login);
 
-        LinearLayout layout = findViewById(R.id.gloginlayout);
 
+        LinearLayout layout = findViewById(R.id.gloginlayout);
         progressDialog = new ProgressDialog(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -59,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         mAuth = FirebaseAuth.getInstance();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -68,7 +64,11 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     startActivity(new Intent(LoginActivity.this, MainPage.class));
-                } else Log.e("TAG", "onAuthStateChanged: User logged out");
+                }
+                else{
+                    Log.e("TAG", "onAuthStateChanged: User logged out");
+                    //Toast.makeText(LoginActivity.this, "some error has occurred", Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
@@ -127,18 +127,40 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            progressDialog.dismiss();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication Failed! ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "some error has occurred ", Toast.LENGTH_SHORT).show();
                             updateUI(null);
+                            progressDialog.dismiss();
                         }
 
                     }
                 });
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
     private void updateUI(FirebaseUser user) {
+        progressDialog.dismiss();
         if (user != null) {
             Intent it = new Intent(LoginActivity.this, MainPage.class);
             startActivity(it);
@@ -147,10 +169,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        progressDialog.dismiss();
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

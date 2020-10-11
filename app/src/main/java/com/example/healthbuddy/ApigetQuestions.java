@@ -1,17 +1,14 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

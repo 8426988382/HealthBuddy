@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

@@ -1,4 +1,4 @@
-package com.example.hackoverflow;
+package com.example.healthbuddy;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -47,7 +47,7 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.chat_fragment, container, false);
+        final View v = inflater.inflate(R.layout.chat_fragment, container, false);
 
         listView = v.findViewById(R.id.msgview);
         speaker = v.findViewById(R.id.speaker_id);
@@ -58,10 +58,11 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
         chatArrayAdapter = new ChatArrayAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), R.layout.left);
         listView.setAdapter(chatArrayAdapter);
         if (savedInstanceState == null) {
-            chatArrayAdapter.add(new ChatMessage(true, "Hello There,"));
-            chatArrayAdapter.add(new ChatMessage(true, "How can We Help You?"));
-            chatArrayAdapter.add(new ChatMessage(true, "Have Some Questions?"));
-            chatArrayAdapter.add(new ChatMessage(true, "Please Ask!"));
+            chatArrayAdapter.add(new ChatMessage(true, "Hello There"));
+            chatArrayAdapter.add(new ChatMessage(true, "I am your buddy"));
+//            chatArrayAdapter.add(new ChatMessage(true, "How can We Help You?"));
+//            chatArrayAdapter.add(new ChatMessage(true, "Have Some Questions?"));
+//            chatArrayAdapter.add(new ChatMessage(true, "Please Ask!"));
         }
 
         LayoutAnimationController lac = new LayoutAnimationController(AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_down), 2.0f); //0.5f == time between appearance of listview items.
