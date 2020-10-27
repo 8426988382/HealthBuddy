@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -18,7 +19,7 @@ import okhttp3.Response;
 
 public class ApiSend extends AsyncTask<Void , Void , String>{
 
-    String url = "https://healthbuddyapi1.azurewebsites.net/Bot";
+    String url = "https://mentalapi.azurewebsites.net/Bot";
 
     String message, id;
     String responce_from_server = null;
@@ -73,22 +74,28 @@ public class ApiSend extends AsyncTask<Void , Void , String>{
 
         try {
             response = client.newCall(request).execute();
-            json = response.body().string();
+            json = Objects.requireNonNull(response.body()).string();
+
+
             jsonObject = new JSONObject(json);
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+        assert json != null;
+        Log.e("tag", json);
 
 
 
         String mMessage = null;
         try {
+            assert jsonObject != null;
             mMessage = jsonObject.getString("msg");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        assert mMessage != null;
         Log.e("MESSAGE" , mMessage);
 
         responce_from_server = mMessage;

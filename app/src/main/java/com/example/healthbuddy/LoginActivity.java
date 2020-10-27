@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Date;
+
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -35,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleSignInClient mGoogleSignInClient;
     private ProgressDialog progressDialog;
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREF= "shared_prefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this , R.color.login));
         setContentView(R.layout.activity_login);
+
+        sharedPreferences= getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
 
 
         LinearLayout layout = findViewById(R.id.gloginlayout);
@@ -63,6 +70,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    Date date = new Date(System.currentTimeMillis()); //or simply new Date();
+                    long millis = date.getTime();
+                    sharedPreferences.edit().putLong("time", millis).apply();
                     startActivity(new Intent(LoginActivity.this, MainPage.class));
                 }
                 else{
@@ -126,6 +136,9 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Date date = new Date(System.currentTimeMillis()); //or simply new Date();
+                            long millis = date.getTime();
+                            sharedPreferences.edit().putLong("time", millis).apply();
                             updateUI(user);
                             progressDialog.dismiss();
                         } else {
