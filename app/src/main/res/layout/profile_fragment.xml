@@ -207,23 +207,23 @@
                         app:layout_constraintVertical_bias="0.0" />
 
 
-                    <TextView
-                        android:id="@+id/meditations"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="Meditations"
-                        android:textColor="@color/blue"
-                        android:textSize="20sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8"
-                        app:layout_constraintVertical_bias="0.0" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/meditations"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="8dp"-->
+<!--                        android:layout_marginBottom="8dp"-->
+<!--                        android:text="Meditations"-->
+<!--                        android:textColor="@color/blue"-->
+<!--                        android:textSize="20sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintHorizontal_bias="0.0"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/textView8"-->
+<!--                        app:layout_constraintVertical_bias="0.0" />-->
 
                     <TextView
                         android:id="@+id/textView8"
@@ -266,47 +266,177 @@
 
             </androidx.cardview.widget.CardView>
 
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/chart1"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
+                android:padding="6dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                app:layout_constraintVertical_bias="0.0"/>
+                app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
-            <TextView
-                android:id="@+id/pyso_id1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Psychologist"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/chart1"/>
+                <org.eazegraph.lib.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="6dp"
+                    android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/psych"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Example"
-                android:textSize="20sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/pyso_id1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical">
+
+                        <!--View to display the yellow color icon-->
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/R"/>
+
+                        <!--Text view to display R -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sad"
+                            android:paddingLeft="10dp"/>
+
+                    </LinearLayout>
+
+                    <!--Linear layout to display Python-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp">
+
+                        <!--View to display the green color icon-->
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/Python"/>
+
+                        <!--Text view to display python text -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Happy"
+                            android:paddingStart="10dp"/>
+
+                    </LinearLayout>
+
+                    <!--Linear layout to display C++-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp">
+
+                        <!--View to display the red color icon-->
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/CPP"/>
+
+                        <!--Text view to display C++ text -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fear"
+                            android:paddingStart="10dp"/>
+
+                    </LinearLayout>
+
+                    <!--Linear layout to display Java-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp">
+
+                        <!--View to display the blue color icon-->
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/Java"/>
+
+                        <!--Text view to display Java text -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="excitement"
+                            android:paddingStart="10dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+
+<!--            <com.github.mikephil.charting.charts.BarChart-->
+<!--                android:id="@+id/chart1"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="300dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                android:layout_marginBottom="16dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/cardView2"-->
+<!--                app:layout_constraintVertical_bias="0.0"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/pyso_id1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Psychologist"-->
+<!--                android:textSize="20sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginBottom="16dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/chart1"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/psych"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Example"-->
+<!--                android:textSize="20sp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginBottom="16dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/pyso_id1"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

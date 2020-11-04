@@ -1,11 +1,12 @@
 package com.example.healthbuddy;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 
 public class QuestionData {
     private String Question;
-   private Map<String, String> mp;
+    private Map<String, String> mp;
 
     public QuestionData(String question, Map mp) {
         Question = question;
@@ -28,6 +29,7 @@ public class QuestionData {
         this.mp = mp;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "QuestionData{" +

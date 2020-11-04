@@ -3,6 +3,7 @@ package com.example.healthbuddy;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -19,11 +20,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -35,22 +34,14 @@ public class Profile_Activity extends AppCompatActivity {
     Context context;
     GoogleSignInClient mGoogleSignInClient;
     Button logout;
-
-    BarChart chart ;
-    ArrayList<BarEntry> BARENTRY ;
-    ArrayList<String> BarEntryLabels ;
-    BarDataSet Bardataset ;
-    BarData BARDATA ;
-
-    TextView psyco;
-    TextView psych;
-
-
     CircleImageView img;
 
-    TextView userName  ,  userEmail;
+    TextView userName, userEmail;
 
-    TextView txt1 , txt2 , txt3 , txt4;
+    TextView txt1, txt2, txt4;
+
+    ArrayList<SuggestionsData> data = new ArrayList<>();
+    PieChart pieChart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,22 +50,10 @@ public class Profile_Activity extends AppCompatActivity {
         final Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Profile_Activity.this , R.color.blue));
+        window.setStatusBarColor(ContextCompat.getColor(Profile_Activity.this, R.color.blue));
 
 
         setContentView(R.layout.profile_fragment);
-
-        Bundle bundle = getIntent().getExtras();
-
-        String name = bundle.getString("userName");
-        String email = bundle.getString("userEmail");
-        Bitmap bm = (Bitmap) bundle.get("profilepic");
-
-        logout = findViewById(R.id.signout_btn);
-        txt1 = findViewById(R.id.textView6);
-        txt2 = findViewById(R.id.textView7);
-        txt3 = findViewById(R.id.meditations);
-        txt4 = findViewById(R.id.textView8);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -85,6 +64,36 @@ public class Profile_Activity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(Profile_Activity.this, gso);
 
+        Bundle bundle = getIntent().getExtras();
+
+        String name = bundle.getString("userName");
+        String email = bundle.getString("userEmail");
+        Bitmap bm = (Bitmap) bundle.get("profilepic");
+        data = (ArrayList<SuggestionsData>) bundle.get("data");
+
+        ArrayList<String> AudioData= new ArrayList<>();
+        ArrayList<String> TextData= new ArrayList<>();
+        ArrayList<String> General= new ArrayList<>();
+
+        assert data != null;
+        if(!data.isEmpty()){
+            AudioData= data.get(0).getAudioBooks();
+            TextData= data.get(0).getTextBooks();
+            General= data.get(0).getGeneralActivities();
+        }
+
+
+        logout = findViewById(R.id.signout_btn);
+        txt1 = findViewById(R.id.textView6);
+        txt2 = findViewById(R.id.textView7);
+        txt4 = findViewById(R.id.textView8);
+        userEmail = findViewById(R.id.mail_id);
+        userName = findViewById(R.id.textView);
+        img = findViewById(R.id.circleImageView);
+        pieChart= findViewById(R.id.pie_chart);
+
+
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,106 +103,72 @@ public class Profile_Activity extends AppCompatActivity {
             }
         });
 
-        userEmail = findViewById(R.id.mail_id);
-        userName = findViewById(R.id.textView);
 
         userName.setText(name);
         userEmail.setText(email);
-
-
-        img = findViewById(R.id.circleImageView);
         img.setImageBitmap(bm);
 
 
-        chart = findViewById(R.id.chart1);
-
-        BARENTRY = new ArrayList<>();
-
-        BarEntryLabels = new ArrayList<String>();
-
-        AddValuesToBARENTRY();
-
-        AddValuesToBarEntryLabels();
-
-        Bardataset = new BarDataSet(BARENTRY, "Expressions");
-
-        BARDATA = new BarData(BarEntryLabels, Bardataset);
-
-        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        chart.setData(BARDATA);
-
-        chart.animateY(3000);
-
-//        int sum = Integer.parseInt(BARENTRY.get(4).toString())+ Integer.parseInt(BARENTRY.get(2).toString()) + Integer.parseInt(BARENTRY.get(1).toString());
-
-        psyco = findViewById(R.id.pyso_id1);
-        psyco.setText("Psychologist: None");
-        psyco.setTextColor(getResources().getColor(R.color.green));
-
-        psych = findViewById(R.id.psych);
-        psych.setTextColor(getResources().getColor(R.color.red));
-        psych.setText("Psychatrist: Dr. Ram Kumar (+919023092309)");
-
-
-
+        final ArrayList<String> finalAudioData = AudioData;
         txt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
-                intent.putExtra("value" , "1");
+                Intent intent = new Intent(Profile_Activity.this, DetailsActivity.class);
+                intent.putExtra("data", finalAudioData);
                 startActivity(intent);
             }
         });
 
+        final ArrayList<String> finalTextData = TextData;
         txt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
-                intent.putExtra("value" , "2");
+                Intent intent = new Intent(Profile_Activity.this, DetailsActivity.class);
+                intent.putExtra("data", finalTextData);
                 startActivity(intent);
 
             }
         });
 
-        txt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
-                intent.putExtra("value" , "3");
-                startActivity(intent);
-            }
-        });
 
+        final ArrayList<String> finalGeneral = General;
         txt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Activity.this , DetailsActivity.class);
-                intent.putExtra("value" , "4");
+                Intent intent = new Intent(Profile_Activity.this, DetailsActivity.class);
+                intent.putExtra("data", finalGeneral);
                 startActivity(intent);
             }
         });
 
+        pieChart.addPieSlice(
+                new PieModel(
+                        "R",
+                        Integer.parseInt("30"),
+                        Color.parseColor("#FFA726")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Python",
+                        Integer.parseInt("40"),
+                        Color.parseColor("#66BB6A")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "C++",
+                        Integer.parseInt("5"),
+                        Color.parseColor("#EF5350")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Java",
+                        Integer.parseInt("25"),
+                        Color.parseColor("#29B6F6")));
+
+        pieChart.startAnimation();
+
     }
-    public void AddValuesToBARENTRY(){
 
-        BARENTRY.add(new BarEntry(6f, 0));
-        BARENTRY.add(new BarEntry(2f, 1));
-        BARENTRY.add(new BarEntry(1f, 2));
-        BARENTRY.add(new BarEntry(7f, 3));
-        BARENTRY.add(new BarEntry(1.2f, 4));
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
-
-    public void AddValuesToBarEntryLabels(){
-
-        BarEntryLabels.add("Happy");
-        BarEntryLabels.add("Sad");
-        BarEntryLabels.add("Fearful");
-        BarEntryLabels.add("Excited");
-        BarEntryLabels.add("Anger");
-
-    }
-
-
 }

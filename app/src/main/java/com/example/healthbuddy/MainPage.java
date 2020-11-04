@@ -1,13 +1,18 @@
 package com.example.healthbuddy;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +26,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainPage extends AppCompatActivity implements UriResponse {
+import java.util.ArrayList;
+
+public class MainPage extends AppCompatActivity implements UriResponse{
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -30,10 +37,15 @@ public class MainPage extends AppCompatActivity implements UriResponse {
     private String personName, email;
     private Uri personPhoto;
 
+    private ArrayList<SuggestionsData> suggestionsData= new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         mAuth = FirebaseAuth.getInstance();
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -52,6 +64,7 @@ public class MainPage extends AppCompatActivity implements UriResponse {
                 }
             }
         };
+
         profileInfo();
 
         final Window window = this.getWindow();
@@ -124,6 +137,7 @@ public class MainPage extends AppCompatActivity implements UriResponse {
 //            ApigetScores apigetScores = new ApigetScores(MainPage.this, sharedPreferences.getInt(key, 0));
 //            apigetScores.execute();
 
+
             asynchelper asynchelper = new asynchelper(MainPage.this, personName, email, personPhoto);
             asynchelper.execute();
         }
@@ -151,12 +165,34 @@ public class MainPage extends AppCompatActivity implements UriResponse {
         startActivity(intent);
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
-    public void getURI(Bitmap image) {
+    public void getURI(final Bitmap image) {
+
+
+        new ApiGetSuggestions(this){
+            @Override
+            protected void onPostExecute(ArrayList<SuggestionsData> aVoid) {
+                super.onPostExecute(aVoid);
+                if(dialog.isShowing()){
+                    dialog.dismiss();
+                }
+                PerformAction(aVoid, image);
+            }
+        }.execute();
+    }
+
+    private void PerformAction(ArrayList<SuggestionsData> list, Bitmap image){
+        suggestionsData= list;
+
         Intent intent = new Intent(MainPage.this , Profile_Activity.class);
         intent.putExtra("userName", personName);
         intent.putExtra("userEmail" , email);
         intent.putExtra("profilepic" , image);
+        intent.putExtra("data", list);
         startActivity(intent);
+
     }
+
+
 }
