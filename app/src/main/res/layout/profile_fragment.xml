@@ -302,91 +302,88 @@
                     android:gravity="center_vertical"
                     >
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical">
 
                         <!--View to display the yellow color icon-->
                         <View
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
+                            android:id="@+id/appear_id"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
                             android:background="@color/R"/>
 
                         <!--Text view to display R -->
                         <TextView
+                            android:id="@+id/display_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sad"
+                            android:text="Your Score Percentage"
                             android:paddingLeft="10dp"/>
 
-                    </LinearLayout>
 
                     <!--Linear layout to display Python-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="5dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="15dp"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_marginTop="5dp">-->
 
-                        <!--View to display the green color icon-->
-                        <View
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/Python"/>
+<!--                        &lt;!&ndash;View to display the green color icon&ndash;&gt;-->
+<!--                        <View-->
+<!--                            android:layout_width="15dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:background="@color/Python"/>-->
 
-                        <!--Text view to display python text -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Happy"
-                            android:paddingStart="10dp"/>
+<!--                        &lt;!&ndash;Text view to display python text &ndash;&gt;-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Happy"-->
+<!--                            android:paddingStart="10dp"/>-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                    <!--Linear layout to display C++-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="5dp">
+<!--                    &lt;!&ndash;Linear layout to display C++&ndash;&gt;-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="15dp"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_marginTop="5dp">-->
 
-                        <!--View to display the red color icon-->
-                        <View
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/CPP"/>
+<!--                        &lt;!&ndash;View to display the red color icon&ndash;&gt;-->
+<!--                        <View-->
+<!--                            android:layout_width="15dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:background="@color/CPP"/>-->
 
-                        <!--Text view to display C++ text -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fear"
-                            android:paddingStart="10dp"/>
+<!--                        &lt;!&ndash;Text view to display C++ text &ndash;&gt;-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Fear"-->
+<!--                            android:paddingStart="10dp"/>-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                    <!--Linear layout to display Java-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="5dp">
+<!--                    &lt;!&ndash;Linear layout to display Java&ndash;&gt;-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="15dp"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_marginTop="5dp">-->
 
-                        <!--View to display the blue color icon-->
-                        <View
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/Java"/>
+<!--                        &lt;!&ndash;View to display the blue color icon&ndash;&gt;-->
+<!--                        <View-->
+<!--                            android:layout_width="15dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:background="@color/Java"/>-->
 
-                        <!--Text view to display Java text -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="excitement"
-                            android:paddingStart="10dp"/>
+<!--                        &lt;!&ndash;Text view to display Java text &ndash;&gt;-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="excitement"-->
+<!--                            android:paddingStart="10dp"/>-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
                 </LinearLayout>
 

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#ffffff">
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -15,14 +13,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:lottie_fileName="qanda.json"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="qanda.json"
+        app:lottie_loop="true" />
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -45,14 +43,14 @@
         android:layout_height="200dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="false"
-        android:visibility="gone"
         app:lottie_fileName="all_caught.json"
-        app:lottie_loop="false"/>
+        app:lottie_loop="false" />
 
 
     <ScrollView
@@ -96,10 +94,10 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/button_bg_selector"
-                android:visibility="gone"
                 android:text="Good"
                 android:textAllCaps="false"
                 android:textColor="#fff"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.681"
@@ -109,19 +107,19 @@
 
             <Button
                 android:id="@+id/option2_id"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg_selector"
-                android:visibility="gone"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/button_bg_selector"
                 android:text="Bad"
-                style="@style/Widget.AppCompat.Button.Borderless"
-
                 android:textAllCaps="false"
+
                 android:textColor="#fff"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,18 +128,18 @@
 
             <Button
                 android:id="@+id/option3_id"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="32dp"
-                android:text="Very Good"
-                android:visibility="gone"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:background="@drawable/button_bg_selector"
+                android:text="Very Good"
                 android:textAllCaps="false"
                 android:textColor="#fff"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -151,19 +149,19 @@
 
             <Button
                 android:id="@+id/option4_id"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/button_bg_selector"
-                android:visibility="gone"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="32dp"
+                android:background="@drawable/button_bg_selector"
                 android:text="Kind of good"
                 android:textAllCaps="false"
-                style="@style/Widget.AppCompat.Button.Borderless"
-
                 android:textColor="#fff"
+
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -173,19 +171,19 @@
 
             <Button
                 android:id="@+id/option5_id"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/button_bg_selector"
-                android:visibility="gone"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="32dp"
+                android:background="@drawable/button_bg_selector"
                 android:text="Kind of good"
                 android:textAllCaps="false"
-                style="@style/Widget.AppCompat.Button.Borderless"
-
                 android:textColor="#fff"
+
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -211,18 +209,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:padding="1dp"
         android:layout_marginBottom="40dp"
+        android:padding="1dp"
         android:text="Look up at the stars and not down at your feet. Try to make sense of what you see, and wonder about what makes the universe exist. Be curious."
         android:textColor="#000"
-        android:textStyle="italic"
         android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="1.0" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

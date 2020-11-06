@@ -37,9 +37,6 @@ public class MainPage extends AppCompatActivity implements UriResponse{
     private String personName, email;
     private Uri personPhoto;
 
-    private ArrayList<SuggestionsData> suggestionsData= new ArrayList<>();
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -183,13 +180,23 @@ public class MainPage extends AppCompatActivity implements UriResponse{
     }
 
     private void PerformAction(ArrayList<SuggestionsData> list, Bitmap image){
-        suggestionsData= list;
+
+        int scores= Question_Fragment.getScore();
+
+        String average= String.valueOf( (int) ((double)scores/5 * 10));
+
+        Log.e("Average", average);
+
+
+
 
         Intent intent = new Intent(MainPage.this , Profile_Activity.class);
         intent.putExtra("userName", personName);
         intent.putExtra("userEmail" , email);
         intent.putExtra("profilepic" , image);
+        intent.putExtra("Score", average);
         intent.putExtra("data", list);
+
         startActivity(intent);
 
     }

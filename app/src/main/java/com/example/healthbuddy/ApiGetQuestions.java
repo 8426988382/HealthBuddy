@@ -3,14 +3,8 @@ package com.example.healthbuddy;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.icu.text.Edits;
 import android.os.AsyncTask;
 import android.util.Log;
-
-
-import com.google.common.collect.Iterators;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,29 +25,29 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ApiGetQuestions extends AsyncTask<Void , Void , ArrayList> {
+public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
 
     String url = "https://mentalapi.azurewebsites.net/question";
 
-    ArrayList<QuestionData> QuestionList= new ArrayList<>();
+    ArrayList<QuestionData> QuestionList = new ArrayList<>();
 
     ProgressDialog dialog;
     WeakReference<Context> weakReference;
     SharedPreferences Prefs;
-    public static final String SHARED_PREF= "shared_prefs";
+    public static final String SHARED_PREF = "shared_prefs";
     private String uid;
 
     public ApiGetQuestions(Context sContext, String uid) {
-        weakReference= new WeakReference<>(sContext);
-        this.uid= uid;
+        weakReference = new WeakReference<>(sContext);
+        this.uid = uid;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-        Context sContext= weakReference.get();
-        Prefs= sContext.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        Context sContext = weakReference.get();
+        Prefs = sContext.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         Date date = new Date(System.currentTimeMillis());
         Prefs.edit().putLong("FirstTime", date.getTime()).apply();
         dialog = new ProgressDialog(sContext);
@@ -90,49 +84,49 @@ public class ApiGetQuestions extends AsyncTask<Void , Void , ArrayList> {
 
         try {
             response = client.newCall(request).execute();
-            responseString= Objects.requireNonNull(response.body()).string();
+            responseString = Objects.requireNonNull(response.body()).string();
             Log.e("Questions", responseString);
 
-            responseJson= new JSONObject(responseString);
-        }catch (IOException | JSONException e) {
+            responseJson = new JSONObject(responseString);
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
 
         try {
             assert responseJson != null;
-            String mMessage= responseJson.getString("msg");
+            String mMessage = responseJson.getString("msg");
 
             Log.e("MESSAGE", mMessage);
-            responseJson= new JSONObject(mMessage);
+            responseJson = new JSONObject(mMessage);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         Iterator<String> keys = responseJson.keys();
-        ArrayList<String> key= new ArrayList<>();
+        ArrayList<String> key = new ArrayList<>();
 
-        while(keys.hasNext()){
-            String temp= keys.next();
+        while (keys.hasNext()) {
+            String temp = keys.next();
             key.add(temp);
         }
 
-        ArrayList<Map > options = new ArrayList<>();
+        ArrayList<Map> options = new ArrayList<>();
 
-        for(String ele: key){
+        for (String ele : key) {
 
-            String question= ele;
+            String question = ele;
             try {
-                JSONArray array= responseJson.getJSONArray(ele);
-                Map<String, String> mp= new HashMap<>();
+                JSONArray array = responseJson.getJSONArray(ele);
+                Map<String, String> mp = new HashMap<>();
 
 
-                for(int i =0;i < array.length();i ++){
-                    String obj= array.get(i).toString();
-                    obj= obj.substring(1, obj.length() - 1);
+                for (int i = 0; i < array.length(); i++) {
+                    String obj = array.get(i).toString();
+                    obj = obj.substring(1, obj.length() - 1);
 
-                    String option= obj.substring(1, obj.length()- 3);
-                    String val= obj.substring(obj.length() - 2);
+                    String option = obj.substring(1, obj.length() - 3);
+                    String val = obj.substring(obj.length() - 1);
 
                     mp.put(option, val);
                 }
@@ -141,8 +135,8 @@ public class ApiGetQuestions extends AsyncTask<Void , Void , ArrayList> {
 //                mp= new HashMap<>();
 
                 QuestionList.add(new QuestionData(question, mp));
-                options= new ArrayList<>();
-                mp= new HashMap<>();
+                options = new ArrayList<>();
+                mp = new HashMap<>();
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -151,7 +145,6 @@ public class ApiGetQuestions extends AsyncTask<Void , Void , ArrayList> {
 
         return QuestionList;
     }
-
 
 
 //    @Override

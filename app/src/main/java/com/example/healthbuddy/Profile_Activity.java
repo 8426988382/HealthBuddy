@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.state.helpers.AlignVerticallyReference;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ComplexColorCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -43,6 +45,11 @@ public class Profile_Activity extends AppCompatActivity {
     ArrayList<SuggestionsData> data = new ArrayList<>();
     PieChart pieChart;
 
+    String Average;
+
+    View Appear;
+    TextView Display;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +77,7 @@ public class Profile_Activity extends AppCompatActivity {
         String email = bundle.getString("userEmail");
         Bitmap bm = (Bitmap) bundle.get("profilepic");
         data = (ArrayList<SuggestionsData>) bundle.get("data");
+        Average= bundle.getString("Score");
 
         ArrayList<String> AudioData= new ArrayList<>();
         ArrayList<String> TextData= new ArrayList<>();
@@ -91,6 +99,29 @@ public class Profile_Activity extends AppCompatActivity {
         userName = findViewById(R.id.textView);
         img = findViewById(R.id.circleImageView);
         pieChart= findViewById(R.id.pie_chart);
+
+        Appear= findViewById(R.id.appear_id);
+        Display= findViewById(R.id.display_id);
+
+        int scores= Integer.parseInt(Average);
+
+        String color= "#08B60F";
+
+        Display.setText("Your Score Percentage is " + Average + "%");
+
+        if(scores >= 75){
+            Appear.setBackgroundColor(Color.parseColor("#E41E1E"));
+            Display.setTextColor(Color.parseColor("#E41E1E"));
+            color= "#E41E1E";
+        }else if(scores >= 50){
+            Appear.setBackgroundColor(Color.parseColor("#FFA726"));
+            Display.setTextColor(Color.parseColor("#FFA726"));
+            color= "#FFA726";
+        }else{
+            Appear.setBackgroundColor(Color.parseColor("#08B60F"));
+            Display.setTextColor(Color.parseColor("#08B60F"));
+            color= "#08B60F";
+        }
 
 
 
@@ -141,26 +172,28 @@ public class Profile_Activity extends AppCompatActivity {
             }
         });
 
+
+
         pieChart.addPieSlice(
                 new PieModel(
                         "R",
-                        Integer.parseInt("30"),
-                        Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Python",
-                        Integer.parseInt("40"),
-                        Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "C++",
-                        Integer.parseInt("5"),
-                        Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Java",
-                        Integer.parseInt("25"),
-                        Color.parseColor("#29B6F6")));
+                        Integer.parseInt(Average),
+                        Color.parseColor(color)));
+//        pieChart.addPieSlice(
+//                new PieModel(
+//                        "Python",
+//                        Integer.parseInt("40"),
+//                        Color.parseColor("#66BB6A")));
+//        pieChart.addPieSlice(
+//                new PieModel(
+//                        "C++",
+//                        Integer.parseInt("5"),
+//                        Color.parseColor("#EF5350")));
+//        pieChart.addPieSlice(
+//                new PieModel(
+//                        "Java",
+//                        Integer.parseInt("25"),
+//                        Color.parseColor("#29B6F6")));
 
         pieChart.startAnimation();
 

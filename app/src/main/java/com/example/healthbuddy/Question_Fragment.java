@@ -24,60 +24,56 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
-import static android.content.ContentValues.TAG;
-import static android.content.Context.MODE_APPEND;
-
-public class Question_Fragment extends Fragment implements View.OnClickListener{
+public class Question_Fragment extends Fragment implements View.OnClickListener {
 
     LottieAnimationView lottieAnimationView;
     LottieAnimationView allCaughtUp;
-    public static final String SHARED_PREF= "shared_prefs";
+    public static final String SHARED_PREF = "shared_prefs";
     SharedPreferences Prefs;
     private ScrollView scrollView;
     TextView QuestionText, QuoteText;
     Button Option1, Option2, Option3, Option4, Option5;
-    static int cnt= 0;
+    static int cnt = 0;
 
-    ArrayList<String> Scores= new ArrayList<>();
+    static int score = 0;
 
 
-    ArrayList<QuestionData> Questions= new ArrayList<>();
+    ArrayList<QuestionData> Questions = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v= inflater.inflate(R.layout.questions_fragment, container, false);
+        View v = inflater.inflate(R.layout.questions_fragment, container, false);
 
 
         // initialise
-        lottieAnimationView= v.findViewById(R.id.startid);
-        allCaughtUp= v.findViewById(R.id.allcaughtup);
-        Prefs= Objects.requireNonNull(this.getActivity()).getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
-        scrollView= v.findViewById(R.id.scrollView2);
-        QuestionText= v.findViewById(R.id.textView);
-        Option1= v.findViewById(R.id.option1_id);
-        Option2= v.findViewById(R.id.option2_id);
-        Option3= v.findViewById(R.id.option3_id);
-        Option4= v.findViewById(R.id.option4_id);
-        Option5= v.findViewById(R.id.option5_id);
-        QuoteText= v.findViewById(R.id.quote_text_id);
+        lottieAnimationView = v.findViewById(R.id.startid);
+        allCaughtUp = v.findViewById(R.id.allcaughtup);
+        Prefs = Objects.requireNonNull(this.getActivity()).getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        scrollView = v.findViewById(R.id.scrollView2);
+        QuestionText = v.findViewById(R.id.textView);
+        Option1 = v.findViewById(R.id.option1_id);
+        Option2 = v.findViewById(R.id.option2_id);
+        Option3 = v.findViewById(R.id.option3_id);
+        Option4 = v.findViewById(R.id.option4_id);
+        Option5 = v.findViewById(R.id.option5_id);
+        QuoteText = v.findViewById(R.id.quote_text_id);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
 
         final String Uid;
 
-        if(account != null) {
+        if (account != null) {
             Uid = account.getId();
 
             lottieAnimationView.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("StaticFieldLeak")
                 @Override
                 public void onClick(View v) {
-                    long firstTime= Prefs.getLong("FirstTime", Long.parseLong("0"));
-                    long loginTime= Prefs.getLong("time", Long.parseLong("0"));
+                    long firstTime = Prefs.getLong("FirstTime", Long.parseLong("0"));
+                    long loginTime = Prefs.getLong("time", Long.parseLong("0"));
                     long diff = loginTime - firstTime;
                     long diffs = diff / (60 * 60 * 1000);
                     Log.e("LAST TIME DIFFERENCE", String.valueOf(diffs));
@@ -86,14 +82,20 @@ public class Question_Fragment extends Fragment implements View.OnClickListener{
 
                     lottieAnimationView.playAnimation();
 
-                    if(diffs >= 0){
-                        new ApiGetQuestions(getContext(), Uid){
+                    if (diffs >= 0) {
+                        new ApiGetQuestions(getContext(), Uid) {
                             @Override
                             protected void onPostExecute(ArrayList aVoid) {
                                 super.onPostExecute(aVoid);
-                                if(dialog.isShowing()){
+                                if (dialog.isShowing()) {
                                     dialog.dismiss();
                                 }
+
+                                Option1.setVisibility(View.GONE);
+                                Option2.setVisibility(View.GONE);
+                                Option3.setVisibility(View.GONE);
+                                Option4.setVisibility(View.GONE);
+                                Option5.setVisibility(View.GONE);
 
                                 PerformAction(QuestionList);
 
@@ -101,7 +103,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener{
                         }.execute();
 
                         lottieAnimationView.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         lottieAnimationView.setVisibility(View.GONE);
                         allCaughtUp.setVisibility(View.VISIBLE);
                         allCaughtUp.playAnimation();
@@ -110,7 +112,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener{
             });
 
 
-        }else{
+        } else {
             Toast.makeText(getContext(), "some error has occurred", Toast.LENGTH_SHORT).show();
         }
 
@@ -118,48 +120,49 @@ public class Question_Fragment extends Fragment implements View.OnClickListener{
     }
 
 
-    void PerformAction(ArrayList<QuestionData> questionData){
-        this.Questions= questionData;
+    void PerformAction(ArrayList<QuestionData> questionData) {
+        this.Questions = questionData;
 
         Log.e("Questions Data", Questions.toString());
 
-        QuoteText.setVisibility(View.GONE);
         scrollView.setVisibility(View.VISIBLE);
 
-        if(cnt == 0) {
+        QuoteText.setVisibility(View.GONE);
+        Option1.setVisibility(View.GONE);
+        Option2.setVisibility(View.GONE);
+        Option3.setVisibility(View.GONE);
+        Option4.setVisibility(View.GONE);
+        Option5.setVisibility(View.GONE);
+
+        if (cnt == 0) {
             QuestionText.setText(Questions.get(0).getQuestion());
 
             QuestionData questionData1 = Questions.get(0);
             int options = 0;
 
-            for(Map.Entry<String, String> key: questionData1.getMp().entrySet()){
-                if(options == 0){
+            for (Map.Entry<String, String> key : questionData1.getMp().entrySet()) {
+                if (options == 0) {
                     Option1.setVisibility(View.VISIBLE);
                     Option1.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 1){
+                } else if (options == 1) {
                     Option2.setVisibility(View.VISIBLE);
                     Option2.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 2){
+                } else if (options == 2) {
                     Option3.setVisibility(View.VISIBLE);
                     Option3.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 3){
+                } else if (options == 3) {
                     Option4.setVisibility(View.VISIBLE);
                     Option4.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 4){
+                } else if (options == 4) {
                     Option5.setVisibility(View.VISIBLE);
                     Option5.setText(key.getKey());
                     options += 1;
                 }
             }
-
         }
 
 
@@ -168,61 +171,91 @@ public class Question_Fragment extends Fragment implements View.OnClickListener{
         Option3.setOnClickListener(this);
         Option4.setOnClickListener(this);
         Option5.setOnClickListener(this);
-
-
-
-//        for(QuestionData questionData1 : Questions){
-//            Log.e("data", questionData1.toString());
-//        }
     }
 
     @Override
     public void onClick(View v) {
         cnt += 1;
 
-        if(cnt <= 4){
+        int id = v.getId();
+        QuestionData questionData2 = Questions.get(cnt - 1);
+
+
+        switch (id) {
+            case R.id.option1_id:
+                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option1.getText().toString()))));
+                break;
+            case R.id.option2_id:
+                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option2.getText().toString()))));
+                break;
+            case R.id.option3_id:
+                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option3.getText().toString()))));
+                break;
+            case R.id.option4_id:
+                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option4.getText().toString()))));
+                break;
+            case R.id.option5_id:
+                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option5.getText().toString()))));
+                break;
+            default:
+                Log.e("Error", "Error in QuestionFragment");
+        }
+
+        Option1.setVisibility(View.GONE);
+        Option2.setVisibility(View.GONE);
+        Option3.setVisibility(View.GONE);
+        Option4.setVisibility(View.GONE);
+        Option5.setVisibility(View.GONE);
+
+        Log.e("ID", String.valueOf(score));
+
+        if (cnt <= 4) {
+            Option1.setVisibility(View.GONE);
+            Option2.setVisibility(View.GONE);
+            Option3.setVisibility(View.GONE);
+            Option4.setVisibility(View.GONE);
+            Option5.setVisibility(View.GONE);
             QuestionText.setText(Questions.get(cnt).getQuestion());
 
             QuestionData questionData1 = Questions.get(cnt);
             int options = 0;
 
-            for(Map.Entry<String, String> key: questionData1.getMp().entrySet()){
-                if(options == 0){
+            for (Map.Entry<String, String> key : questionData1.getMp().entrySet()) {
+                if (options == 0) {
                     Option1.setVisibility(View.VISIBLE);
                     Option1.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 1){
+                } else if (options == 1) {
                     Option2.setVisibility(View.VISIBLE);
                     Option2.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 2){
+                } else if (options == 2) {
                     Option3.setVisibility(View.VISIBLE);
                     Option3.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 3){
+                } else if (options == 3) {
                     Option4.setVisibility(View.VISIBLE);
                     Option4.setText(key.getKey());
                     options += 1;
-                }
-                else if(options == 4){
+                } else if (options == 4) {
                     Option5.setVisibility(View.VISIBLE);
                     Option5.setText(key.getKey());
                     options += 1;
                 }
             }
 
+
         }
 
 
-        if(cnt >= 5){
+        if (cnt >= 5) {
             EndAction();
         }
+
+
     }
 
-    void EndAction(){
+    void EndAction() {
         scrollView.setVisibility(View.GONE);
         allCaughtUp.setVisibility(View.VISIBLE);
         Option1.setVisibility(View.GONE);
@@ -235,6 +268,9 @@ public class Question_Fragment extends Fragment implements View.OnClickListener{
         allCaughtUp.playAnimation();
     }
 
+    public static int getScore() {
+        return score;
+    }
 
     //
 //    Button btn1, btn2, btn3, btn4;
