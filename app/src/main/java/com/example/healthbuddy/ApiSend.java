@@ -31,6 +31,7 @@ public class ApiSend extends AsyncTask<Void , Void , String>{
     public ApiSend(String message, String id, Context context) {
         this.message = message;
         contextRef =new WeakReference<> (context);
+
         this.id= id;
     }
 
@@ -103,11 +104,11 @@ public class ApiSend extends AsyncTask<Void , Void , String>{
         return responce_from_server;
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-
-        //responseInterface.getResponseMessage(s);
-
-    }
+//    @Override
+//    protected void onPostExecute(String s) {
+//        super.onPostExecute(s);
+//
+//        responseInterface.getResponseMessage(s);
+//
+//    }
 }

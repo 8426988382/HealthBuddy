@@ -30,6 +30,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
 
 @SuppressWarnings("ALL")
 public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListener , ResponseInterface{
@@ -84,6 +85,7 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
                     speakIt();
                     speaker.setImageDrawable(getResources().getDrawable(R.drawable.icon_stop));
                 }
+
             }
         });
 
@@ -160,11 +162,17 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
         if(account != null){
 
             Uid= account.getId();
-            ApiSend apiSend= new ApiSend(tosend, Uid, getActivity());
-            String response= apiSend.execute().get();
+           new ApiSend(tosend, Uid, getActivity()){
+               @Override
+               protected void onPostExecute(String response) {
+                   super.onPostExecute(response);
+                   response_from_server = response;
+                   chatArrayAdapter.add(new ChatMessage(true , response));
+//                   listView.setAdapter(chatArrayAdapter);
+               }
+           }.execute();
 
-            response_from_server = response;
-            chatArrayAdapter.add(new ChatMessage(true , response));
+
             return  true;
         }else{
             return false;
@@ -172,8 +180,9 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
     }
 
     @Override
-    public void getResponseMessage(String message) {
-     //   chatArrayAdapter.add(new ChatMessage(true , message));
+    public void getResponseMessage(String response) {
+        Log.e(TAG, "getResponseMessage: "+response );
+
     }
 
 
