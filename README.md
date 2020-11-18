@@ -37,7 +37,3 @@ There used to be a time where the common cold could cause an epidemic. And today
 #### Last but not the least, thank you for your precious time for reading it all. If in case you've any suggestions, file an issue :heart: and we'll try to solve it.
 ## Thank you, Good Day! :+1:
 
-
-
-----
-#### Update: Chat Bot in HealthBuddy is not working as our Api for it has not been hosted. Still if anyone want to check it out, can visit the api [here](https://github.com/rishab247/hackoverflow-api) .
