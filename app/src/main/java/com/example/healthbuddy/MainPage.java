@@ -37,13 +37,15 @@ public class MainPage extends AppCompatActivity implements UriResponse{
     private String personName, email;
     private Uri personPhoto;
 
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREF= "shared_prefs";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
+        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(getString(R.string.default_web_client_id))
@@ -124,7 +126,7 @@ public class MainPage extends AppCompatActivity implements UriResponse{
 
     public void gototprofile(View view) {
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this );
 
         if(account != null) {
@@ -181,7 +183,9 @@ public class MainPage extends AppCompatActivity implements UriResponse{
 
     private void PerformAction(ArrayList<SuggestionsData> list, Bitmap image){
 
-        int scores= Question_Fragment.getScore();
+
+
+        int scores= sharedPreferences.getInt("scores", Integer.parseInt("0"));
 
         String average= String.valueOf( (int) ((double)scores/5 * 10));
 

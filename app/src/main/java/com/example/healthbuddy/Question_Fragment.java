@@ -36,6 +36,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
     Button Option1, Option2, Option3, Option4, Option5;
     static int cnt = 0;
 
+
     static int score = 0;
 
 
@@ -46,7 +47,6 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.questions_fragment, container, false);
-
 
         // initialise
         lottieAnimationView = v.findViewById(R.id.startid);
@@ -81,6 +81,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
                     Log.e("Login Time", String.valueOf(loginTime));
 
                     lottieAnimationView.playAnimation();
+
+                  //  int hrs = 86400000;
 
                     if (diffs >= 0) {
                         new ApiGetQuestions(getContext(), Uid) {
@@ -201,6 +203,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
                 Log.e("Error", "Error in QuestionFragment");
         }
 
+
+
         Option1.setVisibility(View.GONE);
         Option2.setVisibility(View.GONE);
         Option3.setVisibility(View.GONE);
@@ -255,6 +259,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
 
     }
 
+    @SuppressLint("SetTextI18n")
     void EndAction() {
         scrollView.setVisibility(View.GONE);
         allCaughtUp.setVisibility(View.VISIBLE);
@@ -265,12 +270,10 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
         Option5.setVisibility(View.GONE);
         QuoteText.setVisibility(View.VISIBLE);
         QuoteText.setText("You are all Caught up!");
+        Prefs.edit().putLong("scores", score).apply();
         allCaughtUp.playAnimation();
     }
 
-    public static int getScore() {
-        return score;
-    }
 
     //
 //    Button btn1, btn2, btn3, btn4;
