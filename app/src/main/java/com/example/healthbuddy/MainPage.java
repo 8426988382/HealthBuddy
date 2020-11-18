@@ -45,7 +45,7 @@ public class MainPage extends AppCompatActivity implements UriResponse{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+
         mAuth = FirebaseAuth.getInstance();
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(getString(R.string.default_web_client_id))
@@ -121,6 +121,7 @@ public class MainPage extends AppCompatActivity implements UriResponse{
         viewPager = findViewById(R.id.view_pager);
         PageAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(), 3);
         viewPager.setAdapter(pagerAdapter);
+        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
     }
 
 
@@ -187,7 +188,13 @@ public class MainPage extends AppCompatActivity implements UriResponse{
 
         int scores= sharedPreferences.getInt("scores", Integer.parseInt("0"));
 
-        String average= String.valueOf( (int) ((double)scores/5 * 10));
+        Log.e("Scores", String.valueOf(scores));
+
+        String average= String.valueOf( (int) (((double)(scores)/12) * 100));
+
+        if(Integer.parseInt(average) > 100){
+            average= "99";
+        }
 
         Log.e("Average", average);
 

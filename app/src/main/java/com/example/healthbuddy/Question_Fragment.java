@@ -51,7 +51,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
         // initialise
         lottieAnimationView = v.findViewById(R.id.startid);
         allCaughtUp = v.findViewById(R.id.allcaughtup);
-        Prefs = Objects.requireNonNull(this.getActivity()).getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        Prefs = this.getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         scrollView = v.findViewById(R.id.scrollView2);
         QuestionText = v.findViewById(R.id.textView);
         Option1 = v.findViewById(R.id.option1_id);
@@ -124,6 +124,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
 
     void PerformAction(ArrayList<QuestionData> questionData) {
         this.Questions = questionData;
+        Prefs = this.getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         Log.e("Questions Data", Questions.toString());
 
@@ -270,7 +271,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
         Option5.setVisibility(View.GONE);
         QuoteText.setVisibility(View.VISIBLE);
         QuoteText.setText("You are all Caught up!");
-        Prefs.edit().putLong("scores", score).apply();
+
+        Prefs.edit().putInt("scores", score).apply();
         allCaughtUp.playAnimation();
     }
 

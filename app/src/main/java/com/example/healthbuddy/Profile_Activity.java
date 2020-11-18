@@ -109,11 +109,11 @@ public class Profile_Activity extends AppCompatActivity {
 
         Display.setText("Your Score Percentage is " + Average + "%");
 
-        if(scores >= 75){
+        if(scores >= 70){
             Appear.setBackgroundColor(Color.parseColor("#E41E1E"));
             Display.setTextColor(Color.parseColor("#E41E1E"));
             color= "#E41E1E";
-        }else if(scores >= 50){
+        }else if(scores >= 45){
             Appear.setBackgroundColor(Color.parseColor("#FFA726"));
             Display.setTextColor(Color.parseColor("#FFA726"));
             color= "#FFA726";
