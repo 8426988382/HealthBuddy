@@ -27,7 +27,7 @@ import okhttp3.Response;
 
 public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
 
-    String url = "https://mentalapi.azurewebsites.net/question";
+    String url = "https://mentalheaalthapi.azurewebsites.net/question";
 
     ArrayList<QuestionData> QuestionList = new ArrayList<>();
 

@@ -64,7 +64,7 @@ public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<Suggestio
         }
 
         RequestBody body = RequestBody.create(MEDIA_TYPE, jsonObject.toString());
-        String url = "https://mentalapi.azurewebsites.net/suggestion";
+        String url = "https://mentalheaalthapi.azurewebsites.net/suggestion";
         Request request = new Request.Builder()
                 .url(url).post(body).build();
 

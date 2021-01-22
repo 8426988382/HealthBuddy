@@ -19,7 +19,7 @@ import okhttp3.Response;
 
 public class ApiSend extends AsyncTask<Void , Void , String>{
 
-    String url = "https://mentalapi.azurewebsites.net/Bot";
+    String url = "https://mentalheaalthapi.azurewebsites.net/Bot";
 
     String message, id;
     String responce_from_server = null;
