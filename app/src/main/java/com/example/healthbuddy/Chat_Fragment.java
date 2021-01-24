@@ -3,9 +3,11 @@ package com.example.healthbuddy;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,7 +86,6 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
                 }
                 else if(response_from_server != null){
                     speakIt();
-                    speaker.setImageDrawable(getResources().getDrawable(R.drawable.icon_stop));
                 }
 
             }
@@ -147,6 +149,11 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
         return v;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     private boolean sendChatMessage() throws ExecutionException, InterruptedException {
 
@@ -179,11 +186,14 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
         }
     }
 
+
+
     @Override
     public void getResponseMessage(String response) {
         Log.e(TAG, "getResponseMessage: "+response );
 
     }
+
 
 
 
@@ -194,13 +204,36 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
             int result = TTS.setLanguage(Locale.getDefault());
             TTS.setSpeechRate(-900);
             TTS.setPitch(0);
+
             if (result == TextToSpeech.LANG_MISSING_DATA ||
                     result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS_LANG_ERROR", "Language not supported");
-            } else {
-                speaker.setEnabled(true);
-                speakIt();
             }
+//            } else {
+//                speaker.setEnabled(true);
+//                speakIt();
+//            }
+
+            TTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override
+                public void onStart(String utteranceId) {
+                    speaker.setImageDrawable(getResources().getDrawable(R.drawable.icon_stop));
+                }
+
+                @Override
+                public void onDone(String utteranceId) {
+                    speaker.setImageDrawable(getResources().getDrawable(R.drawable.speacker));
+                }
+
+                @Override
+                public void onError(String utteranceId) {
+
+                }
+            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                TTS.speak(response_from_server,TextToSpeech.QUEUE_FLUSH,null,TextToSpeech.ACTION_TTS_QUEUE_PROCESSING_COMPLETED);
+            }
+
         } else {
             Log.e("TTS", "InitializationError");
         }
@@ -209,15 +242,13 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
     public void speakIt()
     {
         String text = response_from_server;
-        speaker.setImageDrawable(getResources().getDrawable(R.drawable.speacker));
+        //speaker.setImageDrawable(getResources().getDrawable(R.drawable.icon_stop));
+       // speaker.setImageDrawable(getResources().getDrawable(R.drawable.speacker));
         TTS.speak(text,TextToSpeech.QUEUE_FLUSH,null,null);
-
     }
 
     public void stopIt(){
-
         TTS.stop();
-
     }
 
 

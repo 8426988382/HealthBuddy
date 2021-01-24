@@ -73,6 +73,11 @@ public class Meditate_Fragment extends Fragment {
 
         return v;
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
 
     private void reset() {
@@ -178,7 +183,9 @@ public class Meditate_Fragment extends Fragment {
 
     private void stopmusic(){
         if(mediaPlayer!=null){
+            mediaPlayer.stop();
             mediaPlayer.release();
+
             mediaPlayer=null;
         }
     }
@@ -201,10 +208,23 @@ public class Meditate_Fragment extends Fragment {
         return hms;
     }
 
+
+
     @Override
     public void onStop() {
         super.onStop();
         stopmusic();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopmusic();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        stopmusic();
+    }
 }

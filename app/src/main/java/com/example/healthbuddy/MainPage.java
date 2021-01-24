@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -44,6 +45,7 @@ public class MainPage extends AppCompatActivity implements UriResponse{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -75,6 +77,8 @@ public class MainPage extends AppCompatActivity implements UriResponse{
 
         initialise();
 
+        viewPager.setOffscreenPageLimit(3);
+
 //        viewPager.setCurrentItem(1, true);
 
 
@@ -98,16 +102,18 @@ public class MainPage extends AppCompatActivity implements UriResponse{
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
 
     }
+
+
 
     @Override
     protected void onStart() {
