@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.Api;
 
 import android.content.Context;
 import android.os.AsyncTask;

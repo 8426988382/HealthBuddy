@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 
 import androidx.fragment.app.Fragment;

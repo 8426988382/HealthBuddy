@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.Model;
 
 public class ChatMessage {
     public boolean left;

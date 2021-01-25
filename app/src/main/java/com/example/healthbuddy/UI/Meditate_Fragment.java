@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.healthbuddy.R;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

@@ -15,17 +15,17 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateHidden"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.healthbuddy.MainPage"
+        <activity android:name="com.example.healthbuddy.UI.MainPage"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity"/>
-        <activity android:name="com.example.healthbuddy.Profile_Activity"
+        <activity android:name="com.example.healthbuddy.UI.Profile_Activity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
-        <activity android:name="com.example.healthbuddy.DetailsActivity"
+        <activity android:name="com.example.healthbuddy.UI.DetailsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
-        <activity android:name="com.example.healthbuddy.LoginActivity"
+        <activity android:name="com.example.healthbuddy.UI.LoginActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

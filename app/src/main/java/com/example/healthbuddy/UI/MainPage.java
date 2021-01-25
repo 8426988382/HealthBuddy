@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,21 +6,23 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.healthbuddy.Api.ApiGetSuggestions;
+import com.example.healthbuddy.Api.SuggestionResponse;
+import com.example.healthbuddy.Model.SuggestionsData;
+import com.example.healthbuddy.R;
+import com.example.healthbuddy.Api.UriResponse;
+import com.example.healthbuddy.Api.asynchelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.tabs.TabLayout;
@@ -29,7 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-public class MainPage extends AppCompatActivity implements UriResponse{
+public class MainPage extends AppCompatActivity implements UriResponse , SuggestionResponse {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -171,21 +173,12 @@ public class MainPage extends AppCompatActivity implements UriResponse{
         startActivity(intent);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    @Override
+     @Override
     public void getURI(final Bitmap image) {
 
 
-        new ApiGetSuggestions(this){
-            @Override
-            protected void onPostExecute(ArrayList<SuggestionsData> aVoid) {
-                super.onPostExecute(aVoid);
-                if(dialog.isShowing()){
-                    dialog.dismiss();
-                }
-                PerformAction(aVoid, image);
-            }
-        }.execute();
+        new ApiGetSuggestions(this,image).execute();
+
     }
 
     private void PerformAction(ArrayList<SuggestionsData> list, Bitmap image){
@@ -219,4 +212,9 @@ public class MainPage extends AppCompatActivity implements UriResponse{
     }
 
 
+    @Override
+    public void suggestionResponse(ArrayList<SuggestionsData> list,Bitmap image) {
+        PerformAction(list, image);
+
+    }
 }

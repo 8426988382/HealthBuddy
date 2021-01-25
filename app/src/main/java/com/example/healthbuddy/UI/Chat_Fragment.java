@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -19,12 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.healthbuddy.Api.ApiSend;
+import com.example.healthbuddy.Model.ChatMessage;
+import com.example.healthbuddy.R;
+import com.example.healthbuddy.Api.ResponseInterface;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -36,7 +39,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 @SuppressWarnings("ALL")
-public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListener , ResponseInterface{
+public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListener , ResponseInterface {
 
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;

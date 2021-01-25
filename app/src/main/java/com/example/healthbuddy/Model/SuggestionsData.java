@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.Model;
 
 import org.jetbrains.annotations.NotNull;
 

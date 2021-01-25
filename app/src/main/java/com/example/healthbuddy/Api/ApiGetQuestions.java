@@ -1,10 +1,12 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.Api;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.healthbuddy.Model.QuestionData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +32,7 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
     String url = "https://mentalheaalthapi.azurewebsites.net/question";
 
     ArrayList<QuestionData> QuestionList = new ArrayList<>();
-
+public QuestionsResponse questionsResponse = null;
     ProgressDialog dialog;
     WeakReference<Context> weakReference;
     SharedPreferences Prefs;
@@ -45,7 +47,7 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
+//        questionsResponse = (QuestionsResponse) weakReference.get();
         Context sContext = weakReference.get();
         Prefs = sContext.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         Date date = new Date(System.currentTimeMillis());
@@ -146,11 +148,22 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
         return QuestionList;
     }
 
+    @Override
+    protected void onPostExecute(ArrayList aVoid) {
+        super.onPostExecute(aVoid);
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
 
+
+                               questionsResponse.getQuestions(QuestionList);
+
+    }
+}
 //    @Override
 //    protected void onPostExecute(ArrayList aVoid) {
 //        super.onPostExecute(aVoid);
 //
 //
 //    }
-}
+

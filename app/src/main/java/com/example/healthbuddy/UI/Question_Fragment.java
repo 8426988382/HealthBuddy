@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.healthbuddy.Api.ApiGetQuestions;
+import com.example.healthbuddy.Api.QuestionsResponse;
+import com.example.healthbuddy.Model.QuestionData;
+import com.example.healthbuddy.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -26,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
-public class Question_Fragment extends Fragment implements View.OnClickListener {
+public class Question_Fragment extends Fragment implements View.OnClickListener, QuestionsResponse {
 
     LottieAnimationView lottieAnimationView;
     LottieAnimationView allCaughtUp;
@@ -40,16 +44,19 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
 
     static int score = 0;
 
-
+    GoogleSignInAccount account;
     ArrayList<QuestionData> Questions = new ArrayList<>();
-
+    ApiGetQuestions apiGetQuestions;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+          account = GoogleSignIn.getLastSignedInAccount(getActivity());
 
+        apiGetQuestions = new ApiGetQuestions(getContext(), account.getId()) ;
+        apiGetQuestions.questionsResponse = (QuestionsResponse) this;
     }
 
     @Nullable
@@ -73,7 +80,6 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
         Option5 = v.findViewById(R.id.option5_id);
         QuoteText = v.findViewById(R.id.quote_text_id);
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
 
         final String Uid;
 
@@ -97,24 +103,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
                   //  int hrs = 86400000;
 
                     if (diffs >= 0) {
-                        new ApiGetQuestions(getContext(), Uid) {
-                            @Override
-                            protected void onPostExecute(ArrayList aVoid) {
-                                super.onPostExecute(aVoid);
-                                if (dialog.isShowing()) {
-                                    dialog.dismiss();
-                                }
 
-                                Option1.setVisibility(View.GONE);
-                                Option2.setVisibility(View.GONE);
-                                Option3.setVisibility(View.GONE);
-                                Option4.setVisibility(View.GONE);
-                                Option5.setVisibility(View.GONE);
-
-                                PerformAction(QuestionList);
-
-                            }
-                        }.execute();
+                        apiGetQuestions.execute();
 
                         lottieAnimationView.setVisibility(View.GONE);
                     } else {
@@ -286,6 +276,18 @@ public class Question_Fragment extends Fragment implements View.OnClickListener 
 
         Prefs.edit().putInt("scores", score).apply();
         allCaughtUp.playAnimation();
+    }
+
+    @Override
+    public void getQuestions(ArrayList<QuestionData> data) {
+        Option1.setVisibility(View.GONE);
+        Option2.setVisibility(View.GONE);
+        Option3.setVisibility(View.GONE);
+        Option4.setVisibility(View.GONE);
+        Option5.setVisibility(View.GONE);
+
+        PerformAction(data);
+
     }
 
 

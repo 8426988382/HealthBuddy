@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.state.helpers.AlignVerticallyReference;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ComplexColorCompat;
 
+import com.example.healthbuddy.Model.SuggestionsData;
+import com.example.healthbuddy.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

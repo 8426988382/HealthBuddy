@@ -1,9 +1,12 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.Api;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.healthbuddy.Model.SuggestionsData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,21 +25,24 @@ import okhttp3.Response;
 
 @SuppressWarnings("deprecation")
 public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<SuggestionsData>> {
+    Context sContext;
 
     ProgressDialog dialog;
     private WeakReference<Context> weakReference;
     ArrayList<SuggestionsData> data = new ArrayList<>();
-
-    public ApiGetSuggestions(Context context) {
+    SuggestionResponse suggestionResponse = null;
+    Bitmap image;
+    public ApiGetSuggestions(Context context, Bitmap image) {
         weakReference = new WeakReference<>(context);
+          this.image = image;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        sContext= weakReference.get();
 
-        Context sContext = weakReference.get();
-        dialog = new ProgressDialog(sContext);
+         dialog = new ProgressDialog(sContext);
         dialog.setMessage("Please wait...");
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
@@ -45,6 +51,7 @@ public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<Suggestio
 
     @Override
     protected ArrayList<SuggestionsData> doInBackground(Void... voids) {
+        suggestionResponse= (SuggestionResponse) weakReference.get();
 
         ArrayList<String> AudioBooks = new ArrayList<>();
         ArrayList<String> GeneralActivities = new ArrayList<>();
@@ -112,6 +119,14 @@ public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<Suggestio
 
         data.add(new SuggestionsData(AudioBooks, GeneralActivities, TextBooks));
         return data;
+    }
+    @Override
+    protected void onPostExecute(ArrayList<SuggestionsData> aVoid) {
+        super.onPostExecute(aVoid);
+        if(dialog.isShowing()){
+            dialog.dismiss();
+        }
+        suggestionResponse.suggestionResponse(aVoid,image);
     }
 
 

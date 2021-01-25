@@ -1,4 +1,4 @@
-package com.example.healthbuddy;
+package com.example.healthbuddy.UI;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -6,6 +6,8 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.healthbuddy.R;
 
 import java.util.ArrayList;
 
