@@ -1,21 +1,41 @@
 package com.example.healthbuddy.UI;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Rational;
+import android.util.Size;
 import android.view.LayoutInflater;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.core.CameraX;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureConfig;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.core.PreviewConfig;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -25,12 +45,41 @@ import com.example.healthbuddy.Model.QuestionData;
 import com.example.healthbuddy.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.microsoft.projectoxford.face.FaceServiceClient;
+import com.microsoft.projectoxford.face.FaceServiceRestClient;
+import com.microsoft.projectoxford.face.contract.Face;
+import com.microsoft.projectoxford.face.contract.FaceRectangle;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
+import static android.content.ContentValues.TAG;
+
 public class Question_Fragment extends Fragment implements View.OnClickListener, QuestionsResponse {
+
+
+
+    TextureView textureView;
+    ImageButton imageButton;
+    private CameraX.LensFacing lensFacing = CameraX.LensFacing.BACK;
+    ImageCapture imageCapture;
+    private FaceServiceClient faceServiceClient = new FaceServiceRestClient("https://faceapi0.cognitiveservices.azure.com/face/v1.0/", "69f242e5b8fc415280709d29d97cb3b8");
+    JSONObject jsonObject,jsonObject1;
+    ImageView imageView;
+    Bitmap mBitmap;
+    boolean takePicture = false;
+    private ProgressDialog detectionProgressDialog;
+    Face[] facesDetected;
+
+
+
 
     LottieAnimationView lottieAnimationView;
     LottieAnimationView allCaughtUp;
@@ -40,13 +89,11 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
     TextView QuestionText, QuoteText;
     Button Option1, Option2, Option3, Option4, Option5;
     static int cnt = 0;
-
-
     static int score = 0;
-
     GoogleSignInAccount account;
     ArrayList<QuestionData> Questions = new ArrayList<>();
     ApiGetQuestions apiGetQuestions;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +126,76 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         Option4 = v.findViewById(R.id.option4_id);
         Option5 = v.findViewById(R.id.option5_id);
         QuoteText = v.findViewById(R.id.quote_text_id);
+        textureView = v.findViewById(R.id.textureView);
+        detectionProgressDialog = new ProgressDialog(getContext());
+        jsonObject = new JSONObject();
+        jsonObject1 = new JSONObject();
+
+
+
+
+
+
+        CameraX.unbindAll();
+        Rational aspectratio = new Rational(360,480);
+        Size screensize = new Size(360,480);
+        PreviewConfig previewConfig = new PreviewConfig.Builder().setTargetAspectRatio(aspectratio).
+                setTargetResolution(screensize).setLensFacing(CameraX.LensFacing.FRONT).build();
+        Preview preview = new Preview(previewConfig);
+
+        preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
+            @Override
+            public void onUpdated(Preview.PreviewOutput output) {
+                ViewGroup parent  = (ViewGroup) textureView.getParent();
+                parent.removeView(textureView);
+                parent.addView(textureView);
+                textureView.setSurfaceTexture(output.getSurfaceTexture());
+                updatetransform();
+            }
+        });
+
+
+        ImageCaptureConfig imageCaptureConfig = new ImageCaptureConfig.Builder().setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY).setTargetResolution(screensize).
+                setTargetRotation(getActivity().getWindowManager().getDefaultDisplay().getRotation()).setLensFacing(CameraX.LensFacing.FRONT).build();
+        imageCapture = new ImageCapture(imageCaptureConfig);
+
+        imageButton =  v.findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
+                    @Override
+                    public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
+//                        imageButton.setImageBitmap(imageProxyToBitmap(image) );
+//                        imageButton.setRotation(rotationDegrees);
+                        detectAndFrame(imageProxyToBitmap(image,rotationDegrees));
+                        Toast.makeText(getContext(),rotationDegrees+"s",Toast.LENGTH_LONG).show();
+                        super.onCaptureSuccess(image, rotationDegrees);
+
+                    }
+
+                    @Override
+                    public void onError(ImageCapture.UseCaseError useCaseError, String message, @Nullable Throwable cause) {
+                        super.onError(useCaseError, message, cause);
+                        Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
+        CameraX.bindToLifecycle(this,preview,imageCapture);
+
+
+
+
+
+
+
+
+
+
+
 
 
         final String Uid;
@@ -289,6 +406,191 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         PerformAction(data);
 
     }
+
+
+
+    private void updatetransform() {
+        Matrix mx  = new Matrix();
+        float h = textureView.getMeasuredHeight();
+        float w = textureView.getMeasuredWidth();
+        float cX = w/2f;
+        float cY  = h/2f;
+        int rotationDgr;
+        int rotation = (int) textureView.getRotation();
+
+        switch (rotation){
+            case Surface.ROTATION_0:
+                rotationDgr = 0;
+                break;
+            case  Surface.ROTATION_90:
+                rotationDgr = 90;
+                break;
+            case Surface.ROTATION_180:
+                rotationDgr = 180;
+                break;
+            case Surface.ROTATION_270:
+                rotationDgr = 270;
+                break;
+            default:
+                return;
+
+        }
+        mx.postRotate((float)rotationDgr,cX,cY);
+        textureView.setTransform(mx);
+
+    }
+
+    private void detectAndFrame(final Bitmap imageBitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        ByteArrayInputStream inputStream =
+                new ByteArrayInputStream(outputStream.toByteArray());
+
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<InputStream, String, Face[]> detectTask =
+
+                new AsyncTask<InputStream, String, Face[]>() {
+                    String exceptionMessage = "";
+
+                    @Override
+                    protected Face[] doInBackground(InputStream... params) {
+                        try {
+                            publishProgress("Detecting...");
+                            Face[] result = faceServiceClient.detect(
+                                    params[0],
+                                    true,         // returnFaceId
+                                    true    ,        // returnFaceLandmarks
+                                    // returnFaceAttributes:
+                                    new FaceServiceClient.FaceAttributeType[] {
+                                            FaceServiceClient.FaceAttributeType.Emotion,
+                                            FaceServiceClient.FaceAttributeType.Gender }
+                            );
+
+                            for (int i=0;i<result.length;i++) {
+                                jsonObject.put("happiness" , result[i].faceAttributes.emotion.happiness);
+                                jsonObject.put("sadness" , result[i].faceAttributes.emotion.sadness);
+                                jsonObject.put("surprise" , result[i].faceAttributes.emotion.surprise);
+                                jsonObject.put("neutral"  , result[i].faceAttributes.emotion.neutral);
+                                jsonObject.put("anger" , result[i].faceAttributes.emotion.anger);
+                                jsonObject.put("contempt" , result[i].faceAttributes.emotion.contempt);
+                                jsonObject.put("disgust" , result[i].faceAttributes.emotion.disgust);
+                                jsonObject.put("fear" , result[i].faceAttributes.emotion.fear);
+                                Log.e(TAG, "doInBackground: "+jsonObject.toString()  );
+
+                                jsonObject1.put(  (String.valueOf(i)),jsonObject);
+                            }
+//
+                            getActivity().runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(),"DATA"+jsonObject1.toString(),Toast.LENGTH_LONG).show();
+                                }});
+
+                            if (result == null) {
+                                publishProgress(
+                                        "Detection Finished. Nothing detected");
+                                return null;
+                            }
+                            Log.e("TAG", "doInBackground: "+"   "+result.length );
+                            publishProgress(String.format(
+                                    "Detection Finished. %d face(s) detected",
+                                    result.length));
+
+                            return result;
+                        } catch (Exception e) {
+                            exceptionMessage = String.format(
+                                    "Detection failed: %s", e.getMessage());
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    protected void onPreExecute() {
+                        //TODO: show progress dialog
+                        detectionProgressDialog.show();
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(String... progress) {
+                        //TODO: update progress
+                        detectionProgressDialog.setMessage(progress[0]);
+                    }
+
+                    @Override
+                    protected void onPostExecute(Face[] result) {
+                        //TODO: update face frames
+                        detectionProgressDialog.dismiss();
+
+                        facesDetected = result;
+
+                        if (!exceptionMessage.equals("")) {
+                            if (facesDetected == null) {
+//                                showError(exceptionMessage + "\nNo faces detected.");
+                            } else {
+//                                showError(exceptionMessage);
+                            }
+                        }
+                        if (result == null) {
+                            if (facesDetected == null) {
+//                                showError("No faces detected");
+                            }
+                        }
+                        Log.e("TAG", "onPostExecute: "+facesDetected );
+
+                        imageButton.setImageBitmap(
+                                drawFaceRectanglesOnBitmap(imageBitmap, result));
+                        imageBitmap.recycle();
+//                        Toast.makeText(getApplicationContext(), "Now you can identify the person by pressing the \"Identify\" Button", Toast.LENGTH_LONG).show();
+                        takePicture = true;
+                    }
+                };
+
+        detectTask.execute(inputStream);
+    }
+
+
+
+    private static Bitmap drawFaceRectanglesOnBitmap(
+            Bitmap originalBitmap, Face[] faces) {
+        Bitmap bitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(1);
+        if (faces != null) {
+            for (Face face : faces) {
+                FaceRectangle faceRectangle = face.faceRectangle;
+                canvas.drawRect(
+                        faceRectangle.left,
+                        faceRectangle.top,
+                        faceRectangle.left + faceRectangle.width,
+                        faceRectangle.top + faceRectangle.height,
+                        paint);
+            }
+        }
+        return bitmap;
+    }
+
+    private Bitmap imageProxyToBitmap(ImageProxy image, int rotation)
+    {
+        ImageProxy.PlaneProxy planeProxy = image.getPlanes()[0];
+        ByteBuffer buffer = planeProxy.getBuffer();
+        byte[] bytes = new byte[buffer.remaining()];
+        buffer.get(bytes);
+        Bitmap bitmap =  BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        Matrix matrix = new Matrix();
+
+        matrix.postRotate(rotation);
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, image.getWidth(), image.getHeight(), true);
+
+        return Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
+    }
+
 
 
     //

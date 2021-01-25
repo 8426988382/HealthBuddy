@@ -51,6 +51,12 @@ dependencies {
     // Pie chart dependency
     implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
     implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.microsoft.projectoxford:face:1.4.3'
+
+
+    def cameraxVersion = "1.0.0-alpha02"
+    implementation "androidx.camera:camera-core:${cameraxVersion}"
+    implementation "androidx.camera:camera-camera2:${cameraxVersion}"
 }
 repositories {
     maven { url "https://jitpack.io" }
