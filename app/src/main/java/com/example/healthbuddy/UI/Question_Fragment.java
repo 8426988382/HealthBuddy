@@ -1,4 +1,4 @@
-package com.example.healthbuddy.UI;
+ package com.example.healthbuddy.UI;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -164,23 +164,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
             @Override
             public void onClick(View v) {
-                imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
-                    @Override
-                    public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
-//                        imageButton.setImageBitmap(imageProxyToBitmap(image) );
-//                        imageButton.setRotation(rotationDegrees);
-                        detectAndFrame(imageProxyToBitmap(image,rotationDegrees));
-                        Toast.makeText(getContext(),rotationDegrees+"s",Toast.LENGTH_LONG).show();
-                        super.onCaptureSuccess(image, rotationDegrees);
-
-                    }
-
-                    @Override
-                    public void onError(ImageCapture.UseCaseError useCaseError, String message, @Nullable Throwable cause) {
-                        super.onError(useCaseError, message, cause);
-                        Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
-                    }
-                });
+                takephoto();
 
             }
         });
@@ -207,6 +191,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
                 @SuppressLint("StaticFieldLeak")
                 @Override
                 public void onClick(View v) {
+                    takephoto();
                     long firstTime = Prefs.getLong("FirstTime", Long.parseLong("0"));
                     long loginTime = Prefs.getLong("time", Long.parseLong("0"));
                     long diff = loginTime - firstTime;
@@ -228,6 +213,10 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
                         lottieAnimationView.setVisibility(View.GONE);
                         allCaughtUp.setVisibility(View.VISIBLE);
                         allCaughtUp.playAnimation();
+                        Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+                        Log.e("check","Done ");
+                        CameraX.unbindAll();
+                        textureView.setVisibility(View.INVISIBLE);
                     }
                 }
             });
@@ -239,7 +228,30 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
         return v;
     }
+void takephoto(){
+    try{
+        imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
+            @Override
+            public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
+//                        imageButton.setImageBitmap(imageProxyToBitmap(image) );
+//                        imageButton.setRotation(rotationDegrees);
+                detectAndFrame(imageProxyToBitmap(image, rotationDegrees));
+                Toast.makeText(getContext(), rotationDegrees + "s", Toast.LENGTH_LONG).show();
+                super.onCaptureSuccess(image, rotationDegrees);
 
+            }
+
+            @Override
+            public void onError(ImageCapture.UseCaseError useCaseError, String message, @Nullable Throwable cause) {
+                super.onError(useCaseError, message, cause);
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            }
+        });
+    }catch (Exception e)
+    {
+        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+    }
+}
 
     void PerformAction(ArrayList<QuestionData> questionData) {
         this.Questions = questionData;
@@ -297,6 +309,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+        takephoto();
         cnt += 1;
 
         int id = v.getId();
@@ -393,6 +406,9 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
         Prefs.edit().putInt("scores", score).apply();
         allCaughtUp.playAnimation();
+        Log.e("check","Done ");
+        CameraX.unbindAll();
+        textureView.setVisibility(View.INVISIBLE);
     }
 
     @Override
