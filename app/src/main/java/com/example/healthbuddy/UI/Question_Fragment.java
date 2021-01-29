@@ -37,6 +37,7 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.Api.ApiGetQuestions;
@@ -78,7 +79,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
     private ProgressDialog detectionProgressDialog;
     Face[] facesDetected;
 
-
+    Preview preview;
 
 
     LottieAnimationView lottieAnimationView;
@@ -141,7 +142,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         Size screensize = new Size(360,480);
         PreviewConfig previewConfig = new PreviewConfig.Builder().setTargetAspectRatio(aspectratio).
                 setTargetResolution(screensize).setLensFacing(CameraX.LensFacing.FRONT).build();
-        Preview preview = new Preview(previewConfig);
+          preview = new Preview(previewConfig);
 
         preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
             @Override
@@ -168,7 +169,6 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
             }
         });
-        CameraX.bindToLifecycle(this,preview,imageCapture);
 
 
 
@@ -191,6 +191,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
                 @SuppressLint("StaticFieldLeak")
                 @Override
                 public void onClick(View v) {
+                    CameraX.bindToLifecycle(getActivity(),preview,imageCapture);
+
                     takephoto();
                     long firstTime = Prefs.getLong("FirstTime", Long.parseLong("0"));
                     long loginTime = Prefs.getLong("time", Long.parseLong("0"));

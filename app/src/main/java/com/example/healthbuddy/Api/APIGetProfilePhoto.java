@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
+public class APIGetProfilePhoto extends AsyncTask<Void , Void , Bitmap> {
 
     String userName , userEmail;
     Uri uri;
@@ -24,9 +24,9 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
     Context sContext;
     ProgressDialog dialog;
     WeakReference<Context> contextRef;
-    UriResponse uriResponse= null;
+    ProfilePhotoInterface uriResponse= null;
 
-    public asynchelper(Context context , String userName, String userEmail, Uri uri) {
+    public APIGetProfilePhoto(Context context , String userName, String userEmail, Uri uri) {
         contextRef= new WeakReference<>(context);
         this.userName = userName;
         this.userEmail = userEmail;
@@ -50,7 +50,7 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... voids) {
 
-        uriResponse= (UriResponse) contextRef.get();
+        uriResponse= (ProfilePhotoInterface) contextRef.get();
 
         InputStream is = null;
         BufferedInputStream bis = null;
@@ -104,7 +104,7 @@ public class asynchelper extends AsyncTask<Void , Void , Bitmap> {
             dialog.dismiss();
         }
 
-        uriResponse.getURI(aVoid);
+        uriResponse.GetProfilePhoto(aVoid);
 
 //        Intent intent = new Intent(sContext , Profile_Activity.class);
 //        intent.putExtra("userName", userName);

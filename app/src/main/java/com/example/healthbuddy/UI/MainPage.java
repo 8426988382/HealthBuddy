@@ -1,6 +1,5 @@
 package com.example.healthbuddy.UI;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -21,8 +20,8 @@ import com.example.healthbuddy.Api.ApiGetSuggestions;
 import com.example.healthbuddy.Api.SuggestionResponse;
 import com.example.healthbuddy.Model.SuggestionsData;
 import com.example.healthbuddy.R;
-import com.example.healthbuddy.Api.UriResponse;
-import com.example.healthbuddy.Api.asynchelper;
+import com.example.healthbuddy.Api.ProfilePhotoInterface;
+import com.example.healthbuddy.Api.APIGetProfilePhoto;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.tabs.TabLayout;
@@ -31,7 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-public class MainPage extends AppCompatActivity implements UriResponse , SuggestionResponse {
+public class MainPage extends AppCompatActivity implements ProfilePhotoInterface, SuggestionResponse {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -146,7 +145,7 @@ public class MainPage extends AppCompatActivity implements UriResponse , Suggest
 //            apigetScores.execute();
 
 
-            asynchelper asynchelper = new asynchelper(MainPage.this, personName, email, personPhoto);
+            APIGetProfilePhoto asynchelper = new APIGetProfilePhoto(MainPage.this, personName, email, personPhoto);
             asynchelper.execute();
         }
     }
@@ -174,7 +173,7 @@ public class MainPage extends AppCompatActivity implements UriResponse , Suggest
     }
 
      @Override
-    public void getURI(final Bitmap image) {
+    public void GetProfilePhoto(final Bitmap image) {
 
 
         new ApiGetSuggestions(this,image).execute();

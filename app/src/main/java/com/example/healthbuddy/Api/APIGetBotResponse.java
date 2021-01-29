@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -17,7 +18,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ApiSend extends AsyncTask<Void , Void , String>{
+public class APIGetBotResponse extends AsyncTask<Void , Void , String>{
 
     String url = "https://mentalheaalthapi.azurewebsites.net/Bot";
 
@@ -28,7 +29,7 @@ public class ApiSend extends AsyncTask<Void , Void , String>{
 
 
 
-    public ApiSend(String message, String id, Context context) {
+    public APIGetBotResponse(String message, String id, Context context) {
         this.message = message;
         contextRef =new WeakReference<> (context);
 
@@ -80,7 +81,8 @@ public class ApiSend extends AsyncTask<Void , Void , String>{
 
             jsonObject = new JSONObject(json);
 
-        } catch (IOException | JSONException e) {
+        }
+        catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         assert json != null;
@@ -104,11 +106,5 @@ public class ApiSend extends AsyncTask<Void , Void , String>{
         return responce_from_server;
     }
 
-//    @Override
-//    protected void onPostExecute(String s) {
-//        super.onPostExecute(s);
-//
-//        responseInterface.getResponseMessage(s);
-//
-//    }
+
 }

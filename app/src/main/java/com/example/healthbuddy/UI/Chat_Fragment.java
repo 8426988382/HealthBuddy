@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.healthbuddy.Api.ApiSend;
+import com.example.healthbuddy.Api.APIGetBotResponse;
 import com.example.healthbuddy.Model.ChatMessage;
 import com.example.healthbuddy.R;
 import com.example.healthbuddy.Api.ResponseInterface;
@@ -172,7 +172,7 @@ public class Chat_Fragment extends Fragment implements TextToSpeech.OnInitListen
         if(account != null){
 
             Uid= account.getId();
-           new ApiSend(tosend, Uid, getActivity()){
+           new APIGetBotResponse(tosend, Uid, getActivity()){
                @Override
                protected void onPostExecute(String response) {
                    super.onPostExecute(response);

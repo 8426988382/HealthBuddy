@@ -32,7 +32,7 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
     String url = "https://mentalheaalthapi.azurewebsites.net/question";
 
     ArrayList<QuestionData> QuestionList = new ArrayList<>();
-public QuestionsResponse questionsResponse = null;
+    public QuestionsResponse questionsResponse = null;
     ProgressDialog dialog;
     WeakReference<Context> weakReference;
     SharedPreferences Prefs;
@@ -63,9 +63,6 @@ public QuestionsResponse questionsResponse = null;
     @Override
     protected ArrayList doInBackground(Void... voids) {
 
-        OkHttpClient client = new OkHttpClient();
-        MediaType MEDIA_TYPE = MediaType.parse("application/json");
-
 
         JSONObject jsonObject = new JSONObject();
 
@@ -74,6 +71,10 @@ public QuestionsResponse questionsResponse = null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
         RequestBody body = RequestBody.create(MEDIA_TYPE, jsonObject.toString());
         Request request = new Request.Builder()
@@ -90,14 +91,14 @@ public QuestionsResponse questionsResponse = null;
             Log.e("Questions", responseString);
 
             responseJson = new JSONObject(responseString);
-        } catch (IOException | JSONException e) {
+        }
+        catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
 
         try {
-            assert responseJson != null;
-            String mMessage = responseJson.getString("msg");
+             String mMessage = responseJson.getString("msg");
 
             Log.e("MESSAGE", mMessage);
             responseJson = new JSONObject(mMessage);

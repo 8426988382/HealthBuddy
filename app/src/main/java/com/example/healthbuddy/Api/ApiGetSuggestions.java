@@ -58,8 +58,6 @@ public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<Suggestio
         ArrayList<String> TextBooks = new ArrayList<>();
 
 
-        OkHttpClient client = new OkHttpClient();
-        MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
 
         JSONObject jsonObject = new JSONObject();
@@ -70,18 +68,21 @@ public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<Suggestio
             e.printStackTrace();
         }
 
-        RequestBody body = RequestBody.create(MEDIA_TYPE, jsonObject.toString());
-        String url = "https://mentalheaalthapi.azurewebsites.net/suggestion";
-        Request request = new Request.Builder()
-                .url(url).post(body).build();
+
+
 
         Response response;
 
         String responseString;
         JSONObject jsonObject1;
-
         JSONObject AudioJson, GeneralJson, TextBookJson;
 
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType MEDIA_TYPE = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(MEDIA_TYPE, jsonObject.toString());
+        String url = "https://mentalheaalthapi.azurewebsites.net/suggestion";
+        Request request = new Request.Builder().url(url).post(body).build();
 
         try {
             response = client.newCall(request).execute();
@@ -112,7 +113,8 @@ public class ApiGetSuggestions extends AsyncTask<Void, Void, ArrayList<Suggestio
             }
 
 
-        } catch (IOException | JSONException e) {
+        }
+        catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
