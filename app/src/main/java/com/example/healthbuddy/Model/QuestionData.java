@@ -21,7 +21,7 @@ public class QuestionData {
         Question = question;
     }
 
-    public Map<String, String> getMp() {
+    public Map<String, String> getMap() {
         return mp;
     }
 

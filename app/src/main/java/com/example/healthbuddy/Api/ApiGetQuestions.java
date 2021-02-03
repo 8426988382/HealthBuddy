@@ -102,49 +102,27 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
 
             Log.e("MESSAGE", mMessage);
             responseJson = new JSONObject(mMessage);
+
+
+
+            for (int i=0;i<5;i++){
+                ArrayList<String> arrayList = new ArrayList<>();
+                Map<String, String> mp = new HashMap<>();
+                JSONArray jsonArray = (JSONArray) responseJson.get(String.valueOf(i));
+                arrayList.add(String.valueOf(jsonArray.get(0)));
+                arrayList.add(String.valueOf(jsonArray.get(1)));
+                mp.put(arrayList.get(0), arrayList.get(1));
+                QuestionList.add(new QuestionData(arrayList.get(0),mp));
+
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Iterator<String> keys = responseJson.keys();
-        ArrayList<String> key = new ArrayList<>();
-
-        while (keys.hasNext()) {
-            String temp = keys.next();
-            key.add(temp);
-        }
-
-        ArrayList<Map> options = new ArrayList<>();
-
-        for (String ele : key) {
-
-            String question = ele;
-            try {
-                JSONArray array = responseJson.getJSONArray(ele);
-                Map<String, String> mp = new HashMap<>();
 
 
-                for (int i = 0; i < array.length(); i++) {
-                    String obj = array.get(i).toString();
-                    obj = obj.substring(1, obj.length() - 1);
 
-                    String option = obj.substring(1, obj.length() - 3);
-                    String val = obj.substring(obj.length() - 1);
-
-                    mp.put(option, val);
-                }
-
-//                options.add(mp);
-//                mp= new HashMap<>();
-
-                QuestionList.add(new QuestionData(question, mp));
-                options = new ArrayList<>();
-                mp = new HashMap<>();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
 
         return QuestionList;
     }
@@ -155,16 +133,9 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-
-
-                               questionsResponse.getQuestions(QuestionList);
+           questionsResponse.getQuestions(QuestionList);
 
     }
 }
-//    @Override
-//    protected void onPostExecute(ArrayList aVoid) {
-//        super.onPostExecute(aVoid);
-//
-//
-//    }
+
 
