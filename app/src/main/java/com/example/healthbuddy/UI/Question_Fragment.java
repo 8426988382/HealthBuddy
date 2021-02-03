@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -41,6 +42,8 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.Api.ApiGetQuestions;
+import com.example.healthbuddy.Api.ApipostCheckAns;
+import com.example.healthbuddy.Api.CheckAnsResponse;
 import com.example.healthbuddy.Api.QuestionsResponse;
 import com.example.healthbuddy.Model.QuestionData;
 import com.example.healthbuddy.R;
@@ -51,6 +54,7 @@ import com.microsoft.projectoxford.face.FaceServiceRestClient;
 import com.microsoft.projectoxford.face.contract.Face;
 import com.microsoft.projectoxford.face.contract.FaceRectangle;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
@@ -63,7 +67,7 @@ import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
 
-public class Question_Fragment extends Fragment implements View.OnClickListener, QuestionsResponse {
+public class Question_Fragment extends Fragment implements View.OnClickListener, QuestionsResponse , CheckAnsResponse {
 
 
 
@@ -88,13 +92,14 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
     SharedPreferences Prefs;
     private ScrollView scrollView;
     TextView QuestionText, QuoteText;
-    Button Option1, Option2, Option3, Option4, Option5;
+    Button  Option2 ;
+    EditText Option1;
     static int cnt = 0;
     static int score = 0;
     GoogleSignInAccount account;
     ArrayList<QuestionData> Questions = new ArrayList<>();
     ApiGetQuestions apiGetQuestions;
-
+    Question_Fragment thiscontext;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +107,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
           account = GoogleSignIn.getLastSignedInAccount(getActivity());
-
+        thiscontext = this;
         apiGetQuestions = new ApiGetQuestions(getContext(), account.getId()) ;
         apiGetQuestions.questionsResponse = (QuestionsResponse) this;
     }
@@ -123,9 +128,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         QuestionText = v.findViewById(R.id.textView);
         Option1 = v.findViewById(R.id.option1_id);
         Option2 = v.findViewById(R.id.option2_id);
-        Option3 = v.findViewById(R.id.option3_id);
-        Option4 = v.findViewById(R.id.option4_id);
-        Option5 = v.findViewById(R.id.option5_id);
+
         QuoteText = v.findViewById(R.id.quote_text_id);
         textureView = v.findViewById(R.id.textureView);
         detectionProgressDialog = new ProgressDialog(getContext());
@@ -238,7 +241,7 @@ void takephoto(){
 //                        imageButton.setImageBitmap(imageProxyToBitmap(image) );
 //                        imageButton.setRotation(rotationDegrees);
                 detectAndFrame(imageProxyToBitmap(image, rotationDegrees));
-                Toast.makeText(getContext(), rotationDegrees + "s", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), rotationDegrees + "s", Toast.LENGTH_SHORT).show();
                 super.onCaptureSuccess(image, rotationDegrees);
 
             }
@@ -266,130 +269,97 @@ void takephoto(){
         QuoteText.setVisibility(View.GONE);
         Option1.setVisibility(View.GONE);
         Option2.setVisibility(View.GONE);
-        Option3.setVisibility(View.GONE);
-        Option4.setVisibility(View.GONE);
-        Option5.setVisibility(View.GONE);
+
 
         if (cnt == 0) {
             QuestionText.setText(Questions.get(0).getQuestion());
 
             QuestionData questionData1 = Questions.get(0);
             int options = 0;
+            Option1.setVisibility(View.VISIBLE);
+            Option2.setVisibility(View.VISIBLE);
 
-            for (Map.Entry<String, String> key : questionData1.getMp().entrySet()) {
-                if (options == 0) {
-                    Option1.setVisibility(View.VISIBLE);
-                    Option1.setText(key.getKey());
-                    options += 1;
-                } else if (options == 1) {
-                    Option2.setVisibility(View.VISIBLE);
-                    Option2.setText(key.getKey());
-                    options += 1;
-                } else if (options == 2) {
-                    Option3.setVisibility(View.VISIBLE);
-                    Option3.setText(key.getKey());
-                    options += 1;
-                } else if (options == 3) {
-                    Option4.setVisibility(View.VISIBLE);
-                    Option4.setText(key.getKey());
-                    options += 1;
-                } else if (options == 4) {
-                    Option5.setVisibility(View.VISIBLE);
-                    Option5.setText(key.getKey());
-                    options += 1;
-                }
-            }
+
         }
 
 
-        Option1.setOnClickListener(this);
-        Option2.setOnClickListener(this);
-        Option3.setOnClickListener(this);
-        Option4.setOnClickListener(this);
-        Option5.setOnClickListener(this);
+         Option2.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        takephoto();
-        cnt += 1;
 
-        int id = v.getId();
-        QuestionData questionData2 = Questions.get(cnt - 1);
+         String userans  = Option1.getText().toString().trim();
+        Log.e("Error", "Error" + userans);
+        if(!userans.equals("")) {
+            takephoto();
 
-
-        switch (id) {
-            case R.id.option1_id:
-                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option1.getText().toString()))));
-                break;
-            case R.id.option2_id:
-                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option2.getText().toString()))));
-                break;
-            case R.id.option3_id:
-                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option3.getText().toString()))));
-                break;
-            case R.id.option4_id:
-                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option4.getText().toString()))));
-                break;
-            case R.id.option5_id:
-                score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option5.getText().toString()))));
-                break;
-            default:
-                Log.e("Error", "Error in QuestionFragment");
-        }
+            Option1.setText("");
+            cnt += 1;
+            QuestionData questionData2 = Questions.get(cnt - 1);
+            String ans = questionData2.getMap().get(questionData2.getQuestion());
+            ans = ans.replace("*",userans);
+            JSONObject ansJson = new JSONObject();
+            try {
+                ansJson.put("Ans",ans);
+                Log.e("JsonAns",ansJson.toString());
+                ApipostCheckAns apipostCheckAns = new ApipostCheckAns(getContext(),ansJson,"Analysing Your Ans");
+                apipostCheckAns.checkAnsResponse =thiscontext;
+                apipostCheckAns.execute();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
+//            switch (id) {
+//                case R.id.option1_id:
+//                    score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option1.getText().toString()))));
+//                    break;
+//                case R.id.option2_id:
+//                    score += Integer.parseInt((Objects.requireNonNull(questionData2.getMp().get(Option2.getText().toString()))));
+//                    break;
+//
+//                default:
+//                    Log.e("Error", "Error in QuestionFragment");
+//            }
 
-        Option1.setVisibility(View.GONE);
-        Option2.setVisibility(View.GONE);
-        Option3.setVisibility(View.GONE);
-        Option4.setVisibility(View.GONE);
-        Option5.setVisibility(View.GONE);
 
-        Log.e("ID", String.valueOf(score));
 
-        if (cnt <= 4) {
             Option1.setVisibility(View.GONE);
             Option2.setVisibility(View.GONE);
-            Option3.setVisibility(View.GONE);
-            Option4.setVisibility(View.GONE);
-            Option5.setVisibility(View.GONE);
-            QuestionText.setText(Questions.get(cnt).getQuestion());
 
-            QuestionData questionData1 = Questions.get(cnt);
-            int options = 0;
 
-            for (Map.Entry<String, String> key : questionData1.getMp().entrySet()) {
-                if (options == 0) {
-                    Option1.setVisibility(View.VISIBLE);
-                    Option1.setText(key.getKey());
-                    options += 1;
-                } else if (options == 1) {
-                    Option2.setVisibility(View.VISIBLE);
-                    Option2.setText(key.getKey());
-                    options += 1;
-                } else if (options == 2) {
-                    Option3.setVisibility(View.VISIBLE);
-                    Option3.setText(key.getKey());
-                    options += 1;
-                } else if (options == 3) {
-                    Option4.setVisibility(View.VISIBLE);
-                    Option4.setText(key.getKey());
-                    options += 1;
-                } else if (options == 4) {
-                    Option5.setVisibility(View.VISIBLE);
-                    Option5.setText(key.getKey());
-                    options += 1;
-                }
+            Log.e("ID", String.valueOf(score));
+
+            if (cnt <= 4) {
+                Option1.setVisibility(View.GONE);
+                Option2.setVisibility(View.GONE);
+
+                QuestionText.setText(Questions.get(cnt).getQuestion());
+
+                QuestionData questionData1 = Questions.get(cnt);
+                int options = 0;
+                Option1.setVisibility(View.VISIBLE);
+                Option2.setVisibility(View.VISIBLE);
+
+                Option2.setOnClickListener(this);
+
+
+
+            }
+
+
+            if (cnt >= 5) {
+                EndAction();
             }
 
 
         }
-
-
-        if (cnt >= 5) {
-            EndAction();
+        else {
+            Toast.makeText(getContext(),"Ans this Question before Preceding",Toast.LENGTH_SHORT).show();
         }
+
 
 
     }
@@ -400,9 +370,7 @@ void takephoto(){
         allCaughtUp.setVisibility(View.VISIBLE);
         Option1.setVisibility(View.GONE);
         Option2.setVisibility(View.GONE);
-        Option3.setVisibility(View.GONE);
-        Option4.setVisibility(View.GONE);
-        Option5.setVisibility(View.GONE);
+
         QuoteText.setVisibility(View.VISIBLE);
         QuoteText.setText("You are all Caught up!");
 
@@ -417,9 +385,7 @@ void takephoto(){
     public void getQuestions(ArrayList<QuestionData> data) {
         Option1.setVisibility(View.GONE);
         Option2.setVisibility(View.GONE);
-        Option3.setVisibility(View.GONE);
-        Option4.setVisibility(View.GONE);
-        Option5.setVisibility(View.GONE);
+
 
         PerformAction(data);
 
@@ -609,6 +575,15 @@ void takephoto(){
 
     }
 
+    @Override
+    public void getAnsResponse(JSONObject data) {
+        Log.e("Error", "Error" + data.toString());
+        try {
+            score+=data.getInt("msg");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     //
