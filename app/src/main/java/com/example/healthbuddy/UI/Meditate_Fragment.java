@@ -1,51 +1,39 @@
 package com.example.healthbuddy.UI;
 
-import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.R;
-
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class Meditate_Fragment extends Fragment {
 
+    Button mMeditation;
 
-    private long timeCountInMilliSeconds = 60000;
+    LottieAnimationView lottieAnimationView;
 
-//    private TextView MedText;
 
-    private enum TimerStatus {
-        STARTED,
-        STOPPED
-    }
-
-    private TimerStatus timerStatus = TimerStatus.STOPPED;
-
-    private ProgressBar progressBarCircle;
-    private EditText editTextMinute;
-    private TextView textViewTime;
-    private ImageView imageViewReset;
-    private ImageView imageViewStartStop;
-    private CountDownTimer countDownTimer;
-    private MediaPlayer mediaPlayer;
-
-//    String[] iMeditation ={
-//            "Get Settled." , "Breathe deeply", "Consider the 'why' ", "Observe the breath" , "Allow your mind to be free."
-//    };
+    // SetGoal Card
+    CardView mSetGoalCard;
+    TextView textView;
+    EditText getTime;
+    ImageView img;
 
     @Nullable
     @Override
@@ -53,28 +41,123 @@ public class Meditate_Fragment extends Fragment {
 
         View v = inflater.inflate(R.layout.mediate_fragment, container, false);
 
-        progressBarCircle = v.findViewById(R.id.progressBarCircle);
-        editTextMinute =  v.findViewById(R.id.editTextMinute);
-        textViewTime = v.findViewById(R.id.textViewTime);
-        imageViewReset = v.findViewById(R.id.imageViewReset);
-        imageViewStartStop = v.findViewById(R.id.imageViewStartStop);
-//        MedText = v.findViewById(R.id.medText);
+        // initialise
+        mMeditation = v.findViewById(R.id.startMeditation_id);
+        lottieAnimationView = v.findViewById(R.id.congo);
+        mSetGoalCard = v.findViewById(R.id.setGoal_Card);
+        textView = v.findViewById(R.id.textView17);
+        getTime = v.findViewById(R.id.editText3);
+        img = v.findViewById(R.id.imageView3);
 
-        imageViewReset.setOnClickListener(new View.OnClickListener() {
+
+        mSetGoalCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                reset();
+            public void onClick(View v) {
+                if (textView.getVisibility() == View.VISIBLE) {
+                    textView.setVisibility(View.GONE);
+                    getTime.setVisibility(View.GONE);
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_24px));
+                } else {
+                    textView.setVisibility(View.VISIBLE);
+                    getTime.setVisibility(View.VISIBLE);
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_24px));
+                }
             }
         });
-        imageViewStartStop.setOnClickListener(new View.OnClickListener() {
+
+
+        mMeditation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startStop();
+            public void onClick(View v) {
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme);
+                View bottomSheetView  = LayoutInflater.from(getActivity().getApplicationContext())
+                        .inflate(R.layout.setting_goal, (ConstraintLayout)v.findViewById(R.id.bottomsheetcontainer));
+                //bottomSheetDialog.setContentView(R.layout.setting_goal);
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.setCanceledOnTouchOutside(false);
+
+
+
+                LottieAnimationView emo1 = bottomSheetDialog.findViewById(R.id.emo1);
+                LottieAnimationView emo2 = bottomSheetDialog.findViewById(R.id.lottieAnimationView4);
+                LottieAnimationView emo3 = bottomSheetDialog.findViewById(R.id.lottieAnimationView5);
+                LottieAnimationView emo4 = bottomSheetDialog.findViewById(R.id.lottieAnimationView8);
+                LottieAnimationView emo5 = bottomSheetDialog.findViewById(R.id.lottieAnimationView6);
+                LottieAnimationView emo6 = bottomSheetDialog.findViewById(R.id.lottieAnimationView7);
+                LottieAnimationView emo7 = bottomSheetDialog.findViewById(R.id.lottieAnimationView9);
+
+                assert emo1 != null;
+                emo1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo2 != null;
+                emo2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo3 != null;
+                emo3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo4 != null;
+                emo4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo5 != null;
+                emo5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo6 != null;
+                emo6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo7 != null;
+                emo7.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
+
+                bottomSheetDialog.show();
             }
         });
+
 
         return v;
     }
+
+    private void GotoMeditation() {
+        Intent intent = new Intent(getContext(), Meditation.class);
+        startActivity(intent);
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,151 +165,4 @@ public class Meditate_Fragment extends Fragment {
     }
 
 
-    private void reset() {
-        stopCountDownTimer();
-        startCountDownTimer();
-    }
-
-    private void startStop() {
-        if (timerStatus == TimerStatus.STOPPED) {
-
-           // MedText.setVisibility(View.INVISIBLE);
-
-            // call to initialize the timer values
-            setTimerValues();
-            // call to initialize the progress bar values
-            setProgressBarValues();
-            // showing the reset icon
-            imageViewReset.setVisibility(View.VISIBLE);
-            // changing play icon to stop icon
-            imageViewStartStop.setImageResource(R.drawable.icon_stop);
-            // making edit text not editable
-            editTextMinute.setEnabled(false);
-            // changing the timer status to started
-            timerStatus = TimerStatus.STARTED;
-
-            // call to start the count down timer
-            startCountDownTimer();
-
-        } else {
-
-           // MedText.setVisibility(View.VISIBLE);
-
-            // hiding the reset icon
-            imageViewReset.setVisibility(View.GONE);
-            // changing stop icon to start icon
-            imageViewStartStop.setImageResource(R.drawable.icon_start);
-            // making edit text editable
-            editTextMinute.setEnabled(true);
-            // changing the timer status to stopped
-            timerStatus = TimerStatus.STOPPED;
-            stopCountDownTimer();
-        }
-    }
-    private void setTimerValues() {
-        int time = 0;
-        if (!editTextMinute.getText().toString().isEmpty()) {
-            // fetching value from edit text and type cast to integer
-            time = Integer.parseInt(editTextMinute.getText().toString().trim());
-        } else {
-            // toast message to fill edit text
-            Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
-                    getString(R.string.message_minutes),
-                    Toast.LENGTH_LONG).show();
-        }
-        // assigning values after converting to milliseconds
-        timeCountInMilliSeconds = time * 60 * 1000;
-    }
-
-    private void startCountDownTimer() {
-        countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
-
-                if(mediaPlayer== null){
-                    mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getActivity()).getApplicationContext(),
-                            R.raw.softrain);
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            mediaPlayer.start();
-
-
-                        }
-                    });
-                }
-                mediaPlayer.start();
-
-                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
-            }
-
-            @Override
-            public void onFinish() {
-
-                textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
-                // call to initialize the progress bar values
-                setProgressBarValues();
-                // hiding the reset icon
-                imageViewReset.setVisibility(View.GONE);
-                // changing stop icon to start icon
-                imageViewStartStop.setImageResource(R.drawable.icon_start);
-                // making edit text editable
-                editTextMinute.setEnabled(true);
-                // changing the timer status to stopped
-                timerStatus = TimerStatus.STOPPED;
-                stopmusic();
-            }
-
-        }.start();
-        countDownTimer.start();
-    }
-
-    private void stopmusic(){
-        if(mediaPlayer!=null){
-            mediaPlayer.stop();
-            mediaPlayer.release();
-
-            mediaPlayer=null;
-        }
-    }
-    private void stopCountDownTimer() {
-        countDownTimer.cancel();
-        stopmusic();
-    }
-    private void setProgressBarValues() {
-
-        progressBarCircle.setMax((int) timeCountInMilliSeconds / 1000);
-        progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
-    }
-    private String hmsTimeFormatter(long milliSeconds) {
-
-        @SuppressLint("DefaultLocale") String hms = String.format("%02d:%02d:%02d",
-                TimeUnit.MILLISECONDS.toHours(milliSeconds),
-                TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
-                TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
-
-        return hms;
-    }
-
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        stopmusic();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        stopmusic();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        stopmusic();
-    }
 }
