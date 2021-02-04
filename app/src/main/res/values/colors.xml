@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#CA8918</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#FF3464</color>
     <color name="violet">#EE82EE</color>
     <color name="medium_pink">#9370DB</color>
     <color name="yellow">#FFFF00</color>
@@ -31,4 +31,6 @@
     <color name="Python">#66BB6A</color>
     <color name="CPP">#EF5350</color>
     <color name="Java">#29B6F6</color>
+
+
 </resources>
