@@ -47,6 +47,10 @@ public class Meditation extends AppCompatActivity {
 
     private enum TimerStatus {
         STARTED,
+
+
+
+
         STOPPED
     }
 
