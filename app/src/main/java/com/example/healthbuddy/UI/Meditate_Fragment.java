@@ -1,53 +1,26 @@
 package com.example.healthbuddy.UI;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.R;
-import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.BubbleData;
-import com.github.mikephil.charting.data.BubbleDataSet;
-import com.github.mikephil.charting.data.BubbleEntry;
-import com.github.mikephil.charting.data.CandleData;
-import com.github.mikephil.charting.data.CandleDataSet;
-import com.github.mikephil.charting.data.CandleEntry;
-import com.github.mikephil.charting.data.CombinedData;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.ScatterData;
-import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.util.ArrayList;
 
 public class Meditate_Fragment extends Fragment {
 
@@ -80,11 +53,11 @@ public class Meditate_Fragment extends Fragment {
         mSetGoalCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(textView.getVisibility() == View.VISIBLE){
+                if (textView.getVisibility() == View.VISIBLE) {
                     textView.setVisibility(View.GONE);
                     getTime.setVisibility(View.GONE);
                     img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_24px));
-                }else{
+                } else {
                     textView.setVisibility(View.VISIBLE);
                     getTime.setVisibility(View.VISIBLE);
                     img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_24px));
@@ -96,12 +69,92 @@ public class Meditate_Fragment extends Fragment {
         mMeditation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme);
+                View bottomSheetView  = LayoutInflater.from(getActivity().getApplicationContext())
+                        .inflate(R.layout.setting_goal, (ConstraintLayout)v.findViewById(R.id.bottomsheetcontainer));
+                //bottomSheetDialog.setContentView(R.layout.setting_goal);
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.setCanceledOnTouchOutside(false);
 
+
+
+                LottieAnimationView emo1 = bottomSheetDialog.findViewById(R.id.emo1);
+                LottieAnimationView emo2 = bottomSheetDialog.findViewById(R.id.lottieAnimationView4);
+                LottieAnimationView emo3 = bottomSheetDialog.findViewById(R.id.lottieAnimationView5);
+                LottieAnimationView emo4 = bottomSheetDialog.findViewById(R.id.lottieAnimationView8);
+                LottieAnimationView emo5 = bottomSheetDialog.findViewById(R.id.lottieAnimationView6);
+                LottieAnimationView emo6 = bottomSheetDialog.findViewById(R.id.lottieAnimationView7);
+                LottieAnimationView emo7 = bottomSheetDialog.findViewById(R.id.lottieAnimationView9);
+
+                assert emo1 != null;
+                emo1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo2 != null;
+                emo2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo3 != null;
+                emo3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo4 != null;
+                emo4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo5 != null;
+                emo5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo6 != null;
+                emo6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                assert emo7 != null;
+                emo7.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GotoMeditation();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
+
+                bottomSheetDialog.show();
             }
         });
 
 
         return v;
+    }
+
+    private void GotoMeditation() {
+        Intent intent = new Intent(getContext(), Meditation.class);
+        startActivity(intent);
     }
 
 
@@ -110,9 +163,6 @@ public class Meditate_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
-
-
-
 
 
 }
