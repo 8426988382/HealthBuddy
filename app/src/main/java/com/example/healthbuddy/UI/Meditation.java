@@ -295,13 +295,13 @@ public class Meditation extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        stopmusic();
+        stopCountDownTimer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        stopmusic();
+        stopCountDownTimer();
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
