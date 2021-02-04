@@ -2,7 +2,6 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="50dp"
@@ -63,7 +62,8 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:lottie_fileName="emo1.json"
             app:lottie_autoPlay="true"
-            app:lottie_loop="false" />
+
+            app:lottie_loop="true"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView4"
@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:lottie_fileName="emo5.json"
             app:lottie_autoPlay="true"
-            app:lottie_loop="false" />
+            app:lottie_loop="true"/>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -88,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:lottie_fileName="emo3.json"
             app:lottie_autoPlay="true"
-            app:lottie_loop="false" />
+            app:lottie_loop="true"/>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -101,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:lottie_fileName="emo10.json"
             app:lottie_autoPlay="true"
-            app:lottie_loop="false" />
+            app:lottie_loop="true"/>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -117,7 +117,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:lottie_autoPlay="true"
             app:lottie_fileName="emo2.json"
-            app:lottie_loop="false" />
+            app:lottie_loop="true"/>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -132,7 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView4"
             app:lottie_autoPlay="true"
             app:lottie_fileName="emo6.json"
-            app:lottie_loop="false"/>
+            app:lottie_loop="true"/>
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -147,7 +147,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView5"
             app:lottie_autoPlay="true"
             app:lottie_fileName="emo7.json"
-            app:lottie_loop="false" />
+            app:lottie_loop="true"/>
 
 
 
@@ -162,7 +162,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:lottie_fileName="emo12.json"
             app:lottie_autoPlay="true"
-            app:lottie_loop="false"/>
+            app:lottie_loop="true"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
