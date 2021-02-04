@@ -272,8 +272,10 @@ public class Meditation extends AppCompatActivity {
         }
     }
     private void stopCountDownTimer() {
-        countDownTimer.cancel();
-        stopmusic();
+        if(countDownTimer!=null) {
+            countDownTimer.cancel();
+            stopmusic();
+        }
     }
     private void setProgressBarValues() {
 
