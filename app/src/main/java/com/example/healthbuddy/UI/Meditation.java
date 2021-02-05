@@ -26,13 +26,21 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.healthbuddy.Model.StreakData;
 import com.example.healthbuddy.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -41,8 +49,8 @@ import static android.R.layout.simple_list_item_1;
 public class Meditation extends AppCompatActivity {
 
 
-    private long timeCountInMilliSeconds = 60000;
-
+    private long timeCountInMilliSeconds = 600000;
+    private FirebaseAuth mAuth;
 //    private TextView MedText;
 
     private enum TimerStatus {
@@ -77,6 +85,7 @@ public class Meditation extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Window window = this.getWindow();
+        mAuth = FirebaseAuth.getInstance();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(Meditation.this , R.color.azure));
@@ -118,11 +127,8 @@ public class Meditation extends AppCompatActivity {
 
                 ListView listView = bottomSheetDialog.findViewById(R.id.list);
 
-                String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                        "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                        "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                        "Android", "iPhone", "WindowsMobile" };
+                String[] values = new String[] { "Sound 1", "Sound 2", "Sound 3",
+                        "Sound 4", "Sound 5", "Sound 6" };
 
                 final ArrayList<String> list = new ArrayList<String>(Arrays.asList(values));
 
@@ -215,7 +221,7 @@ public class Meditation extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         // assigning values after converting to milliseconds
-        timeCountInMilliSeconds = time * 60 * 1000;
+        timeCountInMilliSeconds = time * 60 * 100;
     }
 
     private void startCountDownTimer() {
@@ -257,10 +263,25 @@ public class Meditation extends AppCompatActivity {
                 // changing the timer status to stopped
                 timerStatus = TimerStatus.STOPPED;
                 stopmusic();
+
+                streakcomplete();
             }
 
         }.start();
         countDownTimer.start();
+    }
+
+    private void streakcomplete() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        Date c = calendar.getTime();
+//        c.as;
+        System.out.println("Current time => " + c);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+
+        DatabaseReference myRef  = database.getReference(mAuth.getUid()+"/record/"+df.format(c));
+        myRef.setValue(  new StreakData( sdf.format(c), (long) c.getTime()));
     }
 
     private void stopmusic(){

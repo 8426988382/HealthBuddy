@@ -250,9 +250,10 @@
 
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/radioButton1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:clickable="false"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline1"
@@ -269,7 +270,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioButton"
+                app:layout_constraintTop_toBottomOf="@+id/radioButton1"
                 app:layout_constraintVertical_bias="0.0" />
 
             <RadioButton
@@ -277,6 +278,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline2"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
@@ -300,6 +302,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline3"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
@@ -323,6 +326,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline4"
                 app:layout_constraintStart_toStartOf="@id/guideline3"
@@ -344,8 +348,10 @@
             <RadioButton
                 android:id="@+id/radioButton5"
                 android:layout_width="30dp"
+                android:clickable="false"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline5"
                 app:layout_constraintStart_toStartOf="@id/guideline4"
@@ -369,6 +375,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline6"
                 app:layout_constraintStart_toStartOf="@id/guideline5"
@@ -392,6 +399,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline6"
