@@ -13,6 +13,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
+        android:layout_marginTop="32dp"
         android:background="@drawable/drawable_circle_yellow"
         android:indeterminate="false"
         android:max="100"
@@ -90,20 +91,20 @@
         android:layout_below="@+id/progressBarCircle"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/icon_start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBarCircle"
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imageView4"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -117,12 +118,14 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"/>
 
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="214dp" />
+
 
     <TextView
         android:id="@+id/medText"
@@ -142,6 +145,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewStartStop"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <Button
         android:id="@+id/button2"
         android:layout_width="0dp"
@@ -155,6 +159,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medText" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Sound1"
+        android:textColor="#000"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarCircle"
+        app:layout_constraintStart_toStartOf="@+id/progressBarCircle"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarCircle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

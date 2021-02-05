@@ -62,6 +62,7 @@
         android:layout_weight="1"
         android:animateLayoutChanges="true"
         android:divider="@null"
+        android:overScrollMode="never"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll"
         app:layout_constraintBottom_toTopOf="@+id/msg"

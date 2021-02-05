@@ -2,7 +2,9 @@ package com.example.healthbuddy.UI;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,12 +55,14 @@ public class Meditate_Fragment extends Fragment {
     // SetGoal Card
     CardView mSetGoalCard;
     TextView textView;
-    EditText getTime;
+    EditText getgoalTime;
     ImageView img;
     RadioButton monRadio,tueRadio,wedRadio,thuRadio,friRadio,satRadio,sunRadio;
     private FirebaseAuth mAuth;
     ArrayList<StreakData> streakDataArrayList;
-
+    Button setgoalbutton;
+    SharedPreferences preferences ;
+    SharedPreferences.Editor editor ;
     @Override
     public void onAttachFragment(@NonNull Fragment childFragment) {
         super.onAttachFragment(childFragment);
@@ -68,7 +73,8 @@ public class Meditate_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = preferences.edit();
         View v = inflater.inflate(R.layout.mediate_fragment, container, false);
         Contextview =v;
         // initialise
@@ -76,9 +82,10 @@ public class Meditate_Fragment extends Fragment {
         lottieAnimationView = v.findViewById(R.id.congo);
         mSetGoalCard = v.findViewById(R.id.setGoal_Card);
         textView = v.findViewById(R.id.textView17);
-        getTime = v.findViewById(R.id.editText3);
+        getgoalTime = v.findViewById(R.id.editText3);
         img = v.findViewById(R.id.imageView3);
 
+        setgoalbutton = v.findViewById(R.id.button3);
         streakNoText = v.findViewById(R.id.textView14);
         streakLevelText = v.findViewById(R.id.textView12);
         monRadio  = v.findViewById(R.id.radioButton1);
@@ -97,16 +104,31 @@ public class Meditate_Fragment extends Fragment {
             public void onClick(View v) {
                 if (textView.getVisibility() == View.VISIBLE) {
                     textView.setVisibility(View.GONE);
-                    getTime.setVisibility(View.GONE);
+                    getgoalTime.setVisibility(View.GONE);
+                    setgoalbutton.setVisibility(View.GONE);
                     img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_24px));
                 } else {
                     textView.setVisibility(View.VISIBLE);
-                    getTime.setVisibility(View.VISIBLE);
+                    getgoalTime.setVisibility(View.VISIBLE);
+                    setgoalbutton.setVisibility(View.VISIBLE);
+
                     img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_24px));
                 }
             }
         });
+        setgoalbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String goalTime =getgoalTime.getText().toString();
+                if(goalTime.equals("")||goalTime.equals("0")){
+                    Toast.makeText(getContext(),"Invalid input",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    saveGoal(goalTime);
+                }
 
+            }
+        });
         mMeditation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +139,11 @@ public class Meditate_Fragment extends Fragment {
 
 
         return v;
+    }
+
+    private void saveGoal(String goalTime) {
+
+        editor.putString("goalTime",goalTime).apply();
     }
 
     private void updateUiFromData() {
@@ -154,17 +181,11 @@ public class Meditate_Fragment extends Fragment {
             streakNoText.setText(String.valueOf(strek));
             if (strek < 20) {
                 streakLevelText.setText("Beginner");
-                if (Contextview != null)
-                    Snackbar.make(Contextview, "test", Snackbar.LENGTH_LONG).show();
             } else if (strek < 40) {
                 streakLevelText.setText("Intermediate");
-                if (Contextview != null)
-                    Snackbar.make(Contextview, "test", Snackbar.LENGTH_LONG).show();
             } else
                 streakLevelText.setText("Advance");
-
-
-        }
+            }
     }
 
     private void getFirebaseData() {

@@ -26,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.Model.StreakData;
 import com.example.healthbuddy.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -75,7 +76,8 @@ public class Meditation extends AppCompatActivity {
 
     // button for sounds
     Button MoreSounds;
-
+    int musicTrackNo = 1;
+    TextView mediaName ;
 //    String[] iMeditation ={
 //            "Get Settled." , "Breathe deeply", "Consider the 'why' ", "Observe the breath" , "Allow your mind to be free."
 //    };
@@ -99,7 +101,7 @@ public class Meditation extends AppCompatActivity {
         imageViewStartStop = findViewById(R.id.imageViewStartStop);
         MoreSounds = findViewById(R.id.button2);
 //        MedText = v.findViewById(R.id.medText);
-
+        mediaName = findViewById(R.id.textView15);
         imageViewReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,8 +129,7 @@ public class Meditation extends AppCompatActivity {
 
                 ListView listView = bottomSheetDialog.findViewById(R.id.list);
 
-                String[] values = new String[] { "Sound 1", "Sound 2", "Sound 3",
-                        "Sound 4", "Sound 5", "Sound 6" };
+                String[] values = new String[] { "Sound 1", "Sound 2", "Sound 3" };
 
                 final ArrayList<String> list = new ArrayList<String>(Arrays.asList(values));
 
@@ -144,16 +145,22 @@ public class Meditation extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, final View view,
                                             int position, long id) {
-                        final String item = (String) parent.getItemAtPosition(position);
-                        view.animate().setDuration(2000).alpha(0)
-                                .withEndAction(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        list.remove(item);
-                                        adapter.notifyDataSetChanged();
-                                        view.setAlpha(1);
-                                    }
-                                });
+                          musicTrackNo = position+1;
+                         bottomSheetDialog.dismiss();
+
+                        if(musicTrackNo==1) {
+
+                            mediaName.setText("Sound1");
+                        }
+                        else if(musicTrackNo==2) {
+
+                            mediaName.setText("Sound2");
+                        }
+                        else if(musicTrackNo==3) {
+                             mediaName.setText("Sound3");
+                        }
+                        if(mediaPlayer!=null)
+                            reset();
                     }
 
                 });
@@ -221,7 +228,7 @@ public class Meditation extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         // assigning values after converting to milliseconds
-        timeCountInMilliSeconds = time * 60 * 100;
+        timeCountInMilliSeconds = time * 60 * 1000;
     }
 
     private void startCountDownTimer() {
@@ -232,16 +239,33 @@ public class Meditation extends AppCompatActivity {
                 textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
 
                 if(mediaPlayer== null){
-                    mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
-                            R.raw.softrain);
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            mediaPlayer.start();
+                    if(musicTrackNo==1) {
+                        mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
+                                R.raw.sound1);
+                        mediaName.setText("Sound1");
+                    }
+                    else if(musicTrackNo==2) {
+                        mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
+                                R.raw.sound2);
+                        mediaName.setText("Sound2");
+                    }
+                    else if(musicTrackNo==3) {
+                        mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
+                                R.raw.sound3);
+                        mediaName.setText("Sound3");
+                    }
 
+                    mediaPlayer.setLooping(true);
+//                    mediaPlayer.start();
 
-                        }
-                    });
+//                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                        @Override
+//                        public void onCompletion(MediaPlayer mediaPlayer) {
+//                            mediaPlayer.start();
+//
+//
+//                        }
+//                    });
                 }
                 mediaPlayer.start();
 
@@ -260,15 +284,95 @@ public class Meditation extends AppCompatActivity {
                 imageViewStartStop.setImageResource(R.drawable.icon_start);
                 // making edit text editable
                 editTextMinute.setEnabled(true);
-                // changing the timer status to stopped
-                timerStatus = TimerStatus.STOPPED;
+                 timerStatus = TimerStatus.STOPPED;
                 stopmusic();
 
                 streakcomplete();
+                BottomSheetUi();
             }
 
         }.start();
         countDownTimer.start();
+    }
+
+    private void BottomSheetUi() {
+             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+            View bottomSheetView  = LayoutInflater.from(this.getApplicationContext())
+                    .inflate(R.layout.setting_goal, (ConstraintLayout)findViewById(R.id.bottomsheetcontainer));
+            //bottomSheetDialog.setContentView(R.layout.setting_goal);
+            bottomSheetDialog.setContentView(bottomSheetView);
+            bottomSheetDialog.setCanceledOnTouchOutside(false);
+
+
+
+            LottieAnimationView emo1 = bottomSheetDialog.findViewById(R.id.emo1);
+            LottieAnimationView emo2 = bottomSheetDialog.findViewById(R.id.lottieAnimationView4);
+            LottieAnimationView emo3 = bottomSheetDialog.findViewById(R.id.lottieAnimationView5);
+            LottieAnimationView emo4 = bottomSheetDialog.findViewById(R.id.lottieAnimationView8);
+            LottieAnimationView emo5 = bottomSheetDialog.findViewById(R.id.lottieAnimationView6);
+            LottieAnimationView emo6 = bottomSheetDialog.findViewById(R.id.lottieAnimationView7);
+            LottieAnimationView emo7 = bottomSheetDialog.findViewById(R.id.lottieAnimationView9);
+
+            assert emo1 != null;
+            emo1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    finish();
+                }
+            });
+            assert emo2 != null;
+            emo2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    finish();
+                }
+            });
+            assert emo3 != null;
+            emo3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+
+                    finish();
+                }
+            });
+            assert emo4 != null;
+            emo4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    finish();
+                }
+            });
+            assert emo5 != null;
+            emo5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    finish();
+                }
+            });
+            assert emo6 != null;
+            emo6.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    finish();
+                }
+            });
+            assert emo7 != null;
+            emo7.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    finish();
+                }
+            });
+
+
+            bottomSheetDialog.show();
     }
 
     private void streakcomplete() {

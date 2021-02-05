@@ -91,13 +91,7 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
             Log.e("Questions", responseString);
 
             responseJson = new JSONObject(responseString);
-        }
-        catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
 
-
-        try {
              String mMessage = responseJson.getString("msg");
 
             Log.e("MESSAGE", mMessage);
@@ -116,7 +110,7 @@ public class ApiGetQuestions extends AsyncTask<Void, Void, ArrayList> {
 
             }
 
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
 

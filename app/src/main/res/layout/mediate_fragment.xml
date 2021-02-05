@@ -442,6 +442,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:fillViewport="true"
+        android:overScrollMode="never"
+
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -499,7 +501,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="How much time you want to do meditation(in hrs.)"
+                        android:text="How much time you want to do meditation(in mins)."
                         android:textColor="#000"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -514,10 +516,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:digits="123456789"
-                        android:hint="1"
+                        android:digits="1234567890"
+                        android:hint="10"
                         android:inputType="number"
-                        android:maxLength="1"
+                        android:maxLength="3"
                         android:singleLine="true"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -536,6 +538,20 @@
                         app:layout_constraintStart_toEndOf="@+id/SetGoal_Id"
                         app:layout_constraintTop_toTopOf="@+id/SetGoal_Id"
                         app:srcCompat="@drawable/ic_keyboard_arrow_down_24px" />
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="6dp"
+                        android:text="Set Goal"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/editText3"
+                        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -598,6 +614,8 @@
                 android:layout_marginTop="8dp"
                 android:scrollbarSize="0dp"
                 android:layout_marginEnd="8dp"
+                android:overScrollMode="never"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
