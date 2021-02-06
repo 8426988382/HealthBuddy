@@ -37,12 +37,15 @@ public class Profile_Activity extends AppCompatActivity {
     Button logout;
     CircleImageView img;
 
+    // Button
+    Button mNotification;
+
     TextView userName, userEmail;
 
     TextView txt1, txt2, txt4;
 
     ArrayList<SuggestionsData> data = new ArrayList<>();
-    PieChart pieChart;
+    //PieChart pieChart;
 
     String Average;
 
@@ -60,6 +63,8 @@ public class Profile_Activity extends AppCompatActivity {
 
 
         setContentView(R.layout.profile_fragment);
+
+        mNotification = findViewById(R.id.notification_id);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -97,30 +102,30 @@ public class Profile_Activity extends AppCompatActivity {
         userEmail = findViewById(R.id.mail_id);
         userName = findViewById(R.id.textView);
         img = findViewById(R.id.circleImageView);
-        pieChart= findViewById(R.id.pie_chart);
+        //pieChart= findViewById(R.id.pie_chart);
 
-        Appear= findViewById(R.id.appear_id);
-        Display= findViewById(R.id.display_id);
+//        Appear= findViewById(R.id.appear_id);
+//        Display= findViewById(R.id.display_id);
 
         int scores= Integer.parseInt(Average);
 
         String color= "#08B60F";
 
-        Display.setText("Your Score Percentage is " + Average + "%");
+       // Display.setText("Your Score Percentage is " + Average + "%");
 
-        if(scores >= 70){
-            Appear.setBackgroundColor(Color.parseColor("#E41E1E"));
-            Display.setTextColor(Color.parseColor("#E41E1E"));
-            color= "#E41E1E";
-        }else if(scores >= 45){
-            Appear.setBackgroundColor(Color.parseColor("#FFA726"));
-            Display.setTextColor(Color.parseColor("#FFA726"));
-            color= "#FFA726";
-        }else{
-            Appear.setBackgroundColor(Color.parseColor("#08B60F"));
-            Display.setTextColor(Color.parseColor("#08B60F"));
-            color= "#08B60F";
-        }
+//        if(scores >= 70){
+//            Appear.setBackgroundColor(Color.parseColor("#E41E1E"));
+//            Display.setTextColor(Color.parseColor("#E41E1E"));
+//            color= "#E41E1E";
+//        }else if(scores >= 45){
+//            Appear.setBackgroundColor(Color.parseColor("#FFA726"));
+//            Display.setTextColor(Color.parseColor("#FFA726"));
+//            color= "#FFA726";
+//        }else{
+//            Appear.setBackgroundColor(Color.parseColor("#08B60F"));
+//            Display.setTextColor(Color.parseColor("#08B60F"));
+//            color= "#08B60F";
+//        }
 
 
 
@@ -171,30 +176,36 @@ public class Profile_Activity extends AppCompatActivity {
             }
         });
 
+        mNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
-        pieChart.addPieSlice(
-                new PieModel(
-                        "R",
-                        Integer.parseInt(Average),
-                        Color.parseColor(color)));
 //        pieChart.addPieSlice(
 //                new PieModel(
-//                        "Python",
-//                        Integer.parseInt("40"),
-//                        Color.parseColor("#66BB6A")));
-//        pieChart.addPieSlice(
-//                new PieModel(
-//                        "C++",
-//                        Integer.parseInt("5"),
-//                        Color.parseColor("#EF5350")));
-//        pieChart.addPieSlice(
-//                new PieModel(
-//                        "Java",
-//                        Integer.parseInt("25"),
-//                        Color.parseColor("#29B6F6")));
-
-        pieChart.startAnimation();
+//                        "R",
+//                        Integer.parseInt(Average),
+//                        Color.parseColor(color)));
+////        pieChart.addPieSlice(
+////                new PieModel(
+////                        "Python",
+////                        Integer.parseInt("40"),
+////                        Color.parseColor("#66BB6A")));
+////        pieChart.addPieSlice(
+////                new PieModel(
+////                        "C++",
+////                        Integer.parseInt("5"),
+////                        Color.parseColor("#EF5350")));
+////        pieChart.addPieSlice(
+////                new PieModel(
+////                        "Java",
+////                        Integer.parseInt("25"),
+////                        Color.parseColor("#29B6F6")));
+//
+//        pieChart.startAnimation();
 
     }
 

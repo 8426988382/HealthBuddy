@@ -72,6 +72,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
 
     TextureView textureView;
+    TextView previewText;
     ImageButton imageButton;
     private CameraX.LensFacing lensFacing = CameraX.LensFacing.BACK;
     ImageCapture imageCapture;
@@ -128,6 +129,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         QuestionText = v.findViewById(R.id.textView);
         Option1 = v.findViewById(R.id.option1_id);
         Option2 = v.findViewById(R.id.option2_id);
+        previewText = v.findViewById(R.id.textView5);
+
 
         QuoteText = v.findViewById(R.id.quote_text_id);
         textureView = v.findViewById(R.id.textureView);
@@ -172,14 +175,6 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
             }
         });
-
-
-
-
-
-
-
-
 
 
 
@@ -265,7 +260,8 @@ void takephoto(){
         Log.e("Questions Data", Questions.toString());
 
         scrollView.setVisibility(View.VISIBLE);
-
+        previewText.setVisibility(View.VISIBLE);
+        textureView.setVisibility(View.VISIBLE);
         QuoteText.setVisibility(View.GONE);
         Option1.setVisibility(View.GONE);
         Option2.setVisibility(View.GONE);
@@ -368,6 +364,7 @@ void takephoto(){
     void EndAction() {
         scrollView.setVisibility(View.GONE);
         allCaughtUp.setVisibility(View.VISIBLE);
+        previewText.setVisibility(View.GONE);
         Option1.setVisibility(View.GONE);
         Option2.setVisibility(View.GONE);
 
@@ -378,7 +375,7 @@ void takephoto(){
         allCaughtUp.playAnimation();
         Log.e("check","Done ");
         CameraX.unbindAll();
-        textureView.setVisibility(View.INVISIBLE);
+        textureView.setVisibility(View.GONE);
     }
 
     @Override
