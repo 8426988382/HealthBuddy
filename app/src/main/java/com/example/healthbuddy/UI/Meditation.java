@@ -296,7 +296,7 @@ public class Meditation extends AppCompatActivity {
     }
 
     private void BottomSheetUi() {
-             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+             final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme1);
             View bottomSheetView  = LayoutInflater.from(this.getApplicationContext())
                     .inflate(R.layout.setting_goal, (ConstraintLayout)findViewById(R.id.bottomsheetcontainer));
             //bottomSheetDialog.setContentView(R.layout.setting_goal);
