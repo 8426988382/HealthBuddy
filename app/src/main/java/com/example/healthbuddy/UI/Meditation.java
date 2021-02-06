@@ -120,7 +120,7 @@ public class Meditation extends AppCompatActivity {
         MoreSounds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Meditation.this, R.style.BottomSheetDialogTheme);
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Meditation.this, R.style.BottomSheetDialogTheme1);
                 View bottomSheetView  = LayoutInflater.from(getApplicationContext())
                         .inflate(R.layout.moresounds, (ConstraintLayout)v.findViewById(R.id.bottomsheetmoresound));
 
@@ -428,6 +428,12 @@ public class Meditation extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        stopCountDownTimer();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
         stopCountDownTimer();
     }
 

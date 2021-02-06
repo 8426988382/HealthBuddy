@@ -223,7 +223,7 @@ public class Meditate_Fragment extends Fragment {
     }
 
     private void bottomSheetui(View v) {
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme1);
         View bottomSheetView  = LayoutInflater.from(getActivity().getApplicationContext())
                 .inflate(R.layout.setting_goal, (ConstraintLayout)v.findViewById(R.id.bottomsheetcontainer));
         //bottomSheetDialog.setContentView(R.layout.setting_goal);
