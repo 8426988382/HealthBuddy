@@ -58,7 +58,7 @@ public class Meditate_Fragment extends Fragment {
     TextView streakLevelText,streakNoText;
     View Contextview;
     // SetGoal Card
-    CardView mSetGoalCard;
+//    CardView mSetGoalCard;
     TextView textView;
     EditText getgoalTime;
     ImageView img;
@@ -108,26 +108,6 @@ public class Meditate_Fragment extends Fragment {
         streakDataArrayList = new ArrayList<>();
         getFirebaseData();
 
-//        mSetGoalCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setGoalCardUI();
-//            }
-//        });
-//        setgoalbutton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String goalTime =getgoalTime.getText().toString();
-//                if(goalTime.equals("")||goalTime.equals("0")){
-//                    Toast.makeText(getContext(),"Invalid input",Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    saveGoal(goalTime);
-//                    setGoalCardUI();
-//                }
-//
-//            }
-//        });
         mMeditation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,13 +184,18 @@ public class Meditate_Fragment extends Fragment {
     }
 
     private void drawChart() {
+        if(mplinechart!=null)
+            mplinechart.clear();
+        else
+        mplinechart = Contextview.findViewById(R.id.chart1);
+
         LineDataSet lineDataSet = new LineDataSet(chartData,"Meditation everyday");
         lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         lineDataSet.setColor(ContextCompat.getColor(getContext(),R.color.green));
         lineDataSet.setDrawFilled(true);
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawCircles(false);
-        lineDataSet.setCubicIntensity((float) 0.1);
+        lineDataSet.setCubicIntensity((float) 0);
 
         lineDataSet.setFillColor(ContextCompat.getColor(getContext(),R.color.green));
 
