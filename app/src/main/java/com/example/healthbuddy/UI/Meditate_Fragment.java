@@ -127,11 +127,12 @@ public class Meditate_Fragment extends Fragment {
 
 
     private void updateUiFromData() {
-        if(streakDataArrayList!=null) {
+        int strek = 0;
+        if (streakDataArrayList != null) {
             Collections.reverse(streakDataArrayList);
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-            int strek = 0;
+            strek = 0;
             for (StreakData data : streakDataArrayList) {
                 Log.e(TAG, "updateUiFromData: " + data.getDate());
                 if (df.format(calendar.getTime()).equals(data.getDate())) {
@@ -165,7 +166,9 @@ public class Meditate_Fragment extends Fragment {
                 streakLevelText.setText("Intermediate");
             } else
                 streakLevelText.setText("Advance");
-            }
+        }
+        editor.putInt("streak", strek).apply();
+
         drawChart();
     }
 

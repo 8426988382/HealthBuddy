@@ -2,9 +2,11 @@ package com.example.healthbuddy.UI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -46,9 +48,10 @@ public class Profile_Activity extends AppCompatActivity {
 
     ArrayList<SuggestionsData> data = new ArrayList<>();
     //PieChart pieChart;
-
+    SharedPreferences preferences ;
+    SharedPreferences.Editor editor ;
     String Average;
-
+    TextView moredaystext;
     View Appear;
     TextView Display;
 
@@ -60,12 +63,22 @@ public class Profile_Activity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(Profile_Activity.this, R.color.blue));
-
-
         setContentView(R.layout.profile_fragment);
 
-        mNotification = findViewById(R.id.notification_id);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
 
+        mNotification = findViewById(R.id.notification_id);
+        moredaystext = findViewById(R.id.moredaystext);
+        logout = findViewById(R.id.signout_btn);
+        txt1 = findViewById(R.id.textView6);
+        txt2 = findViewById(R.id.textView7);
+        txt4 = findViewById(R.id.textView8);
+        userEmail = findViewById(R.id.mail_id);
+        userName = findViewById(R.id.textView);
+        img = findViewById(R.id.circleImageView);
+
+        moredaystext.setText(String.valueOf(20-preferences.getInt("streak",0))+" more days to complete the Beginner level");
 
         mAuth = FirebaseAuth.getInstance();
         context = this;
@@ -95,13 +108,7 @@ public class Profile_Activity extends AppCompatActivity {
         }
 
 
-        logout = findViewById(R.id.signout_btn);
-        txt1 = findViewById(R.id.textView6);
-        txt2 = findViewById(R.id.textView7);
-        txt4 = findViewById(R.id.textView8);
-        userEmail = findViewById(R.id.mail_id);
-        userName = findViewById(R.id.textView);
-        img = findViewById(R.id.circleImageView);
+
         //pieChart= findViewById(R.id.pie_chart);
 
 //        Appear= findViewById(R.id.appear_id);
