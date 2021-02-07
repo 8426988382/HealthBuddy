@@ -87,14 +87,14 @@ public class Meditate_Fragment extends Fragment {
         // initialise
         mMeditation = v.findViewById(R.id.startMeditation_id);
         lottieAnimationView = v.findViewById(R.id.congo);
-        mSetGoalCard = v.findViewById(R.id.setGoal_Card);
-        textView = v.findViewById(R.id.textView17);
-        getgoalTime = v.findViewById(R.id.editText3);
-        img = v.findViewById(R.id.imageView3);
+//        mSetGoalCard = v.findViewById(R.id.setGoal_Card);
+//        textView = v.findViewById(R.id.textView17);
+//        getgoalTime = v.findViewById(R.id.editText3);
+//        img = v.findViewById(R.id.imageView3);
         mplinechart = v.findViewById(R.id.chart1);
         chartData = new ArrayList<Entry>();
 
-        setgoalbutton = v.findViewById(R.id.button3);
+//        setgoalbutton = v.findViewById(R.id.button3);
         streakNoText = v.findViewById(R.id.textView14);
         streakLevelText = v.findViewById(R.id.textView12);
         monRadio  = v.findViewById(R.id.radioButton1);
@@ -108,26 +108,26 @@ public class Meditate_Fragment extends Fragment {
         streakDataArrayList = new ArrayList<>();
         getFirebaseData();
 
-        mSetGoalCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setGoalCardUI();
-            }
-        });
-        setgoalbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String goalTime =getgoalTime.getText().toString();
-                if(goalTime.equals("")||goalTime.equals("0")){
-                    Toast.makeText(getContext(),"Invalid input",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    saveGoal(goalTime);
-                    setGoalCardUI();
-                }
-
-            }
-        });
+//        mSetGoalCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setGoalCardUI();
+//            }
+//        });
+//        setgoalbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String goalTime =getgoalTime.getText().toString();
+//                if(goalTime.equals("")||goalTime.equals("0")){
+//                    Toast.makeText(getContext(),"Invalid input",Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    saveGoal(goalTime);
+//                    setGoalCardUI();
+//                }
+//
+//            }
+//        });
         mMeditation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
