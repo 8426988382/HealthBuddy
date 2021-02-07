@@ -32,6 +32,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +72,7 @@ public class Meditate_Fragment extends Fragment {
     SharedPreferences.Editor editor ;
     LineChart mplinechart;
     ArrayList<Entry> chartData;
+    ArrayList<String> xaxislable;
     @Override
     public void onAttachFragment(@NonNull Fragment childFragment) {
         super.onAttachFragment(childFragment);
@@ -91,7 +94,6 @@ public class Meditate_Fragment extends Fragment {
 //        textView = v.findViewById(R.id.textView17);
 //        getgoalTime = v.findViewById(R.id.editText3);
 //        img = v.findViewById(R.id.imageView3);
-        mplinechart = v.findViewById(R.id.chart1);
         chartData = new ArrayList<Entry>();
 
 //        setgoalbutton = v.findViewById(R.id.button3);
@@ -106,6 +108,8 @@ public class Meditate_Fragment extends Fragment {
         sunRadio  = v.findViewById(R.id.radioButton7);
         Log.e("test", "onCreateView: " );
         streakDataArrayList = new ArrayList<>();
+        xaxislable = new ArrayList<>();
+
         getFirebaseData();
 
         mMeditation.setOnClickListener(new View.OnClickListener() {
@@ -120,25 +124,7 @@ public class Meditate_Fragment extends Fragment {
         return v;
     }
 
-    private void setGoalCardUI() {
-        if (textView.getVisibility() == View.VISIBLE) {
-            textView.setVisibility(View.GONE);
-            getgoalTime.setVisibility(View.GONE);
-            setgoalbutton.setVisibility(View.GONE);
-            img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_24px));
-        } else {
-            textView.setVisibility(View.VISIBLE);
-            getgoalTime.setVisibility(View.VISIBLE);
-            setgoalbutton.setVisibility(View.VISIBLE);
 
-            img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_24px));
-        }
-    }
-
-    private void saveGoal(String goalTime) {
-
-        editor.putString("goalTime",goalTime).apply();
-    }
 
     private void updateUiFromData() {
         if(streakDataArrayList!=null) {
@@ -184,9 +170,12 @@ public class Meditate_Fragment extends Fragment {
     }
 
     private void drawChart() {
-        if(mplinechart!=null)
+        if(mplinechart!=null) {
+
+
             mplinechart.clear();
-        else
+//            mplinechart.validate();
+        }
         mplinechart = Contextview.findViewById(R.id.chart1);
 
         LineDataSet lineDataSet = new LineDataSet(chartData,"Meditation everyday");
@@ -205,6 +194,12 @@ public class Meditate_Fragment extends Fragment {
         XAxis xAxis = mplinechart.getXAxis();
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
+        xAxis.setGranularity(1f);
+
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xaxislable));
+
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
@@ -240,17 +235,28 @@ public class Meditate_Fragment extends Fragment {
 
         DatabaseReference myRef  = database.getReference(mAuth.getUid()+"/record");
         Query query = myRef.orderByChild("time").limitToLast(30);
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int x=0;
+                streakDataArrayList.clear();
+                chartData.clear();
+                chartData.add(new Entry(x++,0));
+                xaxislable.clear();
+                xaxislable.add("");
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     StreakData data = postSnapshot.getValue(StreakData.class);
                     data.setDate(postSnapshot.getKey());
+                    xaxislable.add(data.getDate().substring(0,data.getDate().length()-5));
                     streakDataArrayList.add(data);
+
                     chartData.add(new Entry(x++,data.getMeditationTime()/(60000)));
-                     Log.d(TAG, "onDataChange: "+postSnapshot.toString());
-                }updateUiFromData();
+                     Log.d(TAG, "onDataChange: "+xaxislable.size());
+                }
+                chartData.add(new Entry(x++,0));
+
+                updateUiFromData();
 
             }
 

@@ -378,7 +378,7 @@ public class Meditation extends AppCompatActivity {
     private void streakcomplete() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.DAY_OF_YEAR,-3);
+//        calendar.add(Calendar.DAY_OF_YEAR,-2);
         Date c = calendar.getTime();
 //        c.as;
         System.out.println("Current time => " + c);
