@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +20,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.Model.StreakData;
 import com.example.healthbuddy.R;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,7 +46,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
@@ -63,6 +68,8 @@ public class Meditate_Fragment extends Fragment {
     Button setgoalbutton;
     SharedPreferences preferences ;
     SharedPreferences.Editor editor ;
+    LineChart mplinechart;
+    ArrayList<Entry> chartData;
     @Override
     public void onAttachFragment(@NonNull Fragment childFragment) {
         super.onAttachFragment(childFragment);
@@ -84,6 +91,8 @@ public class Meditate_Fragment extends Fragment {
         textView = v.findViewById(R.id.textView17);
         getgoalTime = v.findViewById(R.id.editText3);
         img = v.findViewById(R.id.imageView3);
+        mplinechart = v.findViewById(R.id.chart1);
+        chartData = new ArrayList<Entry>();
 
         setgoalbutton = v.findViewById(R.id.button3);
         streakNoText = v.findViewById(R.id.textView14);
@@ -102,18 +111,7 @@ public class Meditate_Fragment extends Fragment {
         mSetGoalCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (textView.getVisibility() == View.VISIBLE) {
-                    textView.setVisibility(View.GONE);
-                    getgoalTime.setVisibility(View.GONE);
-                    setgoalbutton.setVisibility(View.GONE);
-                    img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_24px));
-                } else {
-                    textView.setVisibility(View.VISIBLE);
-                    getgoalTime.setVisibility(View.VISIBLE);
-                    setgoalbutton.setVisibility(View.VISIBLE);
-
-                    img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_24px));
-                }
+                setGoalCardUI();
             }
         });
         setgoalbutton.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +123,7 @@ public class Meditate_Fragment extends Fragment {
                 }
                 else {
                     saveGoal(goalTime);
+                    setGoalCardUI();
                 }
 
             }
@@ -139,6 +138,21 @@ public class Meditate_Fragment extends Fragment {
 
 
         return v;
+    }
+
+    private void setGoalCardUI() {
+        if (textView.getVisibility() == View.VISIBLE) {
+            textView.setVisibility(View.GONE);
+            getgoalTime.setVisibility(View.GONE);
+            setgoalbutton.setVisibility(View.GONE);
+            img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_24px));
+        } else {
+            textView.setVisibility(View.VISIBLE);
+            getgoalTime.setVisibility(View.VISIBLE);
+            setgoalbutton.setVisibility(View.VISIBLE);
+
+            img.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_24px));
+        }
     }
 
     private void saveGoal(String goalTime) {
@@ -186,6 +200,45 @@ public class Meditate_Fragment extends Fragment {
             } else
                 streakLevelText.setText("Advance");
             }
+        drawChart();
+    }
+
+    private void drawChart() {
+        LineDataSet lineDataSet = new LineDataSet(chartData,"Meditation everyday");
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setColor(ContextCompat.getColor(getContext(),R.color.green));
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setDrawHighlightIndicators(false);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setCubicIntensity((float) 0.1);
+
+        lineDataSet.setFillColor(ContextCompat.getColor(getContext(),R.color.green));
+
+        YAxis rightaxis = mplinechart.getAxisRight();
+        rightaxis.setEnabled(false);
+//        mplinechart.setDrawGridBackground(true);
+        XAxis xAxis = mplinechart.getXAxis();
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet);
+
+        LineData data =  new LineData(dataSets);
+        data.setHighlightEnabled(false);
+        data.setDrawValues(false);
+
+        mplinechart.setData(data);
+        mplinechart.getDescription().setEnabled(false);
+//        mplinechart.getLegend() .setEnabled(false);
+        mplinechart.getData().setHighlightEnabled(false);
+
+        mplinechart.setDragEnabled(false);
+        mplinechart.setDoubleTapToZoomEnabled(false);
+        mplinechart.setScaleEnabled(false);
+//        mplinechart.data.setDraw
+        mplinechart.invalidate();
+
     }
 
     private void getFirebaseData() {
@@ -205,10 +258,12 @@ public class Meditate_Fragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int x=0;
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     StreakData data = postSnapshot.getValue(StreakData.class);
                     data.setDate(postSnapshot.getKey());
                     streakDataArrayList.add(data);
+                    chartData.add(new Entry(x++,data.getMeditationTime()/(60000)));
                      Log.d(TAG, "onDataChange: "+postSnapshot.toString());
                 }updateUiFromData();
 

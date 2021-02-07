@@ -228,7 +228,7 @@ public class Meditation extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         // assigning values after converting to milliseconds
-        timeCountInMilliSeconds = time * 60 * 1000;
+        timeCountInMilliSeconds = time * 60 * 100;
     }
 
     private void startCountDownTimer() {
@@ -378,6 +378,7 @@ public class Meditation extends AppCompatActivity {
     private void streakcomplete() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.DAY_OF_YEAR,-3);
         Date c = calendar.getTime();
 //        c.as;
         System.out.println("Current time => " + c);
@@ -385,7 +386,7 @@ public class Meditation extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
         DatabaseReference myRef  = database.getReference(mAuth.getUid()+"/record/"+df.format(c));
-        myRef.setValue(  new StreakData( sdf.format(c), (long) c.getTime()));
+        myRef.setValue(  new StreakData( sdf.format(c),df.format(c), (long) c.getTime(),timeCountInMilliSeconds*10));
     }
 
     private void stopmusic(){

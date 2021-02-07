@@ -6,14 +6,33 @@ public class StreakData {
 
     String Date;
     long time;
+    long meditationTime;
 
     public StreakData( ) {
 
     }
+    public StreakData(String day, String date, long time, long meditationTime) {
+        Day = day;
+        Date = date;
+        this.time = time;
+        this.meditationTime = meditationTime;
+    }
 
-    public StreakData(String day, long time) {
+    public long getMeditationTime() {
+        return meditationTime;
+    }
+
+    public void setMeditationTime(long meditationTime) {
+        this.meditationTime = meditationTime;
+    }
+
+
+
+    public StreakData(String day, long time, long meditationTime) {
         Day = day;
         this.time = time;
+        this.meditationTime = meditationTime;
+
     }
 
     public String getDay() {
