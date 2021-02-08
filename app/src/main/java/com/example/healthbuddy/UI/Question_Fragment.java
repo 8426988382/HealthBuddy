@@ -1,4 +1,4 @@
- package com.example.healthbuddy.UI;
+package com.example.healthbuddy.UI;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -38,7 +38,6 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.healthbuddy.Api.ApiGetQuestions;
@@ -62,13 +61,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
 
-public class Question_Fragment extends Fragment implements View.OnClickListener, QuestionsResponse , CheckAnsResponse {
-
+public class Question_Fragment extends Fragment implements View.OnClickListener, QuestionsResponse, CheckAnsResponse {
 
 
     TextureView textureView;
@@ -77,7 +73,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
     private CameraX.LensFacing lensFacing = CameraX.LensFacing.BACK;
     ImageCapture imageCapture;
     private FaceServiceClient faceServiceClient = new FaceServiceRestClient("https://faceapi0.cognitiveservices.azure.com/face/v1.0/", "69f242e5b8fc415280709d29d97cb3b8");
-    JSONObject jsonObject,jsonObject1;
+    JSONObject jsonObject, jsonObject1;
     ImageView imageView;
     Bitmap mBitmap;
     boolean takePicture = false;
@@ -93,7 +89,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
     SharedPreferences Prefs;
     private ScrollView scrollView;
     TextView QuestionText, QuoteText;
-    Button  Option2 ;
+    Button Option2;
     EditText Option1;
     static int cnt = 0;
     static int score = 0;
@@ -101,22 +97,22 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
     ArrayList<QuestionData> Questions = new ArrayList<>();
     ApiGetQuestions apiGetQuestions;
     Question_Fragment thiscontext;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-          account = GoogleSignIn.getLastSignedInAccount(getActivity());
+        account = GoogleSignIn.getLastSignedInAccount(getActivity());
         thiscontext = this;
-        apiGetQuestions = new ApiGetQuestions(getContext(), account.getId()) ;
+        apiGetQuestions = new ApiGetQuestions(getContext(), account.getId());
         apiGetQuestions.questionsResponse = (QuestionsResponse) this;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
 
         View v = inflater.inflate(R.layout.questions_fragment, container, false);
@@ -139,21 +135,17 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
         jsonObject1 = new JSONObject();
 
 
-
-
-
-
         CameraX.unbindAll();
-        Rational aspectratio = new Rational(360,480);
-        Size screensize = new Size(360,480);
+        Rational aspectratio = new Rational(360, 480);
+        Size screensize = new Size(360, 480);
         PreviewConfig previewConfig = new PreviewConfig.Builder().setTargetAspectRatio(aspectratio).
                 setTargetResolution(screensize).setLensFacing(CameraX.LensFacing.FRONT).build();
-          preview = new Preview(previewConfig);
+        preview = new Preview(previewConfig);
 
         preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
             @Override
             public void onUpdated(Preview.PreviewOutput output) {
-                ViewGroup parent  = (ViewGroup) textureView.getParent();
+                ViewGroup parent = (ViewGroup) textureView.getParent();
                 parent.removeView(textureView);
                 parent.addView(textureView);
                 textureView.setSurfaceTexture(output.getSurfaceTexture());
@@ -166,7 +158,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
                 setTargetRotation(getActivity().getWindowManager().getDefaultDisplay().getRotation()).setLensFacing(CameraX.LensFacing.FRONT).build();
         imageCapture = new ImageCapture(imageCaptureConfig);
 
-        imageButton =  v.findViewById(R.id.imageButton);
+        imageButton = v.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -175,9 +167,6 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
             }
         });
-
-
-
 
 
         final String Uid;
@@ -189,7 +178,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
                 @SuppressLint("StaticFieldLeak")
                 @Override
                 public void onClick(View v) {
-                    CameraX.bindToLifecycle(getActivity(),preview,imageCapture);
+                    CameraX.bindToLifecycle(getActivity(), preview, imageCapture);
 
                     takephoto();
                     long firstTime = Prefs.getLong("FirstTime", Long.parseLong("0"));
@@ -202,7 +191,7 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
                     lottieAnimationView.playAnimation();
 
-                  //  int hrs = 86400000;
+                    //  int hrs = 86400000;
 
                     if (diffs >= 0) {
 
@@ -213,8 +202,8 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
                         lottieAnimationView.setVisibility(View.GONE);
                         allCaughtUp.setVisibility(View.VISIBLE);
                         allCaughtUp.playAnimation();
-                        Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
-                        Log.e("check","Done ");
+                        //Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+                        Log.e("check", "Done ");
                         CameraX.unbindAll();
                         textureView.setVisibility(View.INVISIBLE);
                     }
@@ -228,30 +217,30 @@ public class Question_Fragment extends Fragment implements View.OnClickListener,
 
         return v;
     }
-void takephoto(){
-    try{
-        imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
-            @Override
-            public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
+
+    void takephoto() {
+        try {
+            imageCapture.takePicture(new ImageCapture.OnImageCapturedListener() {
+                @Override
+                public void onCaptureSuccess(ImageProxy image, int rotationDegrees) {
 //                        imageButton.setImageBitmap(imageProxyToBitmap(image) );
 //                        imageButton.setRotation(rotationDegrees);
-                detectAndFrame(imageProxyToBitmap(image, rotationDegrees));
+                    detectAndFrame(imageProxyToBitmap(image, rotationDegrees));
 //                Toast.makeText(getContext(), rotationDegrees + "s", Toast.LENGTH_SHORT).show();
-                super.onCaptureSuccess(image, rotationDegrees);
+                    super.onCaptureSuccess(image, rotationDegrees);
 
-            }
+                }
 
-            @Override
-            public void onError(ImageCapture.UseCaseError useCaseError, String message, @Nullable Throwable cause) {
-                super.onError(useCaseError, message, cause);
-                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
-    }catch (Exception e)
-    {
-        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                @Override
+                public void onError(ImageCapture.UseCaseError useCaseError, String message, @Nullable Throwable cause) {
+                    super.onError(useCaseError, message, cause);
+                    Toast.makeText(getContext(), "some error has occurred", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "some error has occurred", Toast.LENGTH_SHORT).show();
+        }
     }
-}
 
     void PerformAction(ArrayList<QuestionData> questionData) {
         this.Questions = questionData;
@@ -279,29 +268,29 @@ void takephoto(){
         }
 
 
-         Option2.setOnClickListener(this);
+        Option2.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
 
-         String userans  = Option1.getText().toString().trim();
+        String userans = Option1.getText().toString().trim();
         Log.e("Error", "Error" + userans);
-        if(!userans.equals("")) {
+        if (!userans.equals("")) {
             takephoto();
 
             Option1.setText("");
             cnt += 1;
             QuestionData questionData2 = Questions.get(cnt - 1);
             String ans = questionData2.getMap().get(questionData2.getQuestion());
-            ans = ans.replace("*",userans);
+            ans = ans.replace("*", userans);
             JSONObject ansJson = new JSONObject();
             try {
-                ansJson.put("Ans",ans);
-                Log.e("JsonAns",ansJson.toString());
-                ApipostCheckAns apipostCheckAns = new ApipostCheckAns(getContext(),ansJson,"Analysing Your Ans");
-                apipostCheckAns.checkAnsResponse =thiscontext;
+                ansJson.put("Ans", ans);
+                Log.e("JsonAns", ansJson.toString());
+                ApipostCheckAns apipostCheckAns = new ApipostCheckAns(getContext(), ansJson, "Analysing Your Ans");
+                apipostCheckAns.checkAnsResponse = thiscontext;
                 apipostCheckAns.execute();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -319,7 +308,6 @@ void takephoto(){
 //                default:
 //                    Log.e("Error", "Error in QuestionFragment");
 //            }
-
 
 
             Option1.setVisibility(View.GONE);
@@ -342,7 +330,6 @@ void takephoto(){
                 Option2.setOnClickListener(this);
 
 
-
             }
 
 
@@ -351,11 +338,9 @@ void takephoto(){
             }
 
 
+        } else {
+            Toast.makeText(getContext(), "Ans this Question before Preceding", Toast.LENGTH_SHORT).show();
         }
-        else {
-            Toast.makeText(getContext(),"Ans this Question before Preceding",Toast.LENGTH_SHORT).show();
-        }
-
 
 
     }
@@ -373,7 +358,7 @@ void takephoto(){
 
         Prefs.edit().putInt("scores", score).apply();
         allCaughtUp.playAnimation();
-        Log.e("check","Done ");
+        Log.e("check", "Done ");
         CameraX.unbindAll();
         textureView.setVisibility(View.GONE);
     }
@@ -389,21 +374,20 @@ void takephoto(){
     }
 
 
-
     private void updatetransform() {
-        Matrix mx  = new Matrix();
+        Matrix mx = new Matrix();
         float h = textureView.getMeasuredHeight();
         float w = textureView.getMeasuredWidth();
-        float cX = w/2f;
-        float cY  = h/2f;
+        float cX = w / 2f;
+        float cY = h / 2f;
         int rotationDgr;
         int rotation = (int) textureView.getRotation();
 
-        switch (rotation){
+        switch (rotation) {
             case Surface.ROTATION_0:
                 rotationDgr = 0;
                 break;
-            case  Surface.ROTATION_90:
+            case Surface.ROTATION_90:
                 rotationDgr = 90;
                 break;
             case Surface.ROTATION_180:
@@ -416,7 +400,7 @@ void takephoto(){
                 return;
 
         }
-        mx.postRotate((float)rotationDgr,cX,cY);
+        mx.postRotate((float) rotationDgr, cX, cY);
         textureView.setTransform(mx);
 
     }
@@ -440,40 +424,41 @@ void takephoto(){
                             Face[] result = faceServiceClient.detect(
                                     params[0],
                                     true,         // returnFaceId
-                                    true    ,        // returnFaceLandmarks
+                                    true,        // returnFaceLandmarks
                                     // returnFaceAttributes:
-                                    new FaceServiceClient.FaceAttributeType[] {
+                                    new FaceServiceClient.FaceAttributeType[]{
                                             FaceServiceClient.FaceAttributeType.Emotion,
-                                            FaceServiceClient.FaceAttributeType.Gender }
+                                            FaceServiceClient.FaceAttributeType.Gender}
                             );
 
-                            for (int i=0;i<result.length;i++) {
-                                jsonObject.put("happiness" , result[i].faceAttributes.emotion.happiness);
-                                jsonObject.put("sadness" , result[i].faceAttributes.emotion.sadness);
-                                jsonObject.put("surprise" , result[i].faceAttributes.emotion.surprise);
-                                jsonObject.put("neutral"  , result[i].faceAttributes.emotion.neutral);
-                                jsonObject.put("anger" , result[i].faceAttributes.emotion.anger);
-                                jsonObject.put("contempt" , result[i].faceAttributes.emotion.contempt);
-                                jsonObject.put("disgust" , result[i].faceAttributes.emotion.disgust);
-                                jsonObject.put("fear" , result[i].faceAttributes.emotion.fear);
-                                Log.e(TAG, "doInBackground: "+jsonObject.toString()  );
+                            for (int i = 0; i < result.length; i++) {
+                                jsonObject.put("happiness", result[i].faceAttributes.emotion.happiness);
+                                jsonObject.put("sadness", result[i].faceAttributes.emotion.sadness);
+                                jsonObject.put("surprise", result[i].faceAttributes.emotion.surprise);
+                                jsonObject.put("neutral", result[i].faceAttributes.emotion.neutral);
+                                jsonObject.put("anger", result[i].faceAttributes.emotion.anger);
+                                jsonObject.put("contempt", result[i].faceAttributes.emotion.contempt);
+                                jsonObject.put("disgust", result[i].faceAttributes.emotion.disgust);
+                                jsonObject.put("fear", result[i].faceAttributes.emotion.fear);
+                                Log.e(TAG, "doInBackground: " + jsonObject.toString());
 
-                                jsonObject1.put(  (String.valueOf(i)),jsonObject);
+                                jsonObject1.put((String.valueOf(i)), jsonObject);
                             }
 //
-                            getActivity().runOnUiThread(new Runnable() {
 
+                            getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getContext(),"DATA"+jsonObject1.toString(),Toast.LENGTH_LONG).show();
-                                }});
+                                   // Toast.makeText(getContext(), "DATA" + jsonObject1.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
 
                             if (result == null) {
                                 publishProgress(
                                         "Detection Finished. Nothing detected");
                                 return null;
                             }
-                            Log.e("TAG", "doInBackground: "+"   "+result.length );
+                            Log.e("TAG", "doInBackground: " + "   " + result.length);
                             publishProgress(String.format(
                                     "Detection Finished. %d face(s) detected",
                                     result.length));
@@ -517,7 +502,7 @@ void takephoto(){
 //                                showError("No faces detected");
                             }
                         }
-                        Log.e("TAG", "onPostExecute: "+facesDetected );
+                        Log.e("TAG", "onPostExecute: " + facesDetected);
 
                         imageButton.setImageBitmap(
                                 drawFaceRectanglesOnBitmap(imageBitmap, result));
@@ -529,7 +514,6 @@ void takephoto(){
 
         detectTask.execute(inputStream);
     }
-
 
 
     private static Bitmap drawFaceRectanglesOnBitmap(
@@ -555,13 +539,12 @@ void takephoto(){
         return bitmap;
     }
 
-    private Bitmap imageProxyToBitmap(ImageProxy image, int rotation)
-    {
+    private Bitmap imageProxyToBitmap(ImageProxy image, int rotation) {
         ImageProxy.PlaneProxy planeProxy = image.getPlanes()[0];
         ByteBuffer buffer = planeProxy.getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
-        Bitmap bitmap =  BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         Matrix matrix = new Matrix();
 
         matrix.postRotate(rotation);
@@ -576,7 +559,7 @@ void takephoto(){
     public void getAnsResponse(JSONObject data) {
         Log.e("Error", "Error" + data.toString());
         try {
-            score+=data.getInt("msg");
+            score += data.getInt("msg");
         } catch (JSONException e) {
             e.printStackTrace();
         }
