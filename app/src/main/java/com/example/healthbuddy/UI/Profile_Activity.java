@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,7 @@ public class Profile_Activity extends AppCompatActivity {
     TextView moredaystext;
     View Appear;
     TextView Display;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,6 +109,14 @@ public class Profile_Activity extends AppCompatActivity {
             General= data.get(0).getGeneralActivities();
         }
 
+
+
+        mNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Profile_Activity.this, "Work in Progress", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         //pieChart= findViewById(R.id.pie_chart);

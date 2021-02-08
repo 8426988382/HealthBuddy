@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -32,7 +31,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -57,22 +55,24 @@ public class Meditate_Fragment extends Fragment {
     Button mMeditation;
 
     LottieAnimationView lottieAnimationView;
-    TextView streakLevelText,streakNoText;
+    TextView streakLevelText, streakNoText;
+    Button mPremium;
     View Contextview;
     // SetGoal Card
 //    CardView mSetGoalCard;
     TextView textView;
     EditText getgoalTime;
     ImageView img;
-    RadioButton monRadio,tueRadio,wedRadio,thuRadio,friRadio,satRadio,sunRadio;
+    RadioButton monRadio, tueRadio, wedRadio, thuRadio, friRadio, satRadio, sunRadio;
     private FirebaseAuth mAuth;
     ArrayList<StreakData> streakDataArrayList;
     Button setgoalbutton;
-    SharedPreferences preferences ;
-    SharedPreferences.Editor editor ;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     LineChart mplinechart;
     ArrayList<Entry> chartData;
     ArrayList<String> xaxislable;
+
     @Override
     public void onAttachFragment(@NonNull Fragment childFragment) {
         super.onAttachFragment(childFragment);
@@ -86,10 +86,11 @@ public class Meditate_Fragment extends Fragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = preferences.edit();
         View v = inflater.inflate(R.layout.mediate_fragment, container, false);
-        Contextview =v;
+        Contextview = v;
         // initialise
         mMeditation = v.findViewById(R.id.startMeditation_id);
         lottieAnimationView = v.findViewById(R.id.congo);
+        mPremium = v.findViewById(R.id.button);
 //        mSetGoalCard = v.findViewById(R.id.setGoal_Card);
 //        textView = v.findViewById(R.id.textView17);
 //        getgoalTime = v.findViewById(R.id.editText3);
@@ -99,14 +100,14 @@ public class Meditate_Fragment extends Fragment {
 //        setgoalbutton = v.findViewById(R.id.button3);
         streakNoText = v.findViewById(R.id.textView14);
         streakLevelText = v.findViewById(R.id.textView12);
-        monRadio  = v.findViewById(R.id.radioButton1);
-        tueRadio  = v.findViewById(R.id.radioButton2);
-        wedRadio  = v.findViewById(R.id.radioButton3);
-        thuRadio  = v.findViewById(R.id.radioButton4);
-        friRadio  = v.findViewById(R.id.radioButton5);
-        satRadio  = v.findViewById(R.id.radioButton6);
-        sunRadio  = v.findViewById(R.id.radioButton7);
-        Log.e("test", "onCreateView: " );
+        monRadio = v.findViewById(R.id.radioButton1);
+        tueRadio = v.findViewById(R.id.radioButton2);
+        wedRadio = v.findViewById(R.id.radioButton3);
+        thuRadio = v.findViewById(R.id.radioButton4);
+        friRadio = v.findViewById(R.id.radioButton5);
+        satRadio = v.findViewById(R.id.radioButton6);
+        sunRadio = v.findViewById(R.id.radioButton7);
+        Log.e("test", "onCreateView: ");
         streakDataArrayList = new ArrayList<>();
         xaxislable = new ArrayList<>();
 
@@ -120,10 +121,16 @@ public class Meditate_Fragment extends Fragment {
             }
         });
 
+        mPremium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Work in Progress", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         return v;
     }
-
 
 
     private void updateUiFromData() {
@@ -173,7 +180,7 @@ public class Meditate_Fragment extends Fragment {
     }
 
     private void drawChart() {
-        if(mplinechart!=null) {
+        if (mplinechart != null) {
 
 
             mplinechart.clear();
@@ -181,15 +188,15 @@ public class Meditate_Fragment extends Fragment {
         }
         mplinechart = Contextview.findViewById(R.id.chart1);
 
-        LineDataSet lineDataSet = new LineDataSet(chartData,"Meditation everyday");
+        LineDataSet lineDataSet = new LineDataSet(chartData, "Meditation everyday");
         lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        lineDataSet.setColor(ContextCompat.getColor(getContext(),R.color.green));
+        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.green));
         lineDataSet.setDrawFilled(true);
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawCircles(false);
         lineDataSet.setCubicIntensity((float) 0);
 
-        lineDataSet.setFillColor(ContextCompat.getColor(getContext(),R.color.green));
+        lineDataSet.setFillColor(ContextCompat.getColor(getContext(), R.color.green));
 
         YAxis rightaxis = mplinechart.getAxisRight();
         rightaxis.setEnabled(false);
@@ -207,7 +214,7 @@ public class Meditate_Fragment extends Fragment {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
-        LineData data =  new LineData(dataSets);
+        LineData data = new LineData(dataSets);
         data.setHighlightEnabled(false);
         data.setDrawValues(false);
 
@@ -236,28 +243,28 @@ public class Meditate_Fragment extends Fragment {
 //        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
 //        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
-        DatabaseReference myRef  = database.getReference(mAuth.getUid()+"/record");
+        DatabaseReference myRef = database.getReference(mAuth.getUid() + "/record");
         Query query = myRef.orderByChild("time").limitToLast(30);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int x=0;
+                int x = 0;
                 streakDataArrayList.clear();
                 chartData.clear();
-                chartData.add(new Entry(x++,0));
+                chartData.add(new Entry(x++, 0));
                 xaxislable.clear();
                 xaxislable.add("");
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     StreakData data = postSnapshot.getValue(StreakData.class);
                     data.setDate(postSnapshot.getKey());
-                    xaxislable.add(data.getDate().substring(0,data.getDate().length()-5));
+                    xaxislable.add(data.getDate().substring(0, data.getDate().length() - 5));
                     streakDataArrayList.add(data);
 
-                    chartData.add(new Entry(x++,data.getMeditationTime()/(60000)));
-                     Log.d(TAG, "onDataChange: "+xaxislable.size());
+                    chartData.add(new Entry(x++, data.getMeditationTime() / (60000)));
+                    Log.d(TAG, "onDataChange: " + xaxislable.size());
                 }
-                chartData.add(new Entry(x++,0));
+                chartData.add(new Entry(x++, 0));
 
                 updateUiFromData();
 
@@ -273,12 +280,11 @@ public class Meditate_Fragment extends Fragment {
 
     private void bottomSheetui(View v) {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme1);
-        View bottomSheetView  = LayoutInflater.from(getActivity().getApplicationContext())
-                .inflate(R.layout.setting_goal, (ConstraintLayout)v.findViewById(R.id.bottomsheetcontainer));
+        View bottomSheetView = LayoutInflater.from(getActivity().getApplicationContext())
+                .inflate(R.layout.setting_goal, (ConstraintLayout) v.findViewById(R.id.bottomsheetcontainer));
         //bottomSheetDialog.setContentView(R.layout.setting_goal);
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.setCanceledOnTouchOutside(false);
-
 
 
         LottieAnimationView emo1 = bottomSheetDialog.findViewById(R.id.emo1);
