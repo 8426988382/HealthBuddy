@@ -129,7 +129,7 @@ public class Meditation extends AppCompatActivity {
 
                 ListView listView = bottomSheetDialog.findViewById(R.id.list);
 
-                String[] values = new String[] { "Sound 1", "Sound 2", "Sound 3" };
+                String[] values = new String[] { "Loving-kindness meditation", "Body scan or progressive relaxation", "Mindfulness meditation" };
 
                 final ArrayList<String> list = new ArrayList<String>(Arrays.asList(values));
 
