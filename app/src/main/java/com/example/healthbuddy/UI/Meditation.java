@@ -150,14 +150,14 @@ public class Meditation extends AppCompatActivity {
 
                         if(musicTrackNo==1) {
 
-                            mediaName.setText("Sound1");
+                            mediaName.setText("Loving-kindness meditation");
                         }
                         else if(musicTrackNo==2) {
 
-                            mediaName.setText("Sound2");
+                            mediaName.setText("Body scan or progressive relaxation");
                         }
                         else if(musicTrackNo==3) {
-                             mediaName.setText("Sound3");
+                             mediaName.setText("Mindfulness meditation");
                         }
                         if(mediaPlayer!=null)
                             reset();
@@ -228,7 +228,7 @@ public class Meditation extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         // assigning values after converting to milliseconds
-        timeCountInMilliSeconds = time * 60 * 100;
+        timeCountInMilliSeconds = time * 60 * 1000;
     }
 
     private void startCountDownTimer() {
@@ -242,17 +242,17 @@ public class Meditation extends AppCompatActivity {
                     if(musicTrackNo==1) {
                         mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
                                 R.raw.sound1);
-                        mediaName.setText("Sound1");
+                        mediaName.setText("Loving-kindness meditation");
                     }
                     else if(musicTrackNo==2) {
                         mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
                                 R.raw.sound2);
-                        mediaName.setText("Sound2");
+                        mediaName.setText("Body scan or progressive relaxation");
                     }
                     else if(musicTrackNo==3) {
                         mediaPlayer = MediaPlayer.create(Objects.requireNonNull(getApplication()).getApplicationContext(),
                                 R.raw.sound3);
-                        mediaName.setText("Sound3");
+                        mediaName.setText("Mindfulness meditation");
                     }
 
                     mediaPlayer.setLooping(true);

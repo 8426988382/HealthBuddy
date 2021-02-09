@@ -167,7 +167,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Sound1"
+        android:text="Loving-kindness meditation"
         android:textColor="#000"
         app:layout_constraintEnd_toEndOf="@+id/progressBarCircle"
         app:layout_constraintStart_toStartOf="@+id/progressBarCircle"
