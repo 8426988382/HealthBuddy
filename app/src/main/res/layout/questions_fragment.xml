@@ -188,7 +188,7 @@
         android:layout_marginEnd="4dp"
         android:gravity="center"
         android:visibility="gone"
-        android:text="Preview for Testing Only"
+        android:text="Preview for Prototype Only"
         app:layout_constraintBottom_toBottomOf="@+id/textureView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
