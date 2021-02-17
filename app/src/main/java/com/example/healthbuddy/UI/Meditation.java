@@ -386,7 +386,7 @@ public class Meditation extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
         DatabaseReference myRef  = database.getReference(mAuth.getUid()+"/record/"+df.format(c));
-        myRef.setValue(  new StreakData( sdf.format(c),df.format(c), (long) c.getTime(),timeCountInMilliSeconds*10));
+        myRef.setValue(  new StreakData( sdf.format(c),df.format(c), (long) c.getTime(),timeCountInMilliSeconds));
     }
 
     private void stopmusic(){

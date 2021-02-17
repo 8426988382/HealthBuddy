@@ -236,7 +236,7 @@ public class Meditate_Fragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        Calendar calendar = Calendar.getInstance();
-////        calendar.add(Calendar.DAY_OF_YEAR,-31);
+//        calendar.add(Calendar.DAY_OF_YEAR,-1);
 //        Date c = calendar.getTime();
 ////        c.as;
 //        System.out.println("Current time => " + c);
